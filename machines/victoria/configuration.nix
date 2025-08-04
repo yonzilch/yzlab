@@ -1,6 +1,7 @@
 {lib, ...}: let
   hostname = "victoria";
   ls = lib.filesystem.listFilesRecursive;
+  primary-device = "/dev/disk/by-path/virtio-pci-0000:00:07.0";
 in {
   imports =
     [
@@ -12,11 +13,15 @@ in {
     ++ ls ../../modules/shared
     ++ ls ../../sops/eval/${hostname};
 
+  boot.loader.limine = {
+    biosDevice = lib.mkForce primary-device;
+  };
+
   clan.core.networking = {
     targetHost = "root@${hostname}";
   };
 
-  disko.devices.disk.main.device = "/dev/disk/by-path/virtio-pci-0000:00:07.0";
+  disko.devices.disk.main.device = primary-device;
 
   users.users.root.openssh.authorizedKeys.keys = [
     ''
