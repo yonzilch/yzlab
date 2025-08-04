@@ -1,15 +1,62 @@
-{
-	"data": "ENC[AES256_GCM,data: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,iv:a+3EZbgKI6z/VREyESY9PgCOWeCqeUUMn0D7cjq4hcY=,tag:OzIJCzPFN+7sZ7PKgxiNFQ==,type:str]",
-	"sops": {
-		"age": [
-			{
-				"recipient": "age1yzce0p359lc6lfg087l3mvj0yrqd4x9526yyvnj2qet6t3ufnuns8f6rel",
-				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSArRzVoREZ1V2JXWVdob2dV\nR2xobmI1TVY2M1U2SmpRWU41SHhlcGhHK3djClIzWTdXWU1kRnFYYlZxczhSS1gx\nWFAzNjJzTG0vUURtYmtWRUozNHlaSk0KLS0tIEMraEJxeDBTdXE2bmdsQTVQRVJT\nSDR2SVYwRXhOUjRQcW9BNFdMYm11aHcKV3NpUVYD+X8PPBSvU44No6qNZULva7wi\nEaZ4tPZXHABtGgoDjojwl1RjRp1IVn+De0B62YFIFvR61f7bWD8Pcw==\n-----END AGE ENCRYPTED FILE-----\n"
-			}
-		],
-		"lastmodified": "2025-08-04T04:56:52Z",
-		"mac": "ENC[AES256_GCM,data:AbJa9nADYEGFT40N3ufONfgDObIkwVBpI1714sub6mwabunDpXFW+1RGDACu3rC9+kSwGa3AjnVUdLgPzIuB3H3lH1JZX8eW6N3QV1l4cDBa8tJ62ai8SwZWhJN3vHy+vfKY/T/9eo/awavWI5E3HWnd2tes98Yt839rlgbk/6o=,iv:3opVpzFVRNyD+yCWmXOP/V617YpkUjSjXXqC3hmQ3F8=,tag:I34C4+NriqFIu76FfqV0Tw==,type:str]",
-		"unencrypted_suffix": "_unencrypted",
-		"version": "3.10.2"
-	}
+{pkgs, ...}: {
+  # Install rclone package
+  environment.systemPackages = with pkgs; [
+    fuse
+    rclone
+  ];
+  environment.etc."rclone.conf" = {
+    mode = "0755";
+    text = ''
+      [ia]
+      type = internetarchive
+
+      [download]
+      type = union
+      upstreams = ia:W0FuaW1lLTFd ia:W0FuaW1lLTJd ia:W0FuaW1lLTNd ia:W0FuaW1lLTRd ia:W0FuaW1lLTVd ia:W01vdmllLTFd ia:W01vdmllLTJd
+
+      [yzlab]
+      type = internetarchive
+      access_key_id = 06Jz4kZdPWn9pnK1
+      secret_access_key = PkCIOILTPSxBobmE
+
+      [walpole177]
+      type = internetarchive
+      access_key_id = xxZ6YHXwsTrwaFqu
+      secret_access_key = 39ivdqoReimUx0NP
+    '';
+  };
+
+  programs.fuse.userAllowOther = true;
+
+  # Create the mount directory
+  systemd.tmpfiles.rules = [
+    "d /download 0755 root root - -"
+  ];
+
+  # Configure the rclone mount
+  systemd.services."mount-download" = {
+    description = "Mount rclone download remote";
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
+    wantedBy = ["multi-user.target"];
+
+    serviceConfig = {
+      Type = "notify";
+      ExecStart = "${pkgs.rclone}/bin/rclone mount download: /download --config=/etc/rclone.conf --cache-dir=/var/rclone --dir-cache-time=7500h --rc --rc-addr=127.0.0.1:1234 --rc-no-auth --read-only --allow-other --vfs-cache-mode=writes";
+      Restart = "on-failure";
+      RestartSec = "10s";
+      User = "root";
+      Group = "root";
+
+      AmbientCapabilities = ["CAP_SYS_ADMIN"];
+      CapabilityBoundingSet = ["CAP_SYS_ADMIN"];
+      Environment = [
+        "PATH=/run/current-system/sw/bin"
+      ];
+      TimeoutStartSec = "60s";
+      TimeoutStopSec = "60s";
+      KillMode = "mixed";
+      KillSignal = "SIGINT";
+    };
+  };
 }

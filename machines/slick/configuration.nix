@@ -1,7 +1,7 @@
 {lib, ...}: let
-  primary-device = "/dev/disk/by-path/virtio-pci-0000:00:06.0";
   hostname = "slick";
   ls = lib.filesystem.listFilesRecursive;
+  primary-device = "/dev/disk/by-path/virtio-pci-0000:00:06.0";
 in {
   imports =
     [
