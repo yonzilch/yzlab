@@ -1,15 +1,105 @@
-{
-	"data": "ENC[AES256_GCM,data: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,iv:GKgpiuoJNfS1PK0Fj6KJ3LOf4Nqt6rEqwmxHcqWrHF8=,tag:efoLrJKogxAjs9F5PRa5IA==,type:str]",
-	"sops": {
-		"age": [
-			{
-				"recipient": "age1yzce0p359lc6lfg087l3mvj0yrqd4x9526yyvnj2qet6t3ufnuns8f6rel",
-				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBlWXM1SDlnQUg1aU84N2VR\nTnFsdW5RUUtUb2wwVndzNGtRNTlBS0RJakh3ClB6aGZyMWZnS0FJV2JxNlBhWXdO\nMTh5YkV3S212QVhrN2ZRNXZlUjFCRjAKLS0tIExudVZhUVNvVzlYREY3NzRoTFUz\nREVBekFURTkxTUlzUlNqQ3FpUkRUV2sKJKZ08e48H9GI6S3vLTd0aOaMG0SwJbN5\nOf+hazGokcTg5deaFVTtPUoRESG5n/nAkqPhzFchcoUM75rGxaOt1Q==\n-----END AGE ENCRYPTED FILE-----\n"
-			}
-		],
-		"lastmodified": "2025-08-04T04:56:52Z",
-		"mac": "ENC[AES256_GCM,data:Aqq7mQyDHHY5py0AfzU3SKbqdLlBJxUe0ec/E71muhtYN2EHlXwgUq51TgMZ9Cp08AgFgnPfTTZC8I9PxeP2XUcbZTiziWJv9UcP7adneDzi355Az3BkBamgXxsIlP4sFBFQwwjZ22ujQkXXdEnBJRFys5kWZ7AFCqBOVjkHPm0=,iv:1F8/E8IjnlAzvmjVrWBVUnv7he0wQ7P9J6GpLgiTN3o=,tag:Aa3As+Ep7H9ouTDPWqejKQ==,type:str]",
-		"unencrypted_suffix": "_unencrypted",
-		"version": "3.10.2"
-	}
+_: {
+  environment.etc."nginx/self-sign.crt" = {
+    mode = "0755";
+    text = ''
+      -----BEGIN CERTIFICATE-----
+      MIIBhDCCASmgAwIBAgIUCIynWdDFXaRIADI0VJ0cTUm6J08wCgYIKoZIzj0EAwIw
+      FjEUMBIGA1UEAwwLZXhhbXBsZS5jb20wIBcNMjUwMzIxMDIzNDQ4WhgPMjEyNTAy
+      MjUwMjM0NDhaMBYxFDASBgNVBAMMC2V4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYI
+      KoZIzj0DAQcDQgAE9Y1Vju3Fbn/rwDLegFyCqj/xjmZJGWVpz4JjQla8i+luoUqc
+      Fl6QFKufFJKSVwueYFY4kaOYuMxfbE6eXmQt/aNTMFEwHQYDVR0OBBYEFHfwESCT
+      5AuBnApyfs6B6+ggDsUrMB8GA1UdIwQYMBaAFHfwESCT5AuBnApyfs6B6+ggDsUr
+      MA8GA1UdEwEB/wQFMAMBAf8wCgYIKoZIzj0EAwIDSQAwRgIhAOT5/0CvFfak2PHp
+      AUK3P6cxVvGHGZQ/bTeKkEiIf2M2AiEAv1eK55VXxFkrJktNWjc9BxP633RYglL7
+      2YIjX8XfPPU=
+      -----END CERTIFICATE-----
+    '';
+  };
+  environment.etc."nginx/self-sign.key" = {
+    mode = "0755";
+    text = ''
+      -----BEGIN PRIVATE KEY-----
+      MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgbv/0QOAaGGilO2Ak
+      FJqiXpR0XqVFT2iDydNOCcg5gGyhRANCAAT1jVWO7cVuf+vAMt6AXIKqP/GOZkkZ
+      ZWnPgmNCVryL6W6hSpwWXpAUq58UkpJXC55gVjiRo5i4zF9sTp5eZC39
+      -----END PRIVATE KEY-----
+    '';
+  };
+  environment.etc."nginx/basicAuthFile" = {
+    mode = "0755";
+    text = ''
+      yzlab:$2y$05$xaYSQxPhFTegvXmyI0tyK..7Dy2.KgqInkavMPUuPBgWHNFI/9CQG
+    '';
+  };
+
+  services.nginx = {
+    appendConfig = ''
+      worker_rlimit_nofile 65535;
+    '';
+    appendHttpConfig = ''
+      access_log off;
+      ssl_session_cache shared:SSL:10m;
+      ssl_session_timeout 10m;
+
+      # THEME.PARK
+      map $host $theme {
+          default catppuccin-mocha;
+      }
+    '';
+    clientMaxBodySize = "10240m";
+    enable = true;
+    enableReload = true;
+    eventsConfig = ''
+      use epoll;
+      worker_connections 65535;
+      multi_accept on;
+    '';
+    proxyTimeout = "600s";
+    recommendedOptimisation = true;
+    serverTokens = false;
+    virtualHosts = {
+      "_" = {
+        forceSSL = true;
+        locations."/" = {
+          extraConfig = ''
+            return 403;
+          '';
+        };
+        sslCertificate = "/etc/nginx/self-sign.crt";
+        sslCertificateKey = "/etc/nginx/self-sign.key";
+      };
+      "share.yzlab.eu.org" = {
+        forceSSL = true;
+        kTLS = true;
+        sslCertificate = "/etc/nginx/self-sign.crt";
+        sslCertificateKey = "/etc/nginx/self-sign.key";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:5244";
+          proxyWebsockets = true;
+          extraConfig = ''
+            proxy_set_header Host $host;
+            proxy_set_header Accept-Encoding "";
+            sub_filter 'g.alicdn.com' 'localhost';
+            sub_filter 'jsd.nn.ci' 'localhost';
+            sub_filter_once off;
+            sub_filter_types *;
+          '';
+        };
+      };
+      "st-silicon.yzlab.qzz.io" = {
+        forceSSL = true;
+        kTLS = true;
+        sslCertificate = "/etc/nginx/self-sign.crt";
+        sslCertificateKey = "/etc/nginx/self-sign.key";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8384";
+          proxyWebsockets = true;
+          extraConfig = ''
+            proxy_set_header Host $host;
+            proxy_set_header Accept-Encoding "";
+          '';
+        };
+      };
+    };
+  };
 }
