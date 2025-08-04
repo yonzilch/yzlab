@@ -21,7 +21,6 @@
     '';
     proxyTimeout = "600s";
     recommendedOptimisation = true;
-    recommendedZstdSettings = true;
     virtualHosts = {
       "_" = {
         forceSSL = true;
