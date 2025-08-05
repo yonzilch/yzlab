@@ -1,105 +1,15 @@
-_: {
-  environment.etc."nginx/self-sign.crt" = {
-    mode = "0755";
-    text = ''
-      -----BEGIN CERTIFICATE-----
-      MIIBhDCCASmgAwIBAgIUCIynWdDFXaRIADI0VJ0cTUm6J08wCgYIKoZIzj0EAwIw
-      FjEUMBIGA1UEAwwLZXhhbXBsZS5jb20wIBcNMjUwMzIxMDIzNDQ4WhgPMjEyNTAy
-      MjUwMjM0NDhaMBYxFDASBgNVBAMMC2V4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYI
-      KoZIzj0DAQcDQgAE9Y1Vju3Fbn/rwDLegFyCqj/xjmZJGWVpz4JjQla8i+luoUqc
-      Fl6QFKufFJKSVwueYFY4kaOYuMxfbE6eXmQt/aNTMFEwHQYDVR0OBBYEFHfwESCT
-      5AuBnApyfs6B6+ggDsUrMB8GA1UdIwQYMBaAFHfwESCT5AuBnApyfs6B6+ggDsUr
-      MA8GA1UdEwEB/wQFMAMBAf8wCgYIKoZIzj0EAwIDSQAwRgIhAOT5/0CvFfak2PHp
-      AUK3P6cxVvGHGZQ/bTeKkEiIf2M2AiEAv1eK55VXxFkrJktNWjc9BxP633RYglL7
-      2YIjX8XfPPU=
-      -----END CERTIFICATE-----
-    '';
-  };
-  environment.etc."nginx/self-sign.key" = {
-    mode = "0755";
-    text = ''
-      -----BEGIN PRIVATE KEY-----
-      MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgbv/0QOAaGGilO2Ak
-      FJqiXpR0XqVFT2iDydNOCcg5gGyhRANCAAT1jVWO7cVuf+vAMt6AXIKqP/GOZkkZ
-      ZWnPgmNCVryL6W6hSpwWXpAUq58UkpJXC55gVjiRo5i4zF9sTp5eZC39
-      -----END PRIVATE KEY-----
-    '';
-  };
-  environment.etc."nginx/basicAuthFile" = {
-    mode = "0755";
-    text = ''
-      yzlab:$2y$05$xaYSQxPhFTegvXmyI0tyK..7Dy2.KgqInkavMPUuPBgWHNFI/9CQG
-    '';
-  };
-
-  services.nginx = {
-    appendConfig = ''
-      worker_rlimit_nofile 65535;
-    '';
-    appendHttpConfig = ''
-      access_log off;
-      ssl_session_cache shared:SSL:10m;
-      ssl_session_timeout 10m;
-
-      # THEME.PARK
-      map $host $theme {
-          default catppuccin-mocha;
-      }
-    '';
-    clientMaxBodySize = "10240m";
-    enable = true;
-    enableReload = true;
-    eventsConfig = ''
-      use epoll;
-      worker_connections 65535;
-      multi_accept on;
-    '';
-    proxyTimeout = "600s";
-    recommendedOptimisation = true;
-    serverTokens = false;
-    virtualHosts = {
-      "_" = {
-        forceSSL = true;
-        locations."/" = {
-          extraConfig = ''
-            return 403;
-          '';
-        };
-        sslCertificate = "/etc/nginx/self-sign.crt";
-        sslCertificateKey = "/etc/nginx/self-sign.key";
-      };
-      "share.yzlab.eu.org" = {
-        forceSSL = true;
-        kTLS = true;
-        sslCertificate = "/etc/nginx/self-sign.crt";
-        sslCertificateKey = "/etc/nginx/self-sign.key";
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:5244";
-          proxyWebsockets = true;
-          extraConfig = ''
-            proxy_set_header Host $host;
-            proxy_set_header Accept-Encoding "";
-            sub_filter 'g.alicdn.com' 'localhost';
-            sub_filter 'jsd.nn.ci' 'localhost';
-            sub_filter_once off;
-            sub_filter_types *;
-          '';
-        };
-      };
-      "st-silicon.yzlab.qzz.io" = {
-        forceSSL = true;
-        kTLS = true;
-        sslCertificate = "/etc/nginx/self-sign.crt";
-        sslCertificateKey = "/etc/nginx/self-sign.key";
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:8384";
-          proxyWebsockets = true;
-          extraConfig = ''
-            proxy_set_header Host $host;
-            proxy_set_header Accept-Encoding "";
-          '';
-        };
-      };
-    };
-  };
+{
+	"data": "ENC[AES256_GCM,data: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,iv:oIpQlea901/QDiF4hgsVV0vQsFsVOvhXFRUS2ur9+dQ=,tag:PTARv2Wy5nkdYBCx7eJZaQ==,type:str]",
+	"sops": {
+		"age": [
+			{
+				"recipient": "age1yzce0p359lc6lfg087l3mvj0yrqd4x9526yyvnj2qet6t3ufnuns8f6rel",
+				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBSUWh0bzZMNUhwVXFBSDNp\nWFplUmNTQVh2V3VENUtrTHZVN0k3ZExqalR3CmRubWMyR1lpczV3UVBSYU9zaEMz\nRmJFdzJSYVgzcW1MWkJIbGhZLzdwZ0kKLS0tIEZXRW5YRU4zQ1paSmJvZ0gyVmhQ\nRGg4Sjgyc1pZV2wyZVRYb3BZRDN1WEkKAfqwrO2eEdMVxPcqMazB2FF6jGg6XsMg\nQo8EaVv0urhVPpeAR1soj7z+uT3+A/i5b6ADfd5CMoVSsapypLChMA==\n-----END AGE ENCRYPTED FILE-----\n"
+			}
+		],
+		"lastmodified": "2025-08-05T13:58:55Z",
+		"mac": "ENC[AES256_GCM,data:oovaiTAva1qWTQ/Q6DFJMFxS+zzIFux292+eDe0YglxTxpTMO8q7b3gHeX9D2cI3AqO7oMAMWwCy7khgqtpcuLCmdBaniVMrtvbwc/JU6sof4ryPpusJyNiPuWB352jURFBKP0AZEN4aDlaJAHf4F7YYwqiR0Y7uTpIpcujyrjU=,iv:VzqdzwdDEna7uNgYWvd0/wh+y/thvA47mHi6pEKz4pY=,tag:XWYYwRp95XXS+8p9FaBwnw==,type:str]",
+		"unencrypted_suffix": "_unencrypted",
+		"version": "3.10.2"
+	}
 }
