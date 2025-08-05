@@ -1,62 +1,15 @@
-{pkgs, ...}: {
-  # Install rclone package
-  environment.systemPackages = with pkgs; [
-    fuse
-    rclone
-  ];
-  environment.etc."rclone.conf" = {
-    mode = "0755";
-    text = ''
-      [ia]
-      type = internetarchive
-
-      [download]
-      type = union
-      upstreams = ia:W0FuaW1lLTFd ia:W0FuaW1lLTJd ia:W0FuaW1lLTNd ia:W0FuaW1lLTRd ia:W0FuaW1lLTVd ia:W01vdmllLTFd ia:W01vdmllLTJd
-
-      [yzlab]
-      type = internetarchive
-      access_key_id = 06Jz4kZdPWn9pnK1
-      secret_access_key = PkCIOILTPSxBobmE
-
-      [walpole177]
-      type = internetarchive
-      access_key_id = xxZ6YHXwsTrwaFqu
-      secret_access_key = 39ivdqoReimUx0NP
-    '';
-  };
-
-  programs.fuse.userAllowOther = true;
-
-  # Create the mount directory
-  systemd.tmpfiles.rules = [
-    "d /download 0755 root root - -"
-  ];
-
-  # Configure the rclone mount
-  systemd.services."mount-download" = {
-    description = "Mount rclone download remote";
-    after = ["network-online.target"];
-    wants = ["network-online.target"];
-    wantedBy = ["multi-user.target"];
-
-    serviceConfig = {
-      Type = "notify";
-      ExecStart = "${pkgs.rclone}/bin/rclone mount download: /download --config=/etc/rclone.conf --cache-dir=/var/rclone --dir-cache-time=7500h --rc --rc-addr=127.0.0.1:1234 --rc-no-auth --read-only --allow-other --vfs-cache-mode=writes";
-      Restart = "on-failure";
-      RestartSec = "10s";
-      User = "root";
-      Group = "root";
-
-      AmbientCapabilities = ["CAP_SYS_ADMIN"];
-      CapabilityBoundingSet = ["CAP_SYS_ADMIN"];
-      Environment = [
-        "PATH=/run/current-system/sw/bin"
-      ];
-      TimeoutStartSec = "60s";
-      TimeoutStopSec = "60s";
-      KillMode = "mixed";
-      KillSignal = "SIGINT";
-    };
-  };
+{
+	"data": "ENC[AES256_GCM,data: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,iv:DPYxtEqMXh0VJz5vjqvTdJpAMlzjPjPNeq8y1PNNjtI=,tag:R2gP6mpyCZ2ys2XMItKZZg==,type:str]",
+	"sops": {
+		"age": [
+			{
+				"recipient": "age1yzce0p359lc6lfg087l3mvj0yrqd4x9526yyvnj2qet6t3ufnuns8f6rel",
+				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBJUk9URURQZmFIRjNzeHNK\nQ0ZIV0MwbDR0NGJtSjBWY2VyQkgzcjhaeTJZCnVrK2hXSlVBOFNtOHNDRFlLbUdC\nc0Y2UDdudG9OZm5scEkxTUc5YU9WMDgKLS0tIDRqUWFpYS9hVU1yQ1c3dEg3ald5\nYndzSFNXTFpOcUs0REpsbmY1YXFiSDgKWDcvbsqk4vk5IEs725Dxgjp9JTXCYAvf\n6/Eb1jpvj0gMnDuvYyTxbjsq1DJNGv/EZfemzMu0iJqILdPAZHtbzw==\n-----END AGE ENCRYPTED FILE-----\n"
+			}
+		],
+		"lastmodified": "2025-08-05T13:58:55Z",
+		"mac": "ENC[AES256_GCM,data:vQDBSzJd8Y79VI2F9XZjDD74rvQ9DY225vF9M64r1K3KbHq0QWbih1l3R+K/WRe2IuJLwcXwdkM3+D00SJfxeif8+7GgNdw/OUGqsW7PZE8oE7EcF5/fZuVdkKqol2UIovlusJsIMbJMx4dLWrCxBOWCSHG2zReh6RhL2KZx72s=,iv:T/hBqRqk8TtKn2W/oiDTmBozRTUpewM5q/Fw6IYp1zg=,tag:lMt4i4zI9DFVubYcigijLw==,type:str]",
+		"unencrypted_suffix": "_unencrypted",
+		"version": "3.10.2"
+	}
 }

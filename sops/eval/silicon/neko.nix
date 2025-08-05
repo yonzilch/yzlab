@@ -1,144 +1,15 @@
 {
-  services.sing-box = {
-    enable = true;
-    settings = {
-      log = {
-        level = "trace";
-        timestamp = true;
-      };
-      inbounds = [
-        {
-          type = "vless";
-          tag = "vless-in";
-          listen = "::";
-          listen_port = 8443;
-          users = [
-            {
-              name = "lockey";
-              uuid = "981b63fc-06e2-4273-b97e-39d75fe31938";
-              flow = "xtls-rprx-vision";
-            }
-          ];
-          tls = {
-            enabled = true;
-            server_name = "zorin.com";
-            reality = {
-              enabled = true;
-              handshake = {
-                server = "zorin.com";
-                server_port = 443;
-              };
-              private_key = "AISiv7euIgKtNRF3fokBgItlC5q825gkcao9JVCkowo";
-              #public_key = "fqD_oq_cbQQmnNFxsC7B6YC9HQF0W79iYokAUShZpng";
-              short_id = [
-                "eadd4b43e6b927"
-              ];
-            };
-          };
-        }
-        {
-          type = "hysteria2";
-          tag = "hy2-in";
-          listen = "::";
-          listen_port = 853;
-          ignore_client_bandwidth = false;
-          tls = {
-            alpn = ["h3"];
-            enabled = true;
-            certificate = ''
-              -----BEGIN CERTIFICATE-----
-              MIIBhDCCASmgAwIBAgIUCIynWdDFXaRIADI0VJ0cTUm6J08wCgYIKoZIzj0EAwIw
-              FjEUMBIGA1UEAwwLZXhhbXBsZS5jb20wIBcNMjUwMzIxMDIzNDQ4WhgPMjEyNTAy
-              MjUwMjM0NDhaMBYxFDASBgNVBAMMC2V4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYI
-              KoZIzj0DAQcDQgAE9Y1Vju3Fbn/rwDLegFyCqj/xjmZJGWVpz4JjQla8i+luoUqc
-              Fl6QFKufFJKSVwueYFY4kaOYuMxfbE6eXmQt/aNTMFEwHQYDVR0OBBYEFHfwESCT
-              5AuBnApyfs6B6+ggDsUrMB8GA1UdIwQYMBaAFHfwESCT5AuBnApyfs6B6+ggDsUr
-              MA8GA1UdEwEB/wQFMAMBAf8wCgYIKoZIzj0EAwIDSQAwRgIhAOT5/0CvFfak2PHp
-              AUK3P6cxVvGHGZQ/bTeKkEiIf2M2AiEAv1eK55VXxFkrJktNWjc9BxP633RYglL7
-              2YIjX8XfPPU=
-              -----END CERTIFICATE-----
-            '';
-            key = ''
-              -----BEGIN PRIVATE KEY-----
-              MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgbv/0QOAaGGilO2Ak
-              FJqiXpR0XqVFT2iDydNOCcg5gGyhRANCAAT1jVWO7cVuf+vAMt6AXIKqP/GOZkkZ
-              ZWnPgmNCVryL6W6hSpwWXpAUq58UkpJXC55gVjiRo5i4zF9sTp5eZC39
-              -----END PRIVATE KEY-----
-            '';
-          };
-          users = [
-            {
-              name = "lockey";
-              password = "981b63fc-06e2-4273-b97e-39d75fe31938";
-            }
-          ];
-        }
-      ];
-      outbounds = [
-        {
-          type = "direct";
-          tag = "direct";
-        }
-      ];
-      route = {
-        rules = [
-          {
-            inbound = "vless-in";
-            action = "resolve";
-            strategy = "prefer_ipv4";
-          }
-          {
-            inbound = "vless-in";
-            action = "sniff";
-            timeout = "1s";
-          }
-          {
-            inbound = "hy2-in";
-            action = "resolve";
-            strategy = "prefer_ipv4";
-          }
-          {
-            inbound = "hy2-in";
-            action = "sniff";
-            timeout = "1s";
-          }
-          # {
-          #   rule_set = [
-          #     "geoip-cn"
-          #     "geosite-cn"
-          #   ];
-          #   action = "reject";
-          # }
-        ];
-        final = "direct";
-        # rule_set = [
-        #   {
-        #     tag = "geoip-cn";
-        #     type = "remote";
-        #     format = "binary";
-        #     url = "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geoip/cn.srs";
-        #   }
-        #   {
-        #     tag = "geosite-cn";
-        #     type = "remote";
-        #     format = "binary";
-        #     url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs";
-        #   }
-        # ];
-      };
-      experimental = {
-        cache_file = {
-          enabled = true; # required to save rule-set cache
-        };
-      };
-    };
-  };
-  networking.firewall = {
-    allowedTCPPorts = [
-      8443
-    ];
-    allowedUDPPorts = [
-      853
-    ];
-  };
+	"data": "ENC[AES256_GCM,data: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,iv:547xaevPJBt+dWDzjoBFDBxyj2+sDpGdTsjB0hgkW2Y=,tag:uwCxAiiZ2BAxooZT6NAflg==,type:str]",
+	"sops": {
+		"age": [
+			{
+				"recipient": "age1yzce0p359lc6lfg087l3mvj0yrqd4x9526yyvnj2qet6t3ufnuns8f6rel",
+				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB2YUZMRFlmTnpOMDlQSy83\nV0RWV0J3R3BmdytYbEpnYlhzK1B1d1Vva3g4CnM2dkxsMDFPSTRva25qalNSUHhr\nVG9pNUc2Q0pPSmpsb3dJbFc2bFpLNHMKLS0tICtEUmtaQndpU1cxcGh3MVJuV0E1\nTEplRm1hWHFSNTB5anhDaXF6VmRMWkEKQ7MT+q4j5vR/KKE4HL89qwMo9RCWmTxB\nyaLtc10+tbAs1uc1fChQ7PZurRXfO7F3wpr3p+/SEM7aAFQURSWR4g==\n-----END AGE ENCRYPTED FILE-----\n"
+			}
+		],
+		"lastmodified": "2025-08-05T13:58:55Z",
+		"mac": "ENC[AES256_GCM,data:7uq1Qga9EHLnaKFo/8Xy1sYHByzotBOrxAvWGXMgDvDYPSXOebn78o/YEB/uPxEbZ5V8pojhy4ppvFex8NcM7DHKI5KIu1vScQKhIXnJNGU3T/hXPcnGL/BL632WxM3jdGDdE/i5UUZYYFdX5zZAcGhy9BSXevaIdxZzlAZazwc=,iv:OdkxJHBpZYlj5Lm3Vaf7gLZ0YDO+IFkXljvC6kwFQWw=,tag:OcxDNlBpzXNGAD9D8a4GkA==,type:str]",
+		"unencrypted_suffix": "_unencrypted",
+		"version": "3.10.2"
+	}
 }
