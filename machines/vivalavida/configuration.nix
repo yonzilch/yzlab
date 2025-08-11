@@ -21,13 +21,6 @@ in {
 
   disko.devices.disk.main.device = primary-device;
 
-  swapDevices = [
-    {
-      device = "/swapfile";
-      size = 4096;
-    }
-  ];
-
   users.users.root.openssh.authorizedKeys.keys = [
     ''
       ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAO052vG7D6I9eSZkKSvccuSqPX57aryKklvR3B481gp vivalavida
