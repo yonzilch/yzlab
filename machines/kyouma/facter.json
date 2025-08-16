@@ -480,12 +480,11 @@
         },
         "unix_device_names": [
           "/dev/cdrom",
-          "/dev/disk/by-diskseq/4",
           "/dev/disk/by-id/ata-QEMU_DVD-ROM_QM00001",
           "/dev/disk/by-label/cidata",
           "/dev/disk/by-path/pci-0000:00:01.1-ata-1",
           "/dev/disk/by-path/pci-0000:00:01.1-ata-1.0",
-          "/dev/disk/by-uuid/2025-04-19-14-21-29-00",
+          "/dev/disk/by-uuid/2025-08-16-03-28-44-00",
           "/dev/sr0"
         ],
         "unix_device_name2": "/dev/sg0",
@@ -565,7 +564,6 @@
           "range": 1
         },
         "unix_device_names": [
-          "/dev/disk/by-diskseq/6",
           "/dev/disk/by-id/ata-QEMU_DVD-ROM_QM00003",
           "/dev/disk/by-path/pci-0000:00:01.1-ata-2",
           "/dev/disk/by-path/pci-0000:00:01.1-ata-2.0",
@@ -685,7 +683,6 @@
           "arat",
           "vnmi",
           "umip",
-          "md_clear",
           "flush_l1d",
           "arch_capabilities"
         ],
@@ -700,9 +697,10 @@
           "taa",
           "mmio_stale_data",
           "bhi",
-          "ibpb_no_ret"
+          "ibpb_no_ret",
+          "its"
         ],
-        "bogo": 3399.99,
+        "bogo": 3396.06,
         "cache": 16384,
         "units": 2,
         "physical_id": 0,
@@ -715,8 +713,8 @@
         "clflush_size": 64,
         "cache_alignment": 64,
         "address_sizes": {
-          "physical": 46,
-          "virtual": 48
+          "physical": "0x2e",
+          "virtual": "0x30"
         }
       }
     ],
@@ -745,12 +743,11 @@
         "unix_device_name": "/dev/vdb",
         "unix_device_number": {
           "type": 98,
-          "major": 254,
+          "major": 253,
           "minor": 16,
           "range": 16
         },
         "unix_device_names": [
-          "/dev/disk/by-diskseq/2",
           "/dev/disk/by-path/pci-0000:00:0b.0",
           "/dev/disk/by-path/virtio-pci-0000:00:0b.0",
           "/dev/vdb"
@@ -761,7 +758,7 @@
             "cylinders": 2130440,
             "heads": 16,
             "sectors": 63,
-            "size": 0,
+            "size": "0x0",
             "geo_type": "logical"
           },
           {
@@ -806,12 +803,11 @@
         "unix_device_name": "/dev/vda",
         "unix_device_number": {
           "type": 98,
-          "major": 254,
+          "major": 253,
           "minor": 0,
           "range": 16
         },
         "unix_device_names": [
-          "/dev/disk/by-diskseq/1",
           "/dev/disk/by-path/pci-0000:00:0a.0",
           "/dev/disk/by-path/virtio-pci-0000:00:0a.0",
           "/dev/vda"
@@ -822,7 +818,7 @@
             "cylinders": 166440,
             "heads": 16,
             "sectors": 63,
-            "size": 0,
+            "size": "0x0",
             "geo_type": "logical"
           },
           {
@@ -968,7 +964,7 @@
         },
         "vendor": {
           "hex": "1d6b",
-          "name": "Linux 6.12.20 uhci_hcd",
+          "name": "Linux 6.14.10 uhci_hcd",
           "value": 7531
         },
         "device": {
@@ -978,11 +974,11 @@
         },
         "revision": {
           "hex": "0000",
-          "name": "6.12",
+          "name": "6.14",
           "value": 0
         },
         "serial": "0000:00:01.2",
-        "model": "Linux 6.12.20 uhci_hcd UHCI Host Controller",
+        "model": "Linux 6.14.10 uhci_hcd UHCI Host Controller",
         "sysfs_id": "/devices/pci0000:00/0000:00:01.2/usb1/1-0:1.0",
         "sysfs_bus_id": "1-0:1.0",
         "resources": [
@@ -1023,10 +1019,14 @@
         },
         "hotplug": "usb",
         "driver": "hub",
+        "driver_module": "usbcore",
         "drivers": [
           "hub"
         ],
-        "module_alias": "usb:v1D6Bp0001d0612dc09dsc00dp00ic09isc00ip00in00"
+        "driver_modules": [
+          "usbcore"
+        ],
+        "module_alias": "usb:v1D6Bp0001d0614dc09dsc00dp00ic09isc00ip00in00"
       }
     ],
     "memory": [
@@ -1051,7 +1051,7 @@
           {
             "type": "mem",
             "base": 0,
-            "range": 8331407360,
+            "range": 8331026432,
             "enabled": true,
             "access": "read_write",
             "prefetch": "unknown"
@@ -1361,9 +1361,9 @@
         "model": "Virtio Ethernet Card 0",
         "sysfs_id": "/devices/pci0000:00/0000:00:12.0/virtio4",
         "sysfs_bus_id": "virtio4",
-        "unix_device_name": "eth0",
+        "unix_device_name": "ens18",
         "unix_device_names": [
-          "eth0"
+          "ens18"
         ],
         "resources": [
           {
@@ -1389,48 +1389,6 @@
     "network_interface": [
       {
         "index": 33,
-        "attached_to": 21,
-        "class_list": [
-          "network_interface"
-        ],
-        "base_class": {
-          "hex": "0107",
-          "name": "Network Interface",
-          "value": 263
-        },
-        "sub_class": {
-          "hex": "0001",
-          "name": "Ethernet",
-          "value": 1
-        },
-        "model": "Ethernet network interface",
-        "sysfs_id": "/class/net/eth0",
-        "sysfs_device_link": "/devices/pci0000:00/0000:00:12.0/virtio4",
-        "unix_device_name": "eth0",
-        "unix_device_names": [
-          "eth0"
-        ],
-        "resources": [
-          {
-            "type": "hwaddr",
-            "address": 49
-          },
-          {
-            "type": "phwaddr",
-            "address": 49
-          }
-        ],
-        "driver": "virtio_net",
-        "driver_module": "virtio_net",
-        "drivers": [
-          "virtio_net"
-        ],
-        "driver_modules": [
-          "virtio_net"
-        ]
-      },
-      {
-        "index": 34,
         "attached_to": 0,
         "class_list": [
           "network_interface"
@@ -1450,6 +1408,48 @@
         "unix_device_name": "lo",
         "unix_device_names": [
           "lo"
+        ]
+      },
+      {
+        "index": 34,
+        "attached_to": 21,
+        "class_list": [
+          "network_interface"
+        ],
+        "base_class": {
+          "hex": "0107",
+          "name": "Network Interface",
+          "value": 263
+        },
+        "sub_class": {
+          "hex": "0001",
+          "name": "Ethernet",
+          "value": 1
+        },
+        "model": "Ethernet network interface",
+        "sysfs_id": "/class/net/ens18",
+        "sysfs_device_link": "/devices/pci0000:00/0000:00:12.0/virtio4",
+        "unix_device_name": "ens18",
+        "unix_device_names": [
+          "ens18"
+        ],
+        "resources": [
+          {
+            "type": "hwaddr",
+            "address": 49
+          },
+          {
+            "type": "phwaddr",
+            "address": 49
+          }
+        ],
+        "driver": "virtio_net",
+        "driver_module": "virtio_net",
+        "drivers": [
+          "virtio_net"
+        ],
+        "driver_modules": [
+          "virtio_net"
         ]
       }
     ],
@@ -2341,38 +2341,40 @@
       "start_address": "0xe8000",
       "rom_size": 65536
     },
-    "chassis": {
-      "handle": 768,
-      "manufacturer": "QEMU",
-      "version": "pc-i440fx-9.2",
-      "chassis_type": {
-        "hex": "0001",
-        "name": "Other",
-        "value": 1
-      },
-      "lock_present": false,
-      "bootup_state": {
-        "hex": "0003",
-        "name": "Safe",
-        "value": 3
-      },
-      "power_state": {
-        "hex": "0003",
-        "name": "Safe",
-        "value": 3
-      },
-      "thermal_state": {
-        "hex": "0003",
-        "name": "Safe",
-        "value": 3
-      },
-      "security_state": {
-        "hex": "0002",
-        "name": "Unknown",
-        "value": 2
-      },
-      "oem": "0x0"
-    },
+    "chassis": [
+      {
+        "handle": 768,
+        "manufacturer": "QEMU",
+        "version": "pc-i440fx-9.2",
+        "chassis_type": {
+          "hex": "0001",
+          "name": "Other",
+          "value": 1
+        },
+        "lock_present": false,
+        "bootup_state": {
+          "hex": "0003",
+          "name": "Safe",
+          "value": 3
+        },
+        "power_state": {
+          "hex": "0003",
+          "name": "Safe",
+          "value": 3
+        },
+        "thermal_state": {
+          "hex": "0003",
+          "name": "Safe",
+          "value": 3
+        },
+        "security_state": {
+          "hex": "0002",
+          "name": "Unknown",
+          "value": 2
+        },
+        "oem": "0x0"
+      }
+    ],
     "memory_array": [
       {
         "handle": 4096,
@@ -2391,7 +2393,7 @@
           "name": "Multi-bit",
           "value": 6
         },
-        "max_size": 8388608,
+        "max_size": "0x800000",
         "error_handle": 65534,
         "slots": 1
       }
@@ -2400,15 +2402,15 @@
       {
         "handle": 4864,
         "array_handle": 4096,
-        "start_address": 0,
-        "end_address": 3221225472,
+        "start_address": "0x0",
+        "end_address": "0xc0000000",
         "part_width": 1
       },
       {
         "handle": 4865,
         "array_handle": 4096,
-        "start_address": 4294967296,
-        "end_address": 9663676416,
+        "start_address": "0x100000000",
+        "end_address": "0x240000000",
         "part_width": 1
       }
     ],
