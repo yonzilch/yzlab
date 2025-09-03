@@ -1,17 +1,18 @@
-{lib, ...}: let
+{ lib, ... }:
+let
+  primary-device = "/dev/disk/by-path/virtio-pci-0000:00:07.0";
   hostname = "silicon";
   ls = lib.filesystem.listFilesRecursive;
-  primary-device = "/dev/disk/by-path/virtio-pci-0000:00:07.0";
-in {
-  imports =
-    [
-      ../../modules/optional/openlist.nix
-      ../../modules/optional/st.nix
-      ../../modules/optional/terminal-implement.nix
-      ../../modules/optional/zfs.nix
-    ]
-    ++ ls ../../modules/shared
-    ++ ls ../../sops/eval/${hostname};
+in
+{
+  imports = [
+    ../../modules/optional/openlist.nix
+    ../../modules/optional/st.nix
+    ../../modules/optional/terminal-implement.nix
+  ]
+  # ++ ls ./modules
+  ++ ls ../../modules/shared
+  ++ ls ../../sops/eval/${hostname};
 
   boot.loader.limine = {
     biosDevice = lib.mkForce primary-device;
@@ -21,7 +22,14 @@ in {
     targetHost = "root@${hostname}";
   };
 
-  disko.devices.disk.main.device = "primary-device";
+  disko.devices.disk.main.device = primary-device;
+
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 4096;
+    }
+  ];
 
   users.users.root.openssh.authorizedKeys.keys = [
     ''
