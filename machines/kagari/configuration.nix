@@ -1,16 +1,15 @@
-{ lib, ... }:
-let
+{lib, ...}: let
   hostname = "kagari";
   ls = lib.filesystem.listFilesRecursive;
   primary-device = "/dev/disk/by-path/pci-0000:00:09.0-scsi-0:0:0:0";
-in
-{
-  imports = [
-    ../../modules/optional/terminal-implement.nix
-    ../../modules/optional/zfs.nix
-  ]
-  ++ ls ../../modules/shared
-  ++ ls ../../sops/eval/${hostname};
+in {
+  imports =
+    [
+      ../../modules/optional/terminal-implement.nix
+      ../../modules/optional/zfs.nix
+    ]
+    ++ ls ../../modules/shared
+    ++ ls ../../sops/eval/${hostname};
 
   boot.loader.limine = {
     biosDevice = lib.mkForce primary-device;
