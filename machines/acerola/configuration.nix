@@ -1,16 +1,15 @@
-{ lib, ... }:
-let
+{lib, ...}: let
   hostname = "acerola";
   ls = lib.filesystem.listFilesRecursive;
   primary-device = "/dev/disk/by-path/virtio-pci-0000:00:07.0";
-in
-{
-  imports = [
-    ../../modules/optional/terminal-implement.nix
-    ../../modules/optional/zfs.nix
-  ]
-  ++ ls ../../modules/shared
-  ++ ls ../../sops/eval/${hostname};
+in {
+  imports =
+    [
+      ../../modules/optional/terminal-implement.nix
+      ../../modules/optional/zfs.nix
+    ]
+    ++ ls ../../modules/shared
+    ++ ls ../../sops/eval/${hostname};
 
   boot.loader.limine = {
     biosDevice = lib.mkForce primary-device;
