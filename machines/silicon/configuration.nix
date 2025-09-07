@@ -1,18 +1,17 @@
-{ lib, ... }:
-let
-  primary-device = "/dev/disk/by-path/virtio-pci-0000:00:07.0";
+{lib, ...}: let
   hostname = "silicon";
   ls = lib.filesystem.listFilesRecursive;
-in
-{
-  imports = [
-    ../../modules/optional/openlist.nix
-    ../../modules/optional/st.nix
-    ../../modules/optional/terminal-implement.nix
-  ]
-  # ++ ls ./modules
-  ++ ls ../../modules/shared
-  ++ ls ../../sops/eval/${hostname};
+  primary-device = "/dev/disk/by-path/virtio-pci-0000:00:07.0";
+in {
+  imports =
+    [
+      ../../modules/optional/openlist.nix
+      ../../modules/optional/st.nix
+      ../../modules/optional/terminal-implement.nix
+    ]
+    # ++ ls ./modules
+    ++ ls ../../modules/shared
+    ++ ls ../../sops/eval/${hostname};
 
   boot.loader.limine = {
     biosDevice = lib.mkForce primary-device;
