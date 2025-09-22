@@ -2,7 +2,12 @@ _: {
   virtualisation = {
     containers = {
       containersConf.settings = {
-        containers.dns_servers = ["185.222.222.222" "45.11.45.11"];
+        containers.dns_servers = [
+          "185.222.222.222"
+          "45.11.45.11"
+          "9.9.9.9"
+          "149.112.112.112"
+        ];
       };
       enable = true;
       storage.settings = {
@@ -20,7 +25,12 @@ _: {
       };
       enable = true;
       defaultNetwork.settings = {
-        dns = ["185.222.222.222" "45.11.45.11"];
+        dns = [
+          "185.222.222.222"
+          "45.11.45.11"
+          "9.9.9.9"
+          "149.112.112.112"
+        ];
         dns_enabled = true;
       };
       dockerCompat = true;

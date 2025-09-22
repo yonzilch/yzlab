@@ -21,7 +21,6 @@ with lib; {
       enable = false;
       interval = "weekly";
     };
-    autoSnapshot.enable = true;
   };
   systemd.services = {
     zfs-share.enable = mkForce false;

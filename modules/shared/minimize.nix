@@ -34,7 +34,7 @@ with lib; {
     nano.enable = mkForce false;
   };
 
-  #Disable security features
+  # Disable security features
   security = {
     pam.services.su.forwardXAuth = mkForce false;
     sudo.enable = mkForce false;
@@ -58,7 +58,7 @@ with lib; {
   services = {
     fstrim.enable = mkForce false;
     logrotate.enable = mkForce false;
-    #nscd.enable = mkForce false; # Disable this will make system.nssModules can not enable
+    nscd.enable = mkForce false; # Disable this will make system.nssModules can not enable
     resolved.enable = mkForce false;
     timesyncd.enable = mkForce false;
   };
@@ -79,7 +79,7 @@ with lib; {
   };
 
   # Disable NSS modules
-  #system.nssModules = mkForce []; # Uncomment this will make cockpit can not run
+  system.nssModules = mkForce []; # This will make cockpit can not run
 
   # Disable desktop environment related services
   xdg = {

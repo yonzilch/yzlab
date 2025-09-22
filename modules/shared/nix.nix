@@ -16,12 +16,14 @@ with lib; {
       automatic = true;
       dates = ["weekly"];
     };
-    # package = pkgs.lix; # use lix instead of nix would cause clan-cli error
     registry.nixpkgs.flake = inputs.nixpkgs;
     settings = {
       auto-optimise-store = true;
       builders-use-substitutes = true;
-      experimental-features = ["nix-command" "flakes"];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       connect-timeout = 5;
       gc-keep-derivations = false;
       gc-keep-outputs = false;
