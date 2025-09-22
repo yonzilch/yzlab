@@ -1,39 +1,41 @@
 {
-  description = "NixOS server config (powered by clan)";
+  description = "Yon Zilch's Mirai Gajetto Lab";
 
   inputs = {
+    flake-parts.url = "github:hercules-ci/flake-parts";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
-    clan-core = {
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-      url = "https://git.clan.lol/clan/clan-core/archive/main.tar.gz";
-    };
-    flake-parts = {
-      inputs.nixpkgs-lib.follows = "nixpkgs";
-      url = "github:hercules-ci/flake-parts";
-    };
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+    disko.url = "github:nix-community/disko";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
-
-  outputs = inputs @ {flake-parts, ...}:
-    flake-parts.lib.mkFlake {inherit inputs;} (_: {
-      imports = [./machines];
-      systems = ["x86_64-linux"];
-      perSystem = {
-        inputs',
-        pkgs,
-        ...
-      }: {
-        devShells.default = pkgs.mkShell {
-          packages = with pkgs; [
-            inputs'.clan-core.packages.clan-cli
-            alejandra
-            commitlint-rs
-            compose2nix
-            deadnix
-            sops
-          ];
+  outputs =
+    inputs:
+    let
+      hostname = "example";
+    in
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
+      perSystem =
+        { pkgs, ... }:
+        {
+          devShells.default = pkgs.mkShell {
+            packages = with pkgs; [
+              alejandra
+              compose2nix
+              deadnix
+              rage
+              sops
+            ];
+          };
+        };
+      flake = {
+        nixosConfigurations = {
+          "${hostname}" = inputs.nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [ ./hosts ];
+            specialArgs = { inherit hostname inputs; };
+          };
         };
       };
-    });
+    };
 }

@@ -1,1 +1,2 @@
-**/secret diff=sopsdiffer
+modules/private/* diff=sopsdiffer
+modules/private/**/* diff=sopsdiffer
