@@ -10,6 +10,8 @@ in {
     [
       ./disko.nix
       ./hardware.nix
+      ../../modules/optional/qbee.nix
+      ../../modules/optional/st.nix
       ../../modules/optional/terminal-implement.nix
     ]
     ++ ls ./modules
