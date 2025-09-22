@@ -8,32 +8,28 @@
     disko.url = "github:nix-community/disko";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
-  outputs =
-    inputs:
-    let
-      hostname = "example";
-    in
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "x86_64-linux" ];
-      perSystem =
-        { pkgs, ... }:
-        {
-          devShells.default = pkgs.mkShell {
-            packages = with pkgs; [
-              alejandra
-              compose2nix
-              deadnix
-              rage
-              sops
-            ];
-          };
+  outputs = inputs: let
+    hostname = "example";
+  in
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux"];
+      perSystem = {pkgs, ...}: {
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            alejandra
+            compose2nix
+            deadnix
+            rage
+            sops
+          ];
         };
+      };
       flake = {
         nixosConfigurations = {
           "${hostname}" = inputs.nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            modules = [ ./hosts ];
-            specialArgs = { inherit hostname inputs; };
+            modules = [./hosts];
+            specialArgs = {inherit hostname inputs;};
           };
         };
       };
