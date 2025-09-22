@@ -10,6 +10,7 @@ in {
     [
       ./disko.nix
       ./hardware.nix
+      ../../modules/optional/qb.nix
     ]
     ++ ls ../../modules/private/${hostname}
     ++ ls ../../modules/shared;
