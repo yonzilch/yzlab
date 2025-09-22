@@ -3,7 +3,7 @@ _: {
     enable = true;
     # user = "root";
   };
-  systemd.services.alist-server.environment = {
+  systemd.services.openlist.environment = {
     SITE_URL = "https://openlist.example.com";
   };
 }
