@@ -9,7 +9,7 @@
       FileLogger\DeleteOld=true
       FileLogger\Enabled=true
       FileLogger\MaxSizeBytes=66560
-      FileLogger\Path=/etc/qBittorrent/data/logs
+      FileLogger\Path=/etc/qb/qBittorrent/data/logs
       MemoryWorkingSetLimit=1024
 
       [AutoRun]
