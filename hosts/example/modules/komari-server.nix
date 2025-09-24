@@ -2,7 +2,7 @@ _: {
   services.komari-server = {
     enable = true;
     # openFirewall = false;
-    # port = "25574";
+    # port = "25774";
     # user = "komari-server";
     # group = "komari-server";
   };
