@@ -7,11 +7,11 @@
     (modulesPath + "/profiles/qemu-guest.nix")
   ];
 
-  boot.loader = {
-    efi.efiSysMountPoint = "/efi";
-    limine.enable = lib.mkForce false;
-    systemd-boot.enable = true;
-  };
+  # boot.loader = {
+  #   efi.efiSysMountPoint = "/efi";
+  #   limine.enable = lib.mkForce false;
+  #   systemd-boot.enable = true;
+  # };
   boot.initrd.availableKernelModules = [
     "sd_mod"
     "ahci"

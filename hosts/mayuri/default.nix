@@ -10,8 +10,8 @@ in {
     [
       ./disko.nix
       ./hardware.nix
-      ../../modules/optional/openlist.nix
-      ../../modules/optional/qb.nix
+      ../../modules/optional/komari-agent.nix
+      ../../modules/optional/komari-server.nix
       ../../modules/optional/qbee.nix
       ../../modules/optional/st.nix
       ../../modules/optional/terminal-implement.nix
