@@ -70,6 +70,7 @@ with lib; {
       efiSupport = true;
       enable = true;
       maxGenerations = 10;
+      partitionIndex = 1;
     };
     tmp.cleanOnBoot = true;
   };

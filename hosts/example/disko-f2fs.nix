@@ -7,11 +7,12 @@ _: {
           type = "gpt";
           partitions = {
             boot = {
+              priority = 1;
               size = "1M";
               type = "EF02";
-              priority = 1;
             };
             esp = {
+              priority = 2;
               size = "256M";
               type = "EF00";
               content = {
@@ -22,8 +23,7 @@ _: {
               };
             };
             root = {
-              name = "root";
-              end = "-0";
+              size = "100%";
               content = {
                 type = "filesystem";
                 format = "f2fs";
