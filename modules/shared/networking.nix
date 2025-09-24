@@ -1,4 +1,8 @@
-{lib, ...}:
+{
+  hostname,
+  lib,
+  ...
+}:
 with lib; {
   networking = {
     dhcpcd.extraConfig = "nohook resolv.conf";
@@ -8,6 +12,7 @@ with lib; {
       allowedUDPPorts = [443];
       logRefusedConnections = false;
     };
+    hostName = hostname;
     nameservers = [
       "127.0.0.1"
       "::1"
