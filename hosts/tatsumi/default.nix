@@ -10,6 +10,7 @@ in {
     [
       ./disko.nix
       ./hardware.nix
+      ../../modules/optional/komari-agent.nix
       ../../modules/optional/openlist.nix
       ../../modules/optional/qbee.nix
       ../../modules/optional/st.nix

@@ -10,6 +10,7 @@ in {
     [
       ./disko.nix
       ./hardware.nix
+      ../../modules/optional/komari-agent.nix
       ../../modules/optional/zfs.nix
     ]
     ++ ls ../../modules/private/${hostname}

@@ -9,11 +9,11 @@ in {
   imports =
     [
       ./hardware.nix
+      ../../modules/optional/komari-agent.nix
     ]
     ++ ls ../../modules/private/${hostname}
     ++ ls ../../modules/shared;
 
-  boot.loader.limine.biosDevice = primary-disk;
   disko.devices.disk.main.device = primary-disk;
   system.stateVersion = "25.11";
   swapDevices = [
