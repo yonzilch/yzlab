@@ -45,11 +45,6 @@ _: {
             };
             type = "zfs_fs";
           };
-          "root/nix" = {
-            mountpoint = "/nix";
-            options."com.sun:auto-snapshot" = "false";
-            type = "zfs_fs";
-          };
         };
         options = {
           ashift = "12";
