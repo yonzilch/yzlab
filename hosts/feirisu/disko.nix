@@ -12,13 +12,13 @@ _: {
               priority = 1;
             };
             esp = {
-              size = "128M";
+              size = "256M";
               type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = ["umask=0077"];
+                mountOptions = [ "umask=0077" ];
               };
             };
             zfs = {
@@ -42,11 +42,6 @@ _: {
               mountpoint = "legacy";
               "com.sun:auto-snapshot" = "false";
             };
-            type = "zfs_fs";
-          };
-          "root/nix" = {
-            mountpoint = "/nix";
-            options."com.sun:auto-snapshot" = "false";
             type = "zfs_fs";
           };
         };
