@@ -12,7 +12,7 @@ _: {
               priority = 1;
             };
             esp = {
-              size = "128M";
+              size = "256M";
               type = "EF00";
               content = {
                 type = "filesystem";
