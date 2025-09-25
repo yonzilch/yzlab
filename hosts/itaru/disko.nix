@@ -7,12 +7,11 @@ _: {
           type = "gpt";
           partitions = {
             boot = {
-              priority = 1;
-              type = "EF02";
               size = "1M";
+              type = "EF02";
+              priority = 1;
             };
             esp = {
-              priority = 2;
               size = "256M";
               type = "EF00";
               content = {
@@ -22,40 +21,23 @@ _: {
                 mountOptions = ["umask=0077"];
               };
             };
-            zfs = {
-              size = "100%";
+            root = {
+              name = "root";
+              end = "-0";
               content = {
-                type = "zfs";
-                pool = "zroot";
+                type = "filesystem";
+                format = "f2fs";
+                mountpoint = "/";
+                extraArgs = [
+                  "-O"
+                  "extra_attr,inode_checksum,sb_checksum,compression"
+                ];
+                mountOptions = [
+                  "compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime,nodiscard"
+                ];
               };
             };
           };
-        };
-      };
-    };
-    zpool = {
-      zroot = {
-        type = "zpool";
-        datasets = {
-          "root" = {
-            mountpoint = "/";
-            options = {
-              mountpoint = "legacy";
-              "com.sun:auto-snapshot" = "false";
-            };
-            type = "zfs_fs";
-          };
-        };
-        options = {
-          ashift = "12";
-          compatibility = "grub2";
-        };
-        rootFsOptions = {
-          acltype = "posixacl";
-          atime = "off";
-          compression = "lz4";
-          mountpoint = "none";
-          xattr = "sa";
         };
       };
     };
