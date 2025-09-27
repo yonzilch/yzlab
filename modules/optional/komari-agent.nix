@@ -62,7 +62,6 @@ in {
         isSystemUser = true;
       };
     };
-
     users.groups = mkIf (cfg.group == "komari-agent") {komari-agent = {};};
 
     environment.systemPackages = [pkgs.komari-agent];

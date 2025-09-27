@@ -71,7 +71,6 @@ in {
         isSystemUser = true;
       };
     };
-
     users.groups = mkIf (cfg.group == "komari-server") {komari-server = {};};
 
     environment.systemPackages = [pkgs.komari-server];

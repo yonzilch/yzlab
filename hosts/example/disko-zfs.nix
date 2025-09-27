@@ -8,8 +8,8 @@ _: {
           partitions = {
             boot = {
               priority = 1;
-              type = "EF02";
               size = "1M";
+              type = "EF02";
             };
             esp = {
               priority = 2;

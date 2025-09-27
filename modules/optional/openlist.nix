@@ -60,6 +60,7 @@ in {
 
     networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [5244];
 
+    users.groups = mkIf (cfg.group == "openlist") {openlist = {};};
     users.users = mkIf (cfg.user == "openlist") {
       openlist = {
         name = "openlist";
@@ -67,7 +68,6 @@ in {
         isSystemUser = true;
       };
     };
-    users.groups = mkIf (cfg.group == "openlist") {openlist = {};};
 
     environment.systemPackages = [pkgs.openlist];
   };
