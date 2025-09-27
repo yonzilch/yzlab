@@ -73,7 +73,7 @@
       WebUI\ServerDomains=*
       WebUI\SessionTimeout=360000
       WebUI\TrustedReverseProxiesList=127.0.0.1/8
-      WebUI\Username=yzlab
+      WebUI\Username=
 
       [RSS]
       AutoDownloader\DownloadRepacks=true
