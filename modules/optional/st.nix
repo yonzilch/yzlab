@@ -84,6 +84,7 @@ in {
       })
     ];
 
+    users.groups = mkIf (cfg.group == "syncthing") {syncthing = {};};
     users.users = mkIf (cfg.user == "syncthing") {
       syncthing = {
         name = "syncthing";
@@ -92,10 +93,6 @@ in {
         home = cfg.dataDir;
         createHome = true;
       };
-    };
-
-    users.groups = mkIf (cfg.group == "syncthing") {
-      syncthing = {};
     };
 
     environment.systemPackages = [pkgs.syncthing];

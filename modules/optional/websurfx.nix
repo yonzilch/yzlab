@@ -57,6 +57,7 @@ in {
 
     networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [8080];
 
+    users.groups = mkIf (cfg.group == "websurfx") {websurfx = {};};
     users.users = mkIf (cfg.user == "websurfx") {
       websurfx = {
         name = "websurfx";
@@ -64,7 +65,6 @@ in {
         isSystemUser = true;
       };
     };
-    users.groups = mkIf (cfg.group == "websurfx") {websurfx = {};};
 
     environment.systemPackages = [pkgs.websurfx];
   };

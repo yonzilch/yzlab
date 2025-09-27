@@ -72,6 +72,7 @@ in {
       443
     ];
 
+    users.groups = mkIf (cfg.group == "river") {river = {};};
     users.users = mkIf (cfg.user == "river") {
       river = {
         name = "river";
@@ -79,7 +80,6 @@ in {
         isSystemUser = true;
       };
     };
-    users.groups = mkIf (cfg.group == "river") {river = {};};
 
     environment.systemPackages = [pkgs.river];
   };
