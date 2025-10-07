@@ -6,10 +6,10 @@
 }:
 stdenvNoCC.mkDerivation {
   pname = "komari-server";
-  version = "1.0.9";
+  version = "1.1.1a";
   src = fetchurl {
-    url = "https://github.com/komari-monitor/komari/releases/download/1.0.9/komari-linux-amd64";
-    sha256 = "sha256-O6c7iqyH24kZO/zNZn+JhiHmgp0NEiruLbnysPo/sFU=";
+    url = "https://github.com/komari-monitor/komari/releases/download/1.1.1a/komari-linux-amd64";
+    sha256 = "sha256-ewsyPTHKL3vKj2toOKWLTLAwvNt6vbpDVzISTto7Fx4=";
   };
   dontUnpack = true;
   installPhase = ''
@@ -23,7 +23,7 @@ stdenvNoCC.mkDerivation {
     description = "A simple server monitor tool.";
     homepage = "https://github.com/komari-monitor/komari";
     license = licenses.free;
-    platforms = ["x86_64-linux"];
-    maintainers = [yonzilch];
+    platforms = [ "x86_64-linux" ];
+    maintainers = [ yonzilch ];
   };
 }
