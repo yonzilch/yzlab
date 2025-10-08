@@ -1,4 +1,4 @@
-{
+_: {
   virtualisation = {
     containers = {
       containersConf.settings = {
