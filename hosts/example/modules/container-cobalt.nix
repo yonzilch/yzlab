@@ -5,7 +5,7 @@ _: {
       "API_INSTANCE_COUNT" = "1";
       "API_LISTEN_ADDRESS" = "0.0.0.0";
       "API_PORT" = "9000";
-      "API_URL" = "https://cobalt.yzlab.eu.org/";
+      "API_URL" = "https://cobalt.example.com/";
       # "API_REDIS_URL" = "redis://localhost:6379";
     };
     ports = [

@@ -23,7 +23,7 @@ stdenvNoCC.mkDerivation {
     description = "A simple server monitor tool.";
     homepage = "https://github.com/komari-monitor/komari";
     license = licenses.free;
-    platforms = [ "x86_64-linux" ];
-    maintainers = [ yonzilch ];
+    platforms = ["x86_64-linux"];
+    maintainers = [yonzilch];
   };
 }
