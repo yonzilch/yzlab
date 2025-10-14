@@ -2,7 +2,8 @@ _: {
   virtualisation.oci-containers.containers."homebox" = {
     pull = "newer";
     image = "ghcr.io/sysadminsmedia/homebox:latest";
-    environment = { # see https://homebox.software/en/configure
+    environment = {
+      # see https://homebox.software/en/configure
       "HBOX_LOG_LEVEL" = "info";
       "HBOX_LOG_FORMAT" = "text";
       "HBOX_WEB_MAX_FILE_UPLOAD" = "10";
