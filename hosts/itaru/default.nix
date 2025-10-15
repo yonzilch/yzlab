@@ -12,12 +12,14 @@ in {
       ./hardware.nix
       ../../modules/optional/komari-agent.nix
       ../../modules/optional/terminal-implement.nix
+      ../../modules/optional/zfs.nix
     ]
     ++ ls ../../modules/private/${hostname}
     ++ ls ../../modules/shared;
 
   boot.loader.limine.biosDevice = primary-disk;
   disko.devices.disk.main.device = primary-disk;
+  networking.hostId = "a837c8a7";
   system.stateVersion = "25.11";
   zramSwap.enable = true;
 }
