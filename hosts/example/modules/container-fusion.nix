@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+_: {
   virtualisation.oci-containers.containers."fusion" = {
     image = "ghcr.io/0x2e/fusion:latest";
     environment = {
