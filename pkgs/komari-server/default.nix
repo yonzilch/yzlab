@@ -6,10 +6,10 @@
 }:
 stdenvNoCC.mkDerivation {
   pname = "komari-server";
-  version = "1.1.1b";
+  version = "1.1.2";
   src = fetchurl {
-    url = "https://github.com/komari-monitor/komari/releases/download/1.1.1b/komari-linux-amd64";
-    sha256 = "sha256-HpFdaa9tCBnDYsBxRuQtnZUEDMZK7Fws74Sn0pq6JfY=";
+    url = "https://github.com/komari-monitor/komari/releases/download/1.1.2/komari-linux-amd64";
+    sha256 = "sha256-xuY39JavtsIfg1fHIDhg+yEgkZfw8rH+eQHk8Hkp7do=";
   };
   dontUnpack = true;
   installPhase = ''
@@ -24,6 +24,6 @@ stdenvNoCC.mkDerivation {
     homepage = "https://github.com/komari-monitor/komari";
     license = licenses.free;
     platforms = ["x86_64-linux"];
-    maintainers = [yonzilch];
+    maintainers = [maintainer.yonzilch];
   };
 }
