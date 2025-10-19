@@ -12,6 +12,7 @@ in {
       ./hardware.nix
       ../../modules/optional/komari-agent.nix
       ../../modules/optional/komari-server.nix
+      ../../modules/optional/podman.nix
       ../../modules/optional/qbee.nix
       ../../modules/optional/st.nix
       ../../modules/optional/terminal-implement.nix
