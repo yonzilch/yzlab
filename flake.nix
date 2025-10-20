@@ -19,6 +19,8 @@
             alejandra
             compose2nix
             deadnix
+            nixos-rebuild
+            nixos-rebuild-ng
             rage
             sops
           ];
