@@ -7,12 +7,13 @@ _: {
           type = "gpt";
           partitions = {
             boot = {
+              priority = 1;
               size = "1M";
               type = "EF02";
-              priority = 1;
             };
             esp = {
-              size = "128M";
+              priority = 2;
+              size = "256M";
               type = "EF00";
               content = {
                 type = "filesystem";
@@ -42,11 +43,6 @@ _: {
               mountpoint = "legacy";
               "com.sun:auto-snapshot" = "false";
             };
-            type = "zfs_fs";
-          };
-          "root/nix" = {
-            mountpoint = "/nix";
-            options."com.sun:auto-snapshot" = "false";
             type = "zfs_fs";
           };
         };
