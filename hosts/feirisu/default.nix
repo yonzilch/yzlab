@@ -11,17 +11,15 @@ in {
       ./disko.nix
       ./hardware.nix
       ../../modules/optional/komari-agent.nix
-      ../../modules/optional/podman.nix
-      ../../modules/optional/qb.nix
+      ../../modules/optional/openlist.nix
+      ../../modules/optional/st.nix
       ../../modules/optional/terminal-implement.nix
-      ../../modules/optional/zfs.nix
     ]
     ++ ls ../../modules/private/${hostname}
     ++ ls ../../modules/shared;
 
   boot.loader.limine.biosDevice = primary-disk;
   disko.devices.disk.main.device = primary-disk;
-  networking.hostId = "ca4454d7";
   system.stateVersion = "25.11";
   zramSwap.enable = true;
 }
