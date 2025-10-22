@@ -10,9 +10,9 @@ in {
     [
       ./disko.nix
       ./hardware.nix
-      ../../modules/optional/komari-agent.nix
-      ../../modules/optional/qbee.nix
-      ../../modules/optional/st.nix
+      ../../modules/options/komari-agent.nix
+      ../../modules/options/qbee.nix
+      ../../modules/options/st.nix
       ../../modules/optional/terminal-implement.nix
     ]
     ++ ls ./modules
