@@ -9,7 +9,7 @@ in {
   imports =
     [
       ./hardware.nix
-      ../../modules/optional/komari-agent.nix
+      ../../modules/options/komari-agent.nix
     ]
     ++ ls ../../modules/private/${hostname}
     ++ ls ../../modules/shared;

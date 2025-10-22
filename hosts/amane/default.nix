@@ -10,8 +10,8 @@ in {
     [
       ./disko.nix
       ./hardware.nix
-      ../../modules/optional/komari-agent.nix
-      ../../modules/optional/qb.nix
+      ../../modules/options/komari-agent.nix
+      ../../modules/options/qb.nix
       ../../modules/optional/zfs.nix
     ]
     ++ ls ../../modules/private/${hostname}
