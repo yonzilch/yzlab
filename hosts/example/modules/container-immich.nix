@@ -50,7 +50,8 @@
   virtualisation.oci-containers.containers = {
     "immich" = {
       image = "ghcr.io/imagegenius/immich:latest";
-      environmentFiles = [/etc/immich/.env];      ports = [
+      environmentFiles = [/etc/immich/.env];
+      ports = [
         "127.0.0.1:2283:2283"
       ];
       volumes = [
