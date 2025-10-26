@@ -41,6 +41,7 @@ _: {
         ];
       };
       dockerCompat = true;
+      dockerSocket.enable = true;
     };
   };
 }
