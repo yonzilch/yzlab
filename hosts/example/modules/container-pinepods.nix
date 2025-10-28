@@ -1,4 +1,4 @@
-_ : {
+_: {
   virtualisation.oci-containers.containers = {
     "pinepods" = {
       image = "madeofpendletonwool/pinepods:latest";
