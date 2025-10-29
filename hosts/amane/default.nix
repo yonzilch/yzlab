@@ -12,7 +12,9 @@ in {
       ./hardware.nix
       ../../modules/optional/podman.nix
       ../../modules/optional/terminal-implement.nix
+      ../../modules/optional/www.nix
       ../../modules/optional/zfs.nix
+      ../../modules/options/dufs.nix
       ../../modules/options/komari-agent.nix
       ../../modules/options/qb.nix
     ]
