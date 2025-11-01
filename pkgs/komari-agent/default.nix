@@ -23,7 +23,7 @@ stdenvNoCC.mkDerivation {
     description = "komari agent";
     homepage = "https://github.com/komari-monitor/komari-agent";
     license = licenses.free;
-    platforms = [ "x86_64-linux" ];
-    maintainers = [ maintainer.yonzilch ];
+    platforms = ["x86_64-linux"];
+    maintainers = [maintainer.yonzilch];
   };
 }
