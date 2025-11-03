@@ -14,7 +14,6 @@ in {
       ../../modules/options/qbee.nix
       ../../modules/options/st.nix
       ../../modules/optional/terminal-implement.nix
-      ../../modules/optional/zfs.nix
     ]
     ++ ls ./modules
     ++ ls ../../modules/private/${hostname}
@@ -22,7 +21,6 @@ in {
 
   boot.loader.limine.biosDevice = primary-disk;
   disko.devices.disk.main.device = primary-disk;
-  networking.hostId = "9a6f5503";
   system.stateVersion = "25.11";
   zramSwap.enable = true;
 }
