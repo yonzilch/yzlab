@@ -7,11 +7,12 @@ _: {
           type = "gpt";
           partitions = {
             boot = {
+              priority = 1;
               size = "1M";
               type = "EF02";
-              priority = 1;
             };
             esp = {
+              priority = 2;
               size = "256M";
               type = "EF00";
               content = {
@@ -25,22 +26,14 @@ _: {
               size = "100%";
               content = {
                 type = "filesystem";
-                format = "xfs";
+                format = "f2fs";
                 mountpoint = "/";
                 extraArgs = [
-                  "-b"
-                  "size=4096" # block size
-                  "-i"
-                  "size=512" # inode size
-                  "-l"
-                  "size=128m" # log size
-                  "-n"
-                  "size=8192" # directory block size
-                  "-s"
-                  "size=4096" # sector size
+                  "-O"
+                  "extra_attr,inode_checksum,sb_checksum,compression"
                 ];
                 mountOptions = [
-                  "allocsize=128k,logbsize=256k,inode64,largeio,nodiscard,noatime,swalloc"
+                  "compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime,nodiscard"
                 ];
               };
             };
