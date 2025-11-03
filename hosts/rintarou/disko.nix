@@ -22,22 +22,40 @@ _: {
                 mountOptions = ["umask=0077"];
               };
             };
-            root = {
+            zfs = {
               size = "100%";
               content = {
-                type = "filesystem";
-                format = "f2fs";
-                mountpoint = "/";
-                extraArgs = [
-                  "-O"
-                  "extra_attr,inode_checksum,sb_checksum,compression"
-                ];
-                mountOptions = [
-                  "compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime,nodiscard"
-                ];
+                type = "zfs";
+                pool = "zroot";
               };
             };
           };
+        };
+      };
+    };
+    zpool = {
+      zroot = {
+        type = "zpool";
+        datasets = {
+          "root" = {
+            mountpoint = "/";
+            options = {
+              mountpoint = "legacy";
+              "com.sun:auto-snapshot" = "false";
+            };
+            type = "zfs_fs";
+          };
+        };
+        options = {
+          ashift = "12";
+          compatibility = "grub2";
+        };
+        rootFsOptions = {
+          acltype = "posixacl";
+          atime = "off";
+          compression = "lz4";
+          mountpoint = "none";
+          xattr = "sa";
         };
       };
     };
