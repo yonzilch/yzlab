@@ -12,7 +12,6 @@ in {
       ./hardware.nix
       ../../modules/options/komari-agent.nix
       ../../modules/options/komari-server.nix
-      ../../modules/optional/podman.nix
       ../../modules/options/openlist.nix
       ../../modules/options/qb.nix
       ../../modules/options/qbee.nix
