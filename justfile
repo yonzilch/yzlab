@@ -8,12 +8,12 @@ hostname := `hostname`
 
 
 @anywhere-lb input:
-  # Berform nixos-anywhere install (local builder)
+  # Perform nixos-anywhere install (local builder)
   sed -i "/^\s*hostname[[:space:]]*=[[:space:]]*\"/s/\"\(.*\)\"/\"{{input}}\"/" ./flake.nix ; git add . ; nix run github:nix-community/nixos-anywhere -- --generate-hardware-config nixos-generate-config ./hosts/{{input}}/hardware.nix --flake .#{{input}} --target-host root@{{input}} --build-on local --show-trace
 
 
 @anywhere-vm input:
-  # Best nixos-anywhere install in local vm
+  # Perform nixos-anywhere install in local vm
   ls modules/private/{{input}}/* | xargs -n 1 sops decrypt -i ; sed -i "/^\s*hostname[[:space:]]*=[[:space:]]*\"/s/\"\(.*\)\"/\"{{input}}\"/" ./flake.nix ; git add . ; nix run github:nix-community/nixos-anywhere -- --flake .#{{input}} --vm-test
 
 
