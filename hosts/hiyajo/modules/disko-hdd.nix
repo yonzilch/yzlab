@@ -10,14 +10,22 @@ _: {
             vdb1 = {
               content = {
                 type = "filesystem";
-                format = "f2fs";
+                format = "xfs";
                 mountpoint = "/hdd";
                 extraArgs = [
-                  "-O"
-                  "extra_attr,inode_checksum,sb_checksum,compression"
+                  "-b"
+                  "size=4096" # block size
+                  "-i"
+                  "size=512" # inode size
+                  "-l"
+                  "size=128m" # log size
+                  "-n"
+                  "size=8192" # directory block size
+                  "-s"
+                  "size=4096" # sector size
                 ];
                 mountOptions = [
-                  "compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime,nodiscard"
+                  "allocsize=128k,logbsize=256k,inode64,largeio,nodiscard,noatime,swalloc"
                 ];
               };
               size = "100%";
