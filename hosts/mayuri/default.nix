@@ -16,6 +16,7 @@ in {
       ../../modules/options/qb.nix
       ../../modules/options/qbee.nix
       ../../modules/options/st.nix
+      ../../modules/optional/podman.nix
       ../../modules/optional/terminal-implement.nix
       ../../modules/optional/zfs.nix
     ]
