@@ -12,7 +12,6 @@ _: {
               type = "EF02";
             };
             esp = {
-              priority = 2;
               size = "256M";
               type = "EF00";
               content = {
@@ -23,7 +22,8 @@ _: {
               };
             };
             root = {
-              size = "100%";
+              name = "root";
+              end = "-0";
               content = {
                 type = "filesystem";
                 format = "f2fs";
