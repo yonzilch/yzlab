@@ -7,9 +7,9 @@ _: {
           type = "gpt";
           partitions = {
             boot = {
-              priority = 1;
               size = "1M";
               type = "EF02";
+              priority = 1;
             };
             esp = {
               size = "256M";
