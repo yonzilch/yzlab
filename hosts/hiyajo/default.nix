@@ -12,7 +12,6 @@ in {
       ./hardware.nix
       ../../modules/options/komari-agent.nix
       ../../modules/optional/terminal-implement.nix
-      ../../modules/options/qb.nix
     ]
     ++ ls ../../modules/private/${hostname}
     ++ ls ../../modules/shared;
