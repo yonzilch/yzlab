@@ -4,20 +4,16 @@
   ...
 }: let
   ls = lib.filesystem.listFilesRecursive;
-  primary-disk = "/dev/disk/by-path/virtio-pci-0000:00:06.0";
+  primary-disk = "/dev/disk/by-path/virtio-pci-0000:00:07.0";
 in {
   imports =
     [
       ./disko.nix
       ./hardware.nix
       ../../modules/options/komari-agent.nix
-      ../../modules/options/openlist.nix
-      ../../modules/options/qb.nix
-      ../../modules/options/qbee.nix
-      ../../modules/options/st.nix
       ../../modules/optional/terminal-implement.nix
+      ../../modules/options/qb.nix
     ]
-    ++ ls ./modules
     ++ ls ../../modules/private/${hostname}
     ++ ls ../../modules/shared;
 
