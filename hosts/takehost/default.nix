@@ -4,7 +4,7 @@
   ...
 }: let
   ls = lib.filesystem.listFilesRecursive;
-  primary-disk = "/dev/disk/by-path/pci-0000:00:05.0-scsi-0:0:0:0";
+  primary-disk = "/dev/disk/by-path/pci-0000:04:00.0-scsi-0:0:0:0";
 in {
   imports =
     [
