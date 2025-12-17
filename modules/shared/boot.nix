@@ -1,6 +1,6 @@
 {
-  inputs,
   lib,
+  pkgs,
   ...
 }:
 with lib; {
@@ -52,7 +52,7 @@ with lib; {
       "net.ipv6.conf.eth0.autoconf" = false;
     };
     kernelModules = ["tcp_bbr"];
-    kernelPackages = inputs.chaotic.legacyPackages.x86_64-linux.linuxPackages_cachyos-server;
+    kernelPackages = pkgs.linuxPackages_xanmod_stable;
     kernelParams = [
       "audit=0"
       "console=tty1"
