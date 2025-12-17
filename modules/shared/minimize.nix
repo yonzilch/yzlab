@@ -59,7 +59,6 @@ with lib; {
     fstrim.enable = mkForce false;
     logrotate.enable = mkForce false;
     nscd.enable = mkForce false; # Disable this will make system.nssModules can not enable
-    resolved.enable = mkForce false;
     timesyncd.enable = mkForce false;
   };
 

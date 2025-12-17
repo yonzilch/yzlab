@@ -13,10 +13,6 @@ with lib; {
       logRefusedConnections = false;
     };
     hostName = hostname;
-    nameservers = [
-      "127.0.0.1"
-      "::1"
-    ];
     nftables.enable = true;
     resolvconf.enable = mkForce false;
     usePredictableInterfaceNames = mkDefault false;
