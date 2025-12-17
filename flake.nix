@@ -3,13 +3,12 @@
 
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
   };
   outputs = inputs: let
-    hostname = "bocchi";
+    hostname = "takehost";
   in
     inputs.flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];

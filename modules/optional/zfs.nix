@@ -1,15 +1,10 @@
-{
-  inputs,
-  lib,
-  ...
-}:
+{lib, ...}:
 with lib; {
   boot = {
     kernelParams = ["zfs_force=1"];
     zfs = {
       forceImportRoot = false;
       devNodes = "/dev/disk/by-path";
-      package = inputs.chaotic.legacyPackages.x86_64-linux.zfs_cachyos;
     };
   };
   services.zfs = {
