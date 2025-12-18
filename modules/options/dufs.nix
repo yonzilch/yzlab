@@ -19,7 +19,7 @@ in {
     flags = mkOption {
       type = types.str;
       default = "";
-      description = "komari-agent run flags";
+      description = "dufs run flags";
     };
     openFirewall = mkOption {
       type = types.bool;
