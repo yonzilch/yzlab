@@ -1,7 +1,7 @@
 _: {
   services.resolved = {
     enable = true;
-    dnsovertls = "true";
+    dnsovertls = "opportunistic";
     domains = ["~."];
     fallbackDns = [
       # CloudFlare servers
