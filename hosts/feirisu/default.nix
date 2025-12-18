@@ -20,6 +20,6 @@ in {
 
   boot.loader.limine.biosDevice = primary-disk;
   disko.devices.disk.main.device = primary-disk;
-  system.stateVersion = "26.05";
+  system.stateVersion = "25.11";
   zramSwap.enable = true;
 }

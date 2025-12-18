@@ -29,6 +29,6 @@ in {
   ];
   disko.devices.disk.main.device = primary-disk;
   networking.hostId = "bb26b3c5";
-  system.stateVersion = "26.05";
+  system.stateVersion = "25.11";
   zramSwap.enable = true;
 }
