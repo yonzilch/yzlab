@@ -5,10 +5,10 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
   outputs = inputs: let
-    hostname = "example";
+    hostname = "takehost";
   in
     inputs.flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
