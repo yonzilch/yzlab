@@ -9,20 +9,31 @@ _: {
           partitions = {
             vdb1 = {
               content = {
-                type = "filesystem";
-                format = "f2fs";
-                mountpoint = "/hdd";
-                extraArgs = [
-                  "-O"
-                  "extra_attr,inode_checksum,sb_checksum,compression"
-                ];
-                mountOptions = [
-                  "compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime,nodiscard"
-                ];
+                type = "zfs";
+                pool = "hdd";
               };
               size = "100%";
             };
           };
+        };
+      };
+    };
+    zpool = {
+      hdd = {
+        type = "zpool";
+        datasets = {
+          "hdd" = {
+            mountpoint = "/hdd";
+            options = {
+              mountpoint = "legacy";
+              "com.sun:auto-snapshot" = "false";
+            };
+            type = "zfs_fs";
+          };
+        };
+        options = {
+          ashift = "12";
+          compatibility = "grub2";
         };
       };
     };
