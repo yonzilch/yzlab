@@ -33,12 +33,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    nixpkgs.overlays = [
-      (_final: prev: {
-        komari-agent = prev.callPackage ../../pkgs/komari-agent/default.nix {};
-      })
-    ];
-
     systemd.services.komari-agent = {
       wantedBy = ["multi-user.target"];
       after = ["network.target"];
