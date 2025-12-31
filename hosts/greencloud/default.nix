@@ -4,22 +4,22 @@
   ...
 }: let
   ls = lib.filesystem.listFilesRecursive;
-  primary-disk = "/dev/disk/by-path/pci-0000:01:01.0-scsi-0:0:0:0";
+  primary-disk = "/dev/disk/by-path/virtio-pci-0000:00:07.0";
 in {
   imports =
     [
       ./disko.nix
       ./hardware.nix
       ../../modules/options/komari-agent.nix
+      ../../modules/options/openlist.nix
+      ../../modules/options/st.nix
       ../../modules/optional/terminal-implement.nix
-      ../../modules/optional/zfs.nix
     ]
     ++ ls ../../modules/private/${hostname}
     ++ ls ../../modules/shared;
 
   boot.loader.limine.biosDevice = primary-disk;
   disko.devices.disk.main.device = primary-disk;
-  networking.hostId = "52c10e9b";
-  system.stateVersion = "26.05";
+  system.stateVersion = "25.11";
   zramSwap.enable = true;
 }
