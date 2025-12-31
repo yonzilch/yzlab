@@ -10,11 +10,12 @@ in {
     [
       ./disko.nix
       ./hardware.nix
+      ../../modules/optional/podman.nix
+      ../../modules/optional/terminal-implement.nix
+      ../../modules/optional/zfs.nix
       ../../modules/options/komari-agent.nix
       ../../modules/options/qbee.nix
       ../../modules/options/st.nix
-      ../../modules/optional/terminal-implement.nix
-      ../../modules/optional/zfs.nix
     ]
     ++ ls ./modules
     ++ ls ../../modules/private/${hostname}
