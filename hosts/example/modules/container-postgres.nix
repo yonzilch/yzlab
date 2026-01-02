@@ -6,10 +6,10 @@ _: {
     pull = "newer";
     image = "postgres:18-alpine";
     environment = {
-      "POSTGRES_PASSWORD" = "FqNR4Eei1AxTnt7tWXbZuZkUMZInlIjhZwxjxKSbJeS0lktOvMIoLiDQziHqudAX";
+      "POSTGRES_PASSWORD" = "TjdTUwz7xENuxz3kW1HmgPaswkpMXXIC";
     };
     volumes = [
-      "postgres:/var/lib/postgresql/data:rw"
+      "postgres:/var/lib/postgresql:rw"
     ];
     ports = [
       "127.0.0.1:5432:5432"
