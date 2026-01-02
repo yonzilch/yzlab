@@ -14,6 +14,7 @@
     "xhci_pci"
     "sd_mod"
     "sr_mod"
+    "virtio_blk"
   ];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-amd"];
