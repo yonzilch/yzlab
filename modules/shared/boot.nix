@@ -52,7 +52,7 @@ with lib; {
       "net.ipv6.conf.eth0.autoconf" = false;
     };
     kernelModules = ["tcp_bbr"];
-    kernelPackages = pkgs.linuxPackages_xanmod_stable;
+    kernelPackages = pkgs.linuxPackages_xanmod;
     kernelParams = [
       "audit=0"
       "console=tty1"
