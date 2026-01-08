@@ -15,8 +15,8 @@
     };
     volumes = [
       "/etc/etherpad/settings.json:/opt/etherpad-lite/settings.json:ro"
-      "etherpad-var:/opt/etherpad-lite/var"
-      "etherpad-plugins:/opt/etherpad-lite/src/plugin_packages"
+      "etherpad_var:/opt/etherpad-lite/var"
+      "etherpad_plugins:/opt/etherpad-lite/src/plugin_packages"
     ];
     ports = [
       "127.0.0.1:9001:9001"

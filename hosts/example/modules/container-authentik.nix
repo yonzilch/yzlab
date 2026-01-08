@@ -12,8 +12,8 @@
     ];
 
     volumes = [
-      "authentik-media:/media:rw"
-      "authentik-templates:/templates:rw"
+      "authentik_media:/media:rw"
+      "authentik_templates:/templates:rw"
     ];
 
     ports = [
