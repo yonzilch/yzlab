@@ -19,7 +19,7 @@ _: {
                 mountpoint = "/boot";
               };
               priority = 2;
-              size = "1G";
+              size = "256M";
               type = "EF00";
             };
             root = {
