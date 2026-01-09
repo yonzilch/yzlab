@@ -5,7 +5,7 @@ _: {
       metadata_dir = "/var/lib/garage/meta"
       data_dir = "/var/lib/garage/data"
       db_engine = "lmdb"
-      replication_mode = "1"
+      replication_factor = 1
       compression_level = 2
       rpc_bind_addr = "[::]:3901"
       rpc_public_addr = "127.0.0.1:3901"
@@ -28,9 +28,9 @@ _: {
   };
 
   virtualisation.oci-containers.containers."garage" = {
-    image = "dxflrs/garage:v1.1.0";
+    image = "dxflrs/garage:v2.1.0";
     volumes = [
-      "/zhdd/garage:/var/lib/garage/data:rw"
+      "garage_data:/var/lib/garage/data:rw"
       "garage_meta:/var/lib/garage/meta:rw"
       "/etc/garage/garage.toml:/etc/garage.toml:ro"
     ];
@@ -43,7 +43,7 @@ _: {
   };
 
   virtualisation.oci-containers.containers."garage-webui" = {
-    image = "khairul169/garage-webui:1.0.9";
+    image = "khairul169/garage-webui:latest";
     environment = {
       "API_BASE_URL" = "http://garage:3903";
       "S3_ENDPOINT_URL" = "http://garage:3900";
