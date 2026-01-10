@@ -4,40 +4,41 @@ _: {
       main = {
         type = "disk";
         content = {
-          type = "gpt";
           partitions = {
             boot = {
+              attributes = [0];
               priority = 1;
               size = "1M";
               type = "EF02";
             };
             esp = {
-              size = "256M";
-              type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
-                mountpoint = "/boot";
                 mountOptions = ["umask=0077"];
+                mountpoint = "/boot";
               };
+              priority = 2;
+              size = "256M";
+              type = "EF00";
             };
             root = {
-              name = "root";
-              end = "-0";
+              size = "100%";
               content = {
-                type = "filesystem";
-                format = "f2fs";
-                mountpoint = "/";
                 extraArgs = [
                   "-O"
                   "extra_attr,inode_checksum,sb_checksum,compression"
                 ];
+                format = "f2fs";
                 mountOptions = [
                   "compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime,nodiscard"
                 ];
+                mountpoint = "/";
+                type = "filesystem";
               };
             };
           };
+          type = "gpt";
         };
       };
     };
