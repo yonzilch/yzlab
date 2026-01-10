@@ -7,12 +7,11 @@ _: {
           type = "gpt";
           partitions = {
             boot = {
-              priority = 1;
               size = "1M";
               type = "EF02";
+              priority = 1;
             };
             esp = {
-              priority = 2;
               size = "256M";
               type = "EF00";
               content = {
