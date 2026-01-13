@@ -4,38 +4,38 @@ _: {
       main = {
         type = "disk";
         content = {
-          type = "gpt";
           partitions = {
             boot = {
+              attributes = [0];
               priority = 1;
-              type = "EF02";
               size = "1M";
+              type = "EF02";
             };
             esp = {
-              priority = 2;
-              size = "256M";
-              type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
-                mountpoint = "/boot";
                 mountOptions = ["umask=0077"];
+                mountpoint = "/boot";
               };
+              priority = 2;
+              size = "256M";
+              type = "EF00";
             };
             zfs = {
-              size = "100%";
               content = {
-                type = "zfs";
                 pool = "zroot";
+                type = "zfs";
               };
+              size = "100%";
             };
           };
+          type = "gpt";
         };
       };
     };
     zpool = {
       zroot = {
-        type = "zpool";
         datasets = {
           "root" = {
             mountpoint = "/";
@@ -57,6 +57,7 @@ _: {
           mountpoint = "none";
           xattr = "sa";
         };
+        type = "zpool";
       };
     };
   };
