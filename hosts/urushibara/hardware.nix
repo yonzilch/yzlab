@@ -12,8 +12,6 @@
     "uhci_hcd"
     "virtio_pci"
     "virtio_scsi"
-    "ahci"
-    "sd_mod"
     "sr_mod"
     "virtio_blk"
   ];

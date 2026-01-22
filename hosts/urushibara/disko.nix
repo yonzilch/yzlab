@@ -4,41 +4,60 @@ _: {
       main = {
         type = "disk";
         content = {
-          type = "gpt";
           partitions = {
             boot = {
+              attributes = [0];
+              priority = 1;
               size = "1M";
               type = "EF02";
-              priority = 1;
             };
             esp = {
-              size = "256M";
-              type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
-                mountpoint = "/boot";
                 mountOptions = ["umask=0077"];
+                mountpoint = "/boot";
               };
+              priority = 2;
+              size = "256M";
+              type = "EF00";
             };
-            root = {
-              name = "root";
-              end = "-0";
+            zfs = {
               content = {
-                type = "filesystem";
-                format = "f2fs";
-                mountpoint = "/";
-                extraArgs = [
-                  "-O"
-                  "extra_attr,inode_checksum,sb_checksum,compression"
-                ];
-                mountOptions = [
-                  "compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime,nodiscard"
-                ];
+                pool = "zroot";
+                type = "zfs";
               };
+              size = "100%";
             };
           };
+          type = "gpt";
         };
+      };
+    };
+    zpool = {
+      zroot = {
+        datasets = {
+          "root" = {
+            mountpoint = "/";
+            options = {
+              mountpoint = "legacy";
+              "com.sun:auto-snapshot" = "false";
+            };
+            type = "zfs_fs";
+          };
+        };
+        options = {
+          ashift = "12";
+          compatibility = "grub2";
+        };
+        rootFsOptions = {
+          acltype = "posixacl";
+          atime = "off";
+          compression = "lz4";
+          mountpoint = "none";
+          xattr = "sa";
+        };
+        type = "zpool";
       };
     };
   };
