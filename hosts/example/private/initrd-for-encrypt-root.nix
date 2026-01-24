@@ -3,6 +3,10 @@
   pkgs,
   ...
 }: {
+  # Type this command after ssh login so that
+  # you would be asked for the decryption password in initrd stage
+  # `systemd-tty-ask-password-agent`
+
   boot = {
     initrd = {
       availableKernelModules = [
@@ -62,7 +66,4 @@
       type = "ed25519";
     }
   ];
-
-  # uncomment this if you want to be asked for the decryption password on login
-  #users.root.shell = "/bin/systemd-tty-ask-password-agent";
 }
