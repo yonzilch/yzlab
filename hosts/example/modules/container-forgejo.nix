@@ -35,6 +35,7 @@
     path = with pkgs; [zfs];
     serviceConfig = {
       Type = "oneshot";
+      RemainAfterExit = true;
       SuccessExitStatus = "0 1";
       ExecStart = ''
         ${pkgs.podman}/bin/podman exec -i postgres \
