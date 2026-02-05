@@ -1,14 +1,10 @@
-{
-  config,
-  ...
-}:
-{
+{config, ...}: {
   # use command
-  # podman run --rm -it -p 7777:7777 -v terraria-server_config:/config --name=terraria ghcr.io/beardedio/terraria:vanilla-1.4.5.3
+  # podman run --rm -it -p 7777:7777 -v terraria-server_config:/config --name=terraria ghcr.io/beardedio/terraria:vanilla-1.4.5.4
   # to mannually generate a world
 
   virtualisation.oci-containers.containers."terraria-server" = {
-    image = "ghcr.io/beardedio/terraria:vanilla-1.4.5.3";
+    image = "ghcr.io/beardedio/terraria:vanilla-1.4.5.4";
     environment = {
       world = "example.wld";
     };
