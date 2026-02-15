@@ -2,7 +2,7 @@
   virtualisation.oci-containers.containers."forgejo" = {
     pull = "newer";
     user = "1000:1000";
-    image = "codeberg.org/forgejo/forgejo:13-rootless";
+    image = "codeberg.org/forgejo/forgejo:14-rootless";
     environment = {
       # see https://forgejo.org/docs/latest/admin/config-cheat-sheet
       USER_UID = "1000";
