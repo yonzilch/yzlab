@@ -1,0 +1,19 @@
+''
+  protocol bgp ibgp_rintarou_v4 from dnpeers {
+      neighbor 172.22.106.19 as 4242420728;
+      direct;
+      ipv6 {
+          import none;
+          export none;
+      };
+  };
+
+  protocol bgp ibgp_rintarou_v6 from dnpeers {
+      neighbor fd38:8b09:eb92::19 % 'dn42-4242420728' as 4242420728;
+      direct;
+      ipv4 {
+          import none;
+          export none;
+      };
+  };
+''
