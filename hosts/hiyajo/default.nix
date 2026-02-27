@@ -10,6 +10,7 @@ in {
     [
       ./disko.nix
       ./hardware.nix
+      ../../modules/options/dn42.nix
       ../../modules/options/komari-agent.nix
       ../../modules/optional/terminal-implement.nix
     ]
