@@ -13,7 +13,8 @@
       "127.0.0.1:39018:3000"
     ];
     volumes = [
-      "wiki-js:/data:rw"
+      "wiki-js_data:/data:rw"
+      "wiki-js_content:/wiki/data/content:rw"
     ];
     dependsOn = ["postgres"];
   };
