@@ -15,9 +15,9 @@
     TAKAHE_ENVIRONMENT = "production";
     TAKAHE_DEBUG = "False";
 
-    NEODB_DB_URL = "postgres://neodb:xxxxxx@pgroonga/neodb";
-    TAKAHE_DB_URL = "postgres://takahe:xxxxxx@pgroonga/takahe";
-    TAKAHE_DATABASE_SERVER = "postgres://takahe:xxxxxx@pgroonga/takahe";
+    NEODB_DB_URL = "postgres://neodb:xxxxxx@postgres/neodb";
+    TAKAHE_DB_URL = "postgres://takahe:xxxxxx@postgres/takahe";
+    TAKAHE_DATABASE_SERVER = "postgres://takahe:xxxxxx@postgres/takahe";
 
     NEODB_REDIS_URL = "redis://valkey:6379/0";
     TAKAHE_CACHES_DEFAULT = "redis://valkey:6379/0";
@@ -54,7 +54,7 @@
   ];
 
   sharedDeps = [
-    "pgroonga"
+    "postgres"
     "typesense"
     "valkey"
   ];
@@ -219,7 +219,7 @@ in {
   # ── Initial db ─────────────────────────────────────────────
   systemd.services.create-pg-db-for-neodb = {
     wantedBy = ["multi-user.target"];
-    after = ["podman-pgroonga.service"];
+    after = ["podman-postgres.service"];
     description = "Initialize PostgreSQL databases for NeoDB and Takahe";
     path = with pkgs; [zfs];
     serviceConfig = {
@@ -228,7 +228,7 @@ in {
       SuccessExitStatus = "0 1";
       ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
       ExecStart = pkgs.writeShellScript "create-pg-db-for-neodb" ''
-        ${pkgs.podman}/bin/podman exec -i pgroonga psql -U postgres <<EOF
+        ${pkgs.podman}/bin/podman exec -i postgres psql -U postgres <<EOF
         CREATE USER neodb WITH PASSWORD 'xxxxxx';
         CREATE DATABASE neodb OWNER neodb;
         CREATE USER takahe WITH PASSWORD 'xxxxxx';
