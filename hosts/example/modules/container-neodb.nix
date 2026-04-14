@@ -2,7 +2,8 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   neodbSecretKey = "xxxxxx";
   siteDomain = "neodb.example.com";
 
@@ -38,19 +39,18 @@
     TAKAHE_STATOR_CONCURRENCY = "4";
     TAKAHE_STATOR_CONCURRENCY_PER_MODEL = "2";
 
-    # NEODB_EMAIL_URL = "smtp://noreply@example.com:changeme@hostname:587";
+    NEODB_EMAIL_URL = "smtp+tls://<username>:<password>@<host>:<port>";
     NEODB_EMAIL_FROM = "no-reply@${siteDomain}";
     TAKAHE_EMAIL_FROM = "no-reply@${siteDomain}";
 
     NEODB_PREFERRED_LANGUAGES = "en,zh";
-    NEODB_INVITE_ONLY = "true";
   };
 
   sharedVolumes = [
-    "neodb_neodb-media:/www/m"
-    "neodb_takahe-media:/www/media"
-    "neodb_takahe-cache:/www/cache"
-    "neodb_www-root:/www/root"
+    "neodb_neodb_media:/www/m"
+    "neodb_takahe_media:/www/media"
+    "neodb_takahe_cache:/www/cache"
+    "neodb_www_root:/www/root"
   ];
 
   sharedDeps = [
@@ -65,7 +65,8 @@
   volumeFlags = lib.concatStringsSep " \\\n      " (
     map (v: "--volume ${lib.escapeShellArg v}") sharedVolumes
   );
-in {
+in
+{
   # ── NeoDB Web ────────────────────────────────────────────────
   virtualisation.oci-containers.containers."neodb-web" = {
     image = "neodb/neodb:latest";
@@ -86,7 +87,7 @@ in {
     ];
     environment = sharedEnv;
     volumes = sharedVolumes;
-    ports = ["127.0.0.1:8091:8000"];
+    ports = [ "127.0.0.1:8091:8000" ];
   };
 
   # ── NeoDB Web API ────────────────────────────────────────────
@@ -109,7 +110,7 @@ in {
     ];
     environment = sharedEnv;
     volumes = sharedVolumes;
-    ports = ["127.0.0.1:8092:8000"];
+    ports = [ "127.0.0.1:8092:8000" ];
   };
 
   # ── NeoDB Worker ─────────────────────────────────────────────
@@ -175,7 +176,7 @@ in {
     ];
     environment = sharedEnv;
     volumes = sharedVolumes;
-    ports = ["127.0.0.1:8093:8000"];
+    ports = [ "127.0.0.1:8093:8000" ];
   };
 
   # ── Takahe Stator ────────────────────────────────────────────
@@ -200,25 +201,23 @@ in {
       "neodb-web"
       "neodb-takahe-web"
     ];
-    cmd = ["nginx-start"];
-    environment =
-      sharedEnv
-      // {
-        NEODB_WEB_SERVER = "neodb-web:8000";
-        NEODB_API_SERVER = "neodb-web-api:8000";
-        TAKAHE_WEB_SERVER = "neodb-takahe-web:8000";
-        NGINX_CONF = "/neodb/misc/nginx.conf.d/neodb.conf";
-      };
+    cmd = [ "nginx-start" ];
+    environment = sharedEnv // {
+      NEODB_WEB_SERVER = "neodb-web:8000";
+      NEODB_API_SERVER = "neodb-web-api:8000";
+      TAKAHE_WEB_SERVER = "neodb-takahe-web:8000";
+      NGINX_CONF = "/neodb/misc/nginx.conf.d/neodb.conf";
+    };
     volumes = sharedVolumes;
-    ports = ["127.0.0.1:8000:8000"];
+    ports = [ "127.0.0.1:8000:8000" ];
   };
 
   # ── Initial db ─────────────────────────────────────────────
   systemd.services.create-pg-db-for-neodb = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     description = "Initialize PostgreSQL databases for NeoDB and Takahe";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
@@ -238,14 +237,14 @@ in {
   # ── Migration ─────────────────────────────────────────────
   systemd.services.neodb-migration = {
     description = "NeoDB database migration";
-    path = with pkgs; [zfs];
-    wantedBy = ["multi-user.target"];
+    path = with pkgs; [ zfs ];
+    wantedBy = [ "multi-user.target" ];
     after = [
       "podman-postgres.service"
       "podman-valkey.service"
       "podman-typesense.service"
     ];
-    requires = ["podman-postgres.service"];
+    requires = [ "podman-postgres.service" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
