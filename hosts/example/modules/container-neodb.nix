@@ -58,17 +58,14 @@
     "typesense"
     "valkey"
   ];
-in {
-  # ── Migration（oneshot）────────────────────────────
-  virtualisation.oci-containers.containers."neodb-migration" = {
-    image = "neodb/neodb:latest";
-    pull = "newer";
-    dependsOn = sharedDeps;
-    cmd = ["/bin/neodb-init"];
-    environment = sharedEnv;
-    volumes = sharedVolumes;
-  };
 
+  envFlags = lib.concatStringsSep " \\\n      " (
+    lib.mapAttrsToList (k: v: "--env ${k}=${lib.escapeShellArg v}") sharedEnv
+  );
+  volumeFlags = lib.concatStringsSep " \\\n      " (
+    map (v: "--volume ${lib.escapeShellArg v}") sharedVolumes
+  );
+in {
   # ── NeoDB Web ────────────────────────────────────────────────
   virtualisation.oci-containers.containers."neodb-web" = {
     image = "neodb/neodb:latest";
@@ -238,10 +235,27 @@ in {
     };
   };
 
-  # declare migration restart policy
-  systemd.services.podman-neodb-migration = {
+  # ── Migration ─────────────────────────────────────────────
+  systemd.services.neodb-migration = {
+    description = "NeoDB database migration";
+    path = with pkgs; [zfs];
+    wantedBy = ["multi-user.target"];
+    after = [
+      "podman-postgres.service"
+      "podman-valkey.service"
+      "podman-typesense.service"
+    ];
+    requires = ["podman-postgres.service"];
     serviceConfig = {
-      Restart = lib.mkForce "no";
+      Type = "oneshot";
+      RemainAfterExit = true;
+      SuccessExitStatus = "0 1";
     };
+    script = ''
+      ${pkgs.podman}/bin/podman run --rm \
+        ${envFlags} \
+        ${volumeFlags} \
+        neodb/neodb:latest /bin/neodb-init
+    '';
   };
 }
