@@ -31,6 +31,12 @@
         # Alpine
         "alpine:docker://alpine:latest"
       ];
+      settings = {
+        container = {
+          network = "forgejo-actions";
+          valid_volumes = []; # 禁止挂载路径
+        };
+      };
     };
   };
 
