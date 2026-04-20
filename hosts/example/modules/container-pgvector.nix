@@ -4,7 +4,7 @@ _: {
 
   virtualisation.oci-containers.containers."pgvector" = {
     pull = "newer";
-    image = "pgvector/pgvector:0.8.1-pg18-trixie";
+    image = "pgvector/pgvector:pg18-trixie";
 
     environment = {
       POSTGRES_PASSWORD = "xxxxxx";
