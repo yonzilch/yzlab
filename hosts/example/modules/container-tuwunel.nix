@@ -11,6 +11,7 @@ _: {
       TUWUNEL_PORT = "8008";
       TUWUNEL_WELL_KNOWN__CLIENT = "https://matrix.example.com";
       TUWUNEL_WELL_KNOWN__SERVER = "matrix.example.com:443";
+      TUWUNEL_WELL_KNOWN__LIVEKIT_URL = "https://livekit.example.com";
 
       TUWUNEL_ALLOW_REGISTRATION = "true";
       TUWUNEL_ALLOW_FEDERATION = "true";
