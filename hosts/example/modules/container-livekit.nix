@@ -73,7 +73,7 @@ in {
         LIVEKIT_KEY = "${apiKey}";
         LIVEKIT_SECRET = "${apiSecret}";
         LIVEKIT_FULL_ACCESS_HOMESERVERS = "matrix.example.com"; # For Matrix server
-        LIVEKIT_JWT_BINDj = "8080";
+        LIVEKIT_JWT_BINDj = ":8080";
       };
 
       ports = [
