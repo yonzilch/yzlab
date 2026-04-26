@@ -74,6 +74,7 @@
     };
     volumes = [
       "weblate_data:/app/data"
+      "weblate_cache:/app/cache"
       # see https://docs.weblate.org/zh-cn/latest/admin/install/docker.html#customizing-code
       # "weblate_customization:/app/data/python/weblate_customization"
     ];
