@@ -2,10 +2,6 @@ _: {
   virtualisation.oci-containers.containers."stalwart" = {
     image = "stalwartlabs/stalwart:latest";
 
-    volumes = [
-      "stalwart:/opt/stalwart"
-    ];
-
     ports = [
       # ── Management Panel ───────────────────────────────────────────
       "127.0.0.1:24731:8080"
@@ -25,6 +21,13 @@ _: {
       # ── POP3 ──────────────────────────
       "110:110" # POP3
       "995:995" # POP3S（TLS）
+    ];
+
+    volumes = [
+      "stalwart:/opt/stalwart"
+      # Avoid creating anoymous volumes. see https://github.com/stalwartlabs/stalwart/blob/main/Dockerfile
+      "stalwart_etc:/etc/stalwart"
+      "stalwart_var_lib:/var/lib/stalwart"
     ];
   };
 }
