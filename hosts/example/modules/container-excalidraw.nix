@@ -17,6 +17,9 @@ _: {
       "excalidraw-storage"
       "excalidraw-room"
     ];
+    extraOptions = [
+      "--health-interval=0"
+    ];
   };
 
   virtualisation.oci-containers.containers."excalidraw-storage" = {
