@@ -71,31 +71,30 @@
   defaultConfTemplate = pkgs.writeTextFile {
     name = "default.conf.template";
     text = ''
-      upstream meet_backend {
-          server ${BACKEND_INTERNAL_HOST}:8000 fail_timeout=0;
-      }
-      upstream meet_frontend {
-          server ${FRONTEND_INTERNAL_HOST}:8080 fail_timeout=0;
-      }
       server {
           listen 8083;
           server_name localhost;
           charset utf-8;
-          # Disables server version feedback on pages and in headers
           server_tokens off;
           proxy_ssl_server_name on;
+
+          # use podman internal DNS，disable IPv6
+          resolver 10.88.0.1 ipv6=off valid=10s;
+
+          set $backend  "http://${BACKEND_INTERNAL_HOST}:8000";
+          set $frontend "http://${FRONTEND_INTERNAL_HOST}:8080";
+
           location @proxy_to_meet_backend {
               proxy_set_header Host $http_host;
               proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
               proxy_redirect off;
-              proxy_pass http://meet_backend;
+              proxy_pass $backend;
           }
           location @proxy_to_meet_frontend {
               proxy_set_header Host $http_host;
               proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
               proxy_redirect off;
-              proxy_pass http://meet_frontend;
+              proxy_pass $frontend;
           }
           location / {
               try_files $uri @proxy_to_meet_frontend;
