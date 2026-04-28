@@ -14,7 +14,6 @@ in {
       ../../modules/optional/terminal-implement.nix
       ../../modules/optional/www.nix
       ../../modules/optional/zfs.nix
-      ../../modules/options/dn42.nix
       ../../modules/options/dufs.nix
       ../../modules/options/komari-agent.nix
       ../../modules/options/openlist.nix
@@ -24,7 +23,7 @@ in {
     ++ ls ../../modules/shared;
 
   boot.kernelParams = [
-    "zfs.zfs_arc_max=1073741824" # 1GB
+    "zfs.zfs_arc_max=107374182" # 0.1GB
   ];
   boot.loader.limine.biosDevice = primary-disk;
   disko.devices.disk.main.device = primary-disk;
