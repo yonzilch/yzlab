@@ -19,11 +19,11 @@ in {
     ++ ls ../../modules/shared;
 
   boot.kernelParams = [
-    "zfs.zfs_arc_max=1073741824" # 1GB
+    "zfs.zfs_arc_max=107374182" # 0.1GB
   ];
   boot.loader.limine.biosDevice = primary-disk;
   disko.devices.disk.main.device = primary-disk;
   networking.hostId = "a837c8a7";
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
   zramSwap.enable = true;
 }
