@@ -37,22 +37,22 @@ hostname := `hostname`
   sed -i "/^\s*hostname[[:space:]]*=[[:space:]]*\"/s/\"\(.*\)\"/\"{{input}}\"/" ./flake.nix ; git add . ; nixos-rebuild switch --flake .#{{input}} --build-host root@{{input}} --target-host root@{{input}} -v
 
 
-@da:
+@dac:
   # Decrypt all
   ls modules/private/**/* | xargs -n 1 sops decrypt -i
 
 
-@de input:
+@dec input:
   # Decrypt
   ls modules/private/{{input}}/* | xargs -n 1 sops decrypt -i
 
 
-@ea:
+@eac:
   # encrypt all
   ls modules/private/**/* | xargs -n 1 sops encrypt -i
 
 
-@en input:
+@enc input:
   # Encrypt
   ls modules/private/{{input}}/*.nix | xargs -n 1 sops encrypt -i
 
