@@ -49,7 +49,7 @@ Most homelab setups drift over time — packages installed manually, config file
 
 | Layer | Tool | Role |
 |---|---|---|
-| OS | [NixOS](https://nixos.org) (unstable) | Declarative, atomic Linux |
+| OS | [NixOS](https://nixos.org) | Declarative, atomic Linux |
 | Flake framework | [flake-parts](https://github.com/hercules-ci/flake-parts) | Modular flake composition |
 | Disk layout | [disko](https://github.com/nix-community/disko) | Declarative disk partitioning |
 | Remote install | [nixos-anywhere](https://github.com/nix-community/nixos-anywhere) | Zero-touch provisioning over SSH |

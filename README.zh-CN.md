@@ -49,7 +49,7 @@
 
 | 层级 | 工具 | 职责 |
 |---|---|---|
-| 操作系统 | [NixOS](https://nixos.org) (unstable) | 声明式、原子化的 Linux |
+| 操作系统 | [NixOS](https://nixos.org) | 声明式、原子化的 Linux |
 | Flake 框架 | [flake-parts](https://github.com/hercules-ci/flake-parts) | 模块化 flake 组合 |
 | 磁盘布局 | [disko](https://github.com/nix-community/disko) | 声明式磁盘分区 |
 | 远程安装 | [nixos-anywhere](https://github.com/nix-community/nixos-anywhere) | 基于 SSH 的零接触部署 |
