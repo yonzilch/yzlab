@@ -39,58 +39,60 @@ in {
   #   3. Run: systemd-tty-ask-password-agent
   #   4. Enter your LUKS passphrase when prompted
 
-  boot.initrd = {
-    availableKernelModules = [
-      "xhci_pci"
-      "virtio_net"
-      "virtio_pci"
-    ];
+  boot = {
+    initrd = {
+      availableKernelModules = [
+        "xhci_pci"
+        "virtio_net"
+        "virtio_pci"
+      ];
 
-    kernelModules = [
-      "virtio_net"
-      "virtio_pci"
-    ];
+      kernelModules = [
+        "virtio_net"
+        "virtio_pci"
+      ];
 
-    network = {
-      # See https://mynixos.com/nixpkgs/option/boot.initrd.network.enable
-      enable = true;
-
-      ssh = {
+      network = {
+        # See https://mynixos.com/nixpkgs/option/boot.initrd.network.enable
         enable = true;
-        port = 222; # Same port as services.openssh.ports (recommended)
-        authorizedKeys = authorizedKeys;
 
-        # Use the same host key as the main system to avoid fingerprint warnings
-        hostKeys = ["/etc/secrets/initrd/ssh_hostKey"];
+        ssh = {
+          enable = true;
+          port = 222; # Same port as services.openssh.ports (recommended)
+          authorizedKeys = authorizedKeys;
+
+          # Use the same host key as the main system to avoid fingerprint warnings
+          hostKeys = ["/etc/secrets/initrd/ssh_hostKey"];
+        };
+      };
+
+      # Secrets that are copied into the initrd
+      secrets = lib.mkForce {
+        # Must be passphrase-less. Recommended to use the same key as the main system.
+        "/etc/secrets/initrd/ssh_hostKey" = pkgs.writeText "ssh_hostKey" sshHostKey.private;
+      };
+
+      # Network (choose one kind between boot.initrd.systemd.network and boot.initrd.kernelParams)
+      systemd.network = {
+        enable = true;
+        networks."10-eth0" = {
+          matchConfig.Name = "eth0";
+          address = [
+            "192.168.1.100/24"
+            "2606:4700:4700::1001/64"
+          ];
+          gateway = ["192.168.1.1"];
+          routes = [
+            {
+              Destination = "::/0";
+              Gateway = "2606:4700:4700::1111";
+            }
+          ];
+        };
       };
     };
 
-    # Secrets that are copied into the initrd
-    secrets = lib.mkForce {
-      # Must be passphrase-less. Recommended to use the same key as the main system.
-      "/etc/secrets/initrd/ssh_hostKey" = pkgs.writeText "ssh_hostKey" sshHostKey.private;
-    };
-
-    # Network (choose one kind between boot.initrd.systemd.network and boot.initrd.kernelParams)
-    systemd.network = {
-      enable = true;
-      networks."10-eth0" = {
-        matchConfig.Name = "eth0";
-        address = [
-          "192.168.1.100/24"
-          "2606:4700:4700::1001/64"
-        ];
-        gateway = ["192.168.1.1"];
-        routes = [
-          {
-            Destination = "::/0";
-            Gateway = "2606:4700:4700::1111";
-          }
-        ];
-      };
-    };
-
-    # Static IP configuration for initrd networking
+    # Static IP configuration for networking
     # Format: ip=<client-ip>::<gateway>:<netmask>::<interface>:<autoconf>
     # kernelParams = [
     #   "ip=192.168.1.100::192.168.1.1:255.255.255.0::eth0:none"
