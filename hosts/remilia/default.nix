@@ -18,6 +18,9 @@ in {
     ++ ls ../../modules/private/${hostname}
     ++ ls ../../modules/shared;
 
+  boot.kernelParams = [
+    "zfs.zfs_arc_max=2147483648" # 2GB
+  ];
   boot.loader.limine.biosDevice = primary-disk;
   disko.devices.disk.main.device = primary-disk;
   networking.hostId = "d9563534";
