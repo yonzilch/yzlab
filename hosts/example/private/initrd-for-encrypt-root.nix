@@ -76,6 +76,10 @@ in {
       systemd.network = {
         enable = true;
         networks."10-eth0" = {
+          # If need to use DHCP
+          # matchConfig.Name = "eth0";
+          # networkConfig.DHCP = "yes";
+
           matchConfig.Name = "eth0";
           address = [
             "192.168.1.100/24"
