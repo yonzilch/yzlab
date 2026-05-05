@@ -64,13 +64,16 @@ with lib; {
       "nowatchdog"
       "quiet"
     ];
-    loader.limine = {
-      biosSupport = true;
-      efiInstallAsRemovable = true;
-      efiSupport = true;
-      enable = true;
-      maxGenerations = 10;
-      partitionIndex = 1;
+    loader = {
+      timeout = 10;
+      limine = {
+        biosSupport = true;
+        efiInstallAsRemovable = true;
+        efiSupport = true;
+        enable = true;
+        maxGenerations = 10;
+        partitionIndex = 1;
+      };
     };
     tmp.cleanOnBoot = true;
   };
