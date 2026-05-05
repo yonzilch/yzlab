@@ -26,7 +26,9 @@
   # Generate with: ssh-keygen -t ed25519 -a 256 -C "root@<hostname>"
   # Can be the same key as users.users.root.openssh.authorizedKeys.keys
   authorizedKeys = [
-    "ssh-ed25519 xxxxxx root@<hostname>"
+    ''
+      ssh-ed25519 xxxxxx root@<hostname>
+    ''
   ];
 in {
   # =============================================
