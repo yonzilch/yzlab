@@ -1,37 +1,14 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-with lib; {
-  environment.systemPackages = [
-    pkgs.nvtopPackages.nvidia
-  ];
-  # Because of unfree NVIDIA drivers, make nixpkgs allowUnfree.
-  nixpkgs.config.allowUnfree = mkForce true;
-  hardware.nvidia-container-toolkit.enable = true;
-  hardware.nvidia = {
-    # Modesetting is required.
-    modesetting.enable = true;
-    # Accessible via `nvidia-settings`.
-    nvidiaSettings = true;
-    # Nvidia power management. Experimental, and may cause sleep/suspend to fail.
-    powerManagement.enable = true;
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = false;
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of
-    # supported GPUs is at:
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
-    # Only available from driver 515.43.04+
-    # Currently alpha-quality/buggy, so false is currently the recommended setting.
-    open = true;
-    # Enable the Nvidia settings menu,
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
-  };
-  services.xserver.videoDrivers = ["nvidia"];
+	"data": "ENC[AES256_GCM,data:/fBUjbFUGnBtwAgJT/QtDbfyP3qTCytmb//UNWhC7DbKXpnBntjK+oKwKFKcFhIUG3JWd57q2tb3SlSLGFkmcanBsMoGg0kc9VaP7qS3nqzgcyIO0RgUlGyaVbidrir98WoCpFQqz9sasktusSD3rec5t+yhN6+MSoW7xil1muPEsWNzTCBupsTqsiAvUjq4IFqECS1jblXF1PKakKed4z+aMAU3os+AH7FtSKYiCLOryUxgAUFdH7QD8O+dEPE4yt+pSVol8RMA6azhfyZ/6gKuvj3V1IBPVGp3FjLHYPY2yinSgj7/yqApugVnOrrbrnpLK0rQfObddQfCwno22g6eSCknlxx+Dit/O4XSa2ZBITiPqeKoJBvj7luzbGfzh0AbRZDcu5oq83tYodFEeeGiO60JH+jB0WoQmWVagF6f1tAU9SlCeG8F8O9vHauOxxcYF/lcnkXUFrhNlFyK70AvVyXvbmFW76tHoJZ+9ae3IM5nfKFQS/AgSCzIZ7J0aGOyA56iw/4X1t2lGMtFJq60zs/emPbgIEtj7LO1wmc6N/8IZ18sn9flBui+RKIZ4APNCivPdB8XaFrcUFidz2TEqSm/fg4zUHRtDNRGJ9DfQkHT2oQvPgSuuZJfZFou4cbcnifYP5LCBo4BC4OpwbXCyxZ4Y8dMoagt1BWM0ZraW+qxHD28YV0iGxf7n7zZnWoq1+eqJS05d7ayzMw/9UCTRQJmmh1RlS/jLjxMm+n9cLIFh+KnTMoVzaYzmjfY9GBMCcNr9seClwA7qrxq6GO5CoLbJT9v945dix9BB0IBYkaGrmhm6No+FZnOUwHGQAU0T5Rao5IyUk6MP5UVdGfHbOMkZPa72jbrIszXhBIkLiMS+lIAa6VALJbbetdChGM+d5zE93diD8SdTPZ0R76TAggDu2XHkI86ss4bQCDTNbvHbU79zZ4MSf8eZZS5TCHh9BC5/kh+g5WinZDvM+4SKnZQYEUqtQwi21DUt13npL7f9LMmzEASAekPwDdORs+J2hjnismzvyLByMYlT0S8lNXQKn+5jm1rzRfCzCx8euPxbAEhxyVBGTZNVyTUI3NJRr+sX5wVYk0kf6GIWWeuxVOmYzA9UaCmz6JrhycpGoyFkDwWhjGAZQd43x3QT6akbQR2FFDiFVPI1WFAd+0ex0FH4DVAW/4y/csxU1rUGixNt7u9KEy4kQsXxjpadbtatKqgoB/QpFDI+RudBgvmSanNq24aVQgO2RPiIpRVW9YvBWk0lw8mD4NoSGmWLzSBvNIO12ZQr+DpOWTpmOYoNN95wTdxI47Y4NMRAgF0M9o6fcNb2nWoT2TqYZIuSz/Dcd7WgeD3TnZfJSDhuXZloJUqhyVgDs1C7j1QtYgoJ6+aeOSRWooelZjEU8Z1i36fOHxbfD2n3dy9iXQh1LuAwt/ep7CJWMm069WvN4XP2WWE8qoohQy4Cnq1D+3UtWg0wXuyGdbDb42Q4ETkKVBYOZwv9/hA5rGj8KP6ndCM6OkgKLxzEuNHfcvjC5E9Gomf8dWxVolinoqpCR8SBPQv4Gd2679dA92oSfhCNjJ2d3kMYUl6LYb/IYrni95mlEuQNE/MUKl2RKlQKWJ7LLrFfN0jF0JXCbNG95gHWb+dX5DMCegT8Gfmkhz4xtYs2HGzAiX7oT9EvOkZkqEHUwwyoyXBHLpf09EKQjuMTvU2PVJsMycEx73IfbB7gkjRtjzaXtdJENJ2MylD3mpSiyj3vrhFBMWRMnHJdSBpah3gHUhgL+tvAgdIcTl2HH68ERPwOIzf4NdCBAp1T0P36BJrYw/+tl3UI75JLUc+CmGMfw7G1GG89I9n/l58vTJVFjcbvcGgeC9nNOg1aLm9YESHugE9JOGgH5Fi6bODWouAIfOpq12atEEQblY=,iv:u9Gi76/0BSOB4/eFospJ7hohqWYEVqD1qwGqYI8uKBM=,tag:k83rGDpNXqJBFmVsF1kXBg==,type:str]",
+	"sops": {
+		"age": [
+			{
+				"recipient": "age1yzce0p359lc6lfg087l3mvj0yrqd4x9526yyvnj2qet6t3ufnuns8f6rel",
+				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB5QitnZGM2bHZwRjAxdGty\ncXdlMzBLaWwrRHU4d0wzbmQrSWlqeHBkQ0djCjdpVVB2SXp0SklWdXhTTHNjVWoy\neUlQZm54T0RyOE9EQW15dmh3cXo4Tm8KLS0tIG14dWpQc0dHbDB0Y2EzSXRhK21P\nNERFL1Roak85dTRJVE0vN1J2MHVKQWcKhrMFrEwP+WU2nyZvnfWuSMemTyfGKxAy\n31ekGmDVjKbaapf6epv6vqhkUgTKTCztYGa6+hdnV5yKRLueTNn2fw==\n-----END AGE ENCRYPTED FILE-----\n"
+			}
+		],
+		"lastmodified": "2026-05-06T18:06:24Z",
+		"mac": "ENC[AES256_GCM,data:h/TBm2plqNoZc78M7j+03MzHxWHyIpdpHOLGnhj3ZoBsEpwR04FXUNoMWxXJjEeYFwPY8o4iuSjBVzcNCKLeQksfFFzYHsJp8Tb8VbwIlbcaf7bED6lmKl5YVNhBR8Chbcgvu/RgME6g6yyC79YU2IcC4jsvOaurdnXTyXYXuVM=,iv:7qhb1QoiKbslgYrNH+N0ejtxI4pur4j8ZaBh9SWZ8ik=,tag:zahbSnfVIvqFc6wnp4if4A==,type:str]",
+		"version": "3.12.2"
+	}
 }
