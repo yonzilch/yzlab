@@ -10,6 +10,7 @@ in {
     [
       ./disko.nix
       ./hardware.nix
+      ../../modules/optional/tmux.nix
       ../../modules/optional/zfs.nix
       ../../modules/options/komari-agent.nix
     ]
