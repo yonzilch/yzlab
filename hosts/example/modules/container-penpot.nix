@@ -120,6 +120,12 @@ in {
     ];
   };
 
+  # ── MCP ────────────────────────────────────────────────────────────────
+  virtualisation.oci-containers.containers."penpot-mcp" = {
+    image = "penpotapp/mcp:latest";
+    pull = "newer";
+  };
+
   systemd.services.create-pg-db-for-penpot = {
     wantedBy = ["multi-user.target"];
     after = ["podman-postgres.service"];
