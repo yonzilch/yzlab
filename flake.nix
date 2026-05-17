@@ -18,8 +18,10 @@
             alejandra
             compose2nix
             deadnix
+            gitleaks
             nixos-rebuild
             nixos-rebuild-ng
+            pre-commit
             rage
             sops
           ];
