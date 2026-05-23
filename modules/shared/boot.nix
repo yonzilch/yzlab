@@ -48,6 +48,10 @@ with lib; {
       "net.ipv4.conf.all.rp_filter" = 0;
 
       # Disable IPv6 router advertisements to prevent conflicting routes
+      "net.ipv6.conf.all.accept_ra" = 0;
+      "net.ipv6.conf.all.autoconf" = 0;
+      "net.ipv6.conf.default.accept_ra" = 0;
+      "net.ipv6.conf.default.autoconf" = 0;
       "net.ipv6.conf.eth0.accept_ra" = 0;
       "net.ipv6.conf.eth0.autoconf" = 0;
     };
