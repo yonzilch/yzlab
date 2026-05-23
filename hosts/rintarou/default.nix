@@ -19,7 +19,6 @@ in {
       ../../modules/options/qbee.nix
       ../../modules/options/st.nix
     ]
-    ++ ls ./modules
     ++ ls ../../modules/private/${hostname}
     ++ ls ../../modules/shared;
 
