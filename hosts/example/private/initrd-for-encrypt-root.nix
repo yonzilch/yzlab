@@ -45,13 +45,13 @@ in {
     initrd = {
       availableKernelModules = [
         "xhci_pci"
+        # For QEMU/KVM
         "virtio_net"
         "virtio_pci"
-      ];
-
-      kernelModules = [
-        "virtio_net"
-        "virtio_pci"
+        # For VMWare:
+        # "vmw_pvscsi"
+        # "vmxnet3"
+        # "mptspi"
       ];
 
       network = {
@@ -83,6 +83,7 @@ in {
           # networkConfig.DHCP = "yes";
 
           matchConfig.Name = "eth0";
+          networkConfig.IPv6AcceptRA = false;
           address = [
             "192.168.1.100/24"
             "2606:4700:4700::1001/64"
