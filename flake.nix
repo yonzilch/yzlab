@@ -5,6 +5,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
+    hermes-agent.url = "github:NousResearch/hermes-agent";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
   outputs = inputs: let
