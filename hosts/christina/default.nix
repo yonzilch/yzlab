@@ -12,6 +12,7 @@ in {
       ./hardware.nix
       ../../modules/optional/tmux.nix
       ../../modules/optional/zfs.nix
+      ../../modules/options/hermes-agent-dashboard.nix
       ../../modules/options/komari-agent.nix
     ]
     ++ ls ../../modules/private/${hostname}
