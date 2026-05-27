@@ -3,12 +3,17 @@ _: {
     containers = {
       containersConf.settings = {
         containers.dns_servers = [
-          "185.222.222.222"
-          "45.11.45.11"
+          # These are Maleware Blocking DNS Servers
+          # Cloudflare
+          "1.1.1.2"
+          "1.0.0.2"
+          "2606:4700:4700::1112"
+          "2606:4700:4700::1002"
+          # quad9
           "9.9.9.9"
           "149.112.112.112"
-          "2a0d:2a00:1::2"
-          "2a0d:2a00:2::2"
+          "2620:fe::fe"
+          "2620:fe::9"
         ];
       };
       enable = true;
