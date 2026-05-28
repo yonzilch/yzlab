@@ -18,7 +18,7 @@ _: {
       "excalidraw-room"
     ];
     extraOptions = [
-      "--health-interval=0"
+      "--no-healthcheck"
     ];
   };
 
@@ -27,7 +27,7 @@ _: {
     environment = {
       "PORT" = "8081";
       "GLOBAL_PREFIX" = "/api/v2";
-      "STORAGE_URI" = "redis://keydb:6379";
+      "STORAGE_URI" = "redis://keydb:6379"; # or valkey
       "LOG_LEVEL" = "warn";
       "BODY_LIMIT" = "50mb";
     };
@@ -35,7 +35,7 @@ _: {
       "127.0.0.1:31974:8081/tcp"
     ];
     dependsOn = [
-      "keydb"
+      "keydb" # or valkey
     ];
   };
 
