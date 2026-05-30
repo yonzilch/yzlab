@@ -210,9 +210,9 @@ in {
 
     "postgres" = {
       pull = "newer";
-      image = "postgres:17-alpine";
+      image = "postgres:18-alpine";
       volumes = [
-        "postgres:/var/lib/postgresql/data"
+        "postgres:/var/lib/postgresql"
       ];
       environmentFiles = [/etc/kyoo-environmentFile];
     };

@@ -44,7 +44,7 @@ _: {
       "POSTGRES_LOG_LINE_PREFIX" = "%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h ";
     };
     volumes = [
-      "pgroonga:/var/lib/postgresql/data:rw"
+      "pgroonga:/var/lib/postgresql:rw"
     ];
     ports = [
       "127.0.0.1:5432:5432"

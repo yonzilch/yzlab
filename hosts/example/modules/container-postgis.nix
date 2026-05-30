@@ -9,7 +9,7 @@ _: {
       "POSTGRES_PASSWORD" = "xxxxxx";
     };
     volumes = [
-      "postgis:/var/lib/postgresql/data:rw"
+      "postgis:/var/lib/postgresql:rw"
     ];
     ports = [
       "127.0.0.1:25432:5432"
