@@ -109,7 +109,7 @@ in {
         ExecStart = "${cfg.package}/bin/qbittorrent-nox";
         # To prevent "Quit & shutdown daemon" from working; we want systemd to
         # manage it!
-        #Restart = "on-success";
+        Restart = "on-failure";
         #UMask = "0002";
         #LimitNOFILE = cfg.openFilesLimit;
       };
