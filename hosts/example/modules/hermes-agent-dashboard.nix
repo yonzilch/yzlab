@@ -1,10 +1,13 @@
-{ config, inputs, lib, pkgs, ... }:
 {
+  inputs,
+  lib,
+  pkgs,
+  ...
+}: {
   ##############################################################################
   # 完整说明
   ##############################################################################
   options.services.hermes-agent-dashboard = {
-
     enable = lib.mkEnableOption "Hermes Agent Web Dashboard";
 
     package = lib.mkOption {
@@ -69,7 +72,7 @@
 
     extraEnvironment = lib.mkOption {
       type = lib.types.attrsOf lib.types.str;
-      default = { };
+      default = {};
       description = "额外环境变量值为空字符串 \"\" 会被自动过滤";
     };
 
@@ -97,36 +100,33 @@
     # dataDir     = "/var/lib/hermes";       # 默认值
   };
 
-
   ##############################################################################
   # 示例 2：启用浏览器内聊天 TUI + 调试日志
   ##############################################################################
   # 打开嵌入式终端聊天标签页，并将日志级别设为 debug
-  services.hermes-agent-dashboard = {
-    enable = true;
-    tui = true;                               # 启用浏览器内 Chat 标签
-    extraEnvironment = {
-      HERMES_LOG_LEVEL = "debug";
-      # HERMES_DASHBOARD_TUI 已由 tui = true 自动设为 "1"，无需重复
-    };
-  };
-
+  # services.hermes-agent-dashboard = {
+  #   enable = true;
+  #   tui = true;                               # 启用浏览器内 Chat 标签
+  #   extraEnvironment = {
+  #     HERMES_LOG_LEVEL = "debug";
+  #     # HERMES_DASHBOARD_TUI 已由 tui = true 自动设为 "1"，无需重复
+  #   };
+  # };
 
   ##############################################################################
   # 示例 3：通过 environmentFile 注入 API 密钥等敏感信息
   ##############################################################################
   # 密钥可由 sops-nix / agenix 等秘密管理工具生成到 /run/secrets/ 下，
   # systemd 启动前加载，不会出现在 /nix/store 中
-  services.hermes-agent-dashboard = {
-    enable = true;
-    tui = true;
-    environmentFile = "/run/secrets/hermes-extra.env";
-  };
+  # services.hermes-agent-dashboard = {
+  #   enable = true;
+  #   tui = true;
+  #   environmentFile = "/run/secrets/hermes-extra.env";
+  # };
   # /run/secrets/hermes-extra.env 内容示例：
   #   OPENAI_API_KEY=sk-XXXXXXXXXXXXXXXXXXXXXXXX
   #   ANTHROPIC_API_KEY=sk-ant-XXXXXXXXXXXXXXXXXX
   #   HERMES_PROVIDER=openai
-
 
   ##############################################################################
   # 示例 4：局域网 / 远程访问（insecure 模式）
@@ -134,46 +134,46 @@
   # 绑定 0.0.0.0 并开放防火墙端口，使局域网其它机器可访问仪表盘
   # ⚠️  警告：API 密钥会在网络上明文传输，务必在可信内网中使用，
   #          生产环境应前置反向代理（Nginx/Caddy）+ TLS
-  services.hermes-agent-dashboard = {
-    enable = true;
-    host = "0.0.0.0";
-    port = 9119;
-    insecure = true;                          # 必须显式开启才能绑定非 localhost
-    openFirewall = true;                      # 自动开放 TCP 9119
-    tui = true;
-  };
+  # services.hermes-agent-dashboard = {
+  #   enable = true;
+  #   host = "0.0.0.0";
+  #   port = 9119;
+  #   insecure = true;                          # 必须显式开启才能绑定非 localhost
+  #   openFirewall = true;                      # 自动开放 TCP 9119
+  #   tui = true;
+  # };
 
   ##############################################################################
   # 示例 5：CI / 无 npm 环境 — 使用预构建前端
   ##############################################################################
   # 在 CI 或无 Node.js 的环境中，先用 `cd web && npm run build` 构建前端，
   # 然后设置 skipBuild = true 跳过运行时构建步骤
-  services.hermes-agent-dashboard = {
-    enable = true;
-    skipBuild = true;
-    extraEnvironment = {
-      HERMES_LOG_LEVEL = "warn";
-    };
-  };
+  # services.hermes-agent-dashboard = {
+  #   enable = true;
+  #   skipBuild = true;
+  #   extraEnvironment = {
+  #     HERMES_LOG_LEVEL = "warn";
+  #   };
+  # };
 
   ##############################################################################
   # 示例 6：非默认数据目录 + 手动预置配置文件
   ##############################################################################
   # 将数据存放到独立磁盘，并在启用服务前预置 config.yaml 和 .env
-  services.hermes-agent-dashboard = {
-    enable = true;
-    dataDir = "/mnt/data/hermes";
-  };
+  # services.hermes-agent-dashboard = {
+  #   enable = true;
+  #   dataDir = "/mnt/data/hermes";
+  # };
 
   # 通过 systemd tmpfiles 规则在首次启动前预置配置（仅当文件不存在时写入）
-  systemd.tmpfiles.rules = [
-    "d /mnt/data/hermes/.hermes 0750 hermes hermes -"
-    "f /mnt/data/hermes/.hermes/config.yaml 0640 hermes hermes - "
-    + builtins.toJSON {
-      provider = "openai";
-      model = "gpt-4o";
-      temperature = 0.7;
-      max_tokens = 4096;
-    }
-  ];
+  # systemd.tmpfiles.rules = [
+  #   "d /mnt/data/hermes/.hermes 0750 hermes hermes -"
+  #   "f /mnt/data/hermes/.hermes/config.yaml 0640 hermes hermes - "
+  #   + builtins.toJSON {
+  #     provider = "openai";
+  #     model = "gpt-4o";
+  #     temperature = 0.7;
+  #     max_tokens = 4096;
+  #   }
+  # ];
 }
