@@ -74,7 +74,7 @@ _: {
         forceSSL = true;
         locations."/" = {
           extraConfig = ''
-            return 403;
+            return 444;
           '';
         };
         sslCertificate = "/etc/nginx/self-sign.crt";
@@ -98,6 +98,22 @@ _: {
             </head>';
             sub_filter_once on;
           '';
+        };
+      };
+      "openlist.example.com" = {
+        forceSSL = true;
+        http3 = true;
+        kTLS = true;
+        quic = true;
+        sslCertificate = "/etc/nginx/self-sign.crt";
+        sslCertificateKey = "/etc/nginx/self-sign.key";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:5244";
+          proxyWebsockets = true;
+          recommendedProxySettings = true;
+          # extraConfig = ''
+          #   proxy_buffering off;
+          # '';
         };
       };
     };
