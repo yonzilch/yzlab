@@ -15,6 +15,7 @@ in {
       ../../modules/options/qb.nix
       ../../modules/options/qbee.nix
       ../../modules/options/st.nix
+      ../../modules/options/xl.nix
       ../../modules/optional/terminal-implement.nix
     ]
     ++ ls ./modules
