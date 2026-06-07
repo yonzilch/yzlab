@@ -11,6 +11,7 @@ in {
       ./disko.nix
       ./hardware.nix
       ../../modules/options/komari-agent.nix
+      ../../modules/options/xl.nix
       ../../modules/optional/podman.nix
       ../../modules/optional/terminal-implement.nix
       ../../modules/optional/zfs.nix
