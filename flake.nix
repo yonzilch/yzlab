@@ -7,6 +7,8 @@
     disko.url = "github:nix-community/disko";
     hermes-agent.url = "github:NousResearch/hermes-agent";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixvim.url = "github:nix-community/nixvim/nixos-26.05";
+    yonos.url = "github:yonzilch/yonos";
   };
   outputs = inputs: let
     hostname = "example";
@@ -32,7 +34,9 @@
         nixosConfigurations = {
           "${hostname}" = inputs.nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            modules = [./hosts];
+            modules = [
+              ./hosts
+            ];
             specialArgs = {inherit hostname inputs;};
           };
         };
