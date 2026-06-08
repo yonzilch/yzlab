@@ -50,8 +50,8 @@ in {
         Type = "simple";
         User = cfg.user;
         Group = cfg.group;
-        ExecStart = ''${pkgs.openlist}/bin/OpenList server --data ${cfg.dataDir}'';
-        ExecStop = ''on-failure'';
+        ExecStart = "${pkgs.openlist}/bin/OpenList server --data ${cfg.dataDir}";
+        Restart = "on-failure";
         StateDirectory = "openlist";
         SyslogIdentifier = "openlist";
         RuntimeDirectory = "openlist";
