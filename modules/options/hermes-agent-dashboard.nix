@@ -251,6 +251,9 @@ in {
         ExecStart = lib.concatStringsSep " " (
           [
             "${cfg.package}/bin/hermes"
+          ]
+          ++ lib.optional cfg.tui "--tui"
+          ++ [
             "dashboard"
             "--host"
             cfg.host
@@ -259,7 +262,6 @@ in {
             "--no-open" # meaningless (and broken) in a daemon
           ]
           ++ lib.optional cfg.insecure "--insecure"
-          ++ lib.optional cfg.tui "--tui"
           ++ lib.optional cfg.skipBuild "--skip-build"
         );
 
