@@ -10,6 +10,7 @@ in {
     [
       ./disko.nix
       ./hardware.nix
+      ../../modules/optional/podman.nix
       ../../modules/optional/tmux.nix
       ../../modules/optional/zfs.nix
       ../../modules/options/hermes-agent-dashboard.nix
