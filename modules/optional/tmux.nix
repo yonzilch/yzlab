@@ -2,26 +2,26 @@
   programs.tmux = {
     enable = true;
 
-    # ── 核心行为 ──────────────────────────────────────────
-    baseIndex = 1; # 窗口/面板编号从 1 开始，更直观
-    escapeTime = 0; # 消除 ESC 延迟，对 Vim 用户至关重要
-    historyLimit = 50000; # 保留更多历史回滚行数
-    newSession = true; # 无 session 时自动创建，避免 `attach` 报错
-    secureSocket = true; # 将 socket 放在 /run 而非 /tmp，更安全
+    # ── Core Behavior ──────────────────────────────────────────
+    baseIndex = 1; # Window/pane numbering starts from 1, more intuitive
+    escapeTime = 0; # Eliminate ESC delay, critical for Vim users
+    historyLimit = 50000; # Keep more history scrollback lines
+    newSession = true; # Auto-create session when none exists, avoid `attach` errors
+    secureSocket = true; # Place socket in /run instead of /tmp, more secure
 
-    # ── 键位与交互 ────────────────────────────────────────
-    keyMode = "vi"; # VI 风格快捷键（复制模式等）
-    customPaneNavigationAndResize = true; # 用 hjkl / HJKL 导航和调整面板
-    shortcut = "t"; # 前缀键 Ctrl+a（比默认 Ctrl+b 更顺手）
-    resizeAmount = 5; # 每次调整面板大小移动 5 行/列
+    # ── Keybindings and Interaction ────────────────────────────────────────
+    keyMode = "vi"; # VI-style shortcuts (copy mode, etc.)
+    customPaneNavigationAndResize = true; # Use hjkl / HJKL for pane navigation and resizing
+    shortcut = "t"; # Prefix key Ctrl+t (more convenient than default Ctrl+b)
+    resizeAmount = 5; # Move 5 rows/columns when resizing panes
 
-    # ── 终端设置 ──────────────────────────────────────────
-    terminal = "tmux-256color"; # 确保真彩色与 256 色支持
-    clock24 = true; # 24 小时制
-    reverseSplit = true; # 反向分割（- 水平，| 垂直）
+    # ── Terminal Settings ──────────────────────────────────────────
+    terminal = "tmux-256color"; # Ensure true color and 256-color support
+    clock24 = true; # 24-hour format
+    reverseSplit = true; # Reverse split (- horizontal, | vertical)
 
-    # ── 插件 ──────────────────────────────────────────────
-    # 注意：NixOS 的 plugins 选项只接受 package 列表，不支持 HM 的 attrset 语法
+    # ── Plugins ──────────────────────────────────────────────
+    # Note: NixOS plugins option only accepts package list, does not support HM attrset syntax
     plugins = with pkgs.tmuxPlugins; [
       catppuccin
       continuum
@@ -30,8 +30,8 @@
       pain-control
       resurrect
     ];
-    # ── 插件加载前的额外配置 ───────────────────────────────
-    # tmux 插件的 @ 变量需要在插件被 source 之前声明才能生效
+    # ── Extra config before plugins ───────────────────────────────
+    # tmux plugin @ variables must be declared before plugins are sourced to take effect
     extraConfigBeforePlugins = ''
       set -g @catppuccin_flavor "mocha"
       set -g @continuum-save-interval 15
@@ -39,54 +39,54 @@
       set -g @resurrect-processes ':all:'
     '';
 
-    # ── 插件加载后的额外配置 ───────────────────────────────
+    # ── Extra config after plugins ───────────────────────────────
     extraConfig = ''
-      # ── 真彩色支持 ──────────────────────────────────────
+      # ── True Color Support ──────────────────────────────────────
       set -ga terminal-overrides ",*256col*:Tc"
       set -ga terminal-overrides ",tmux-256color:Tc"
 
-      # ── 鼠标支持 ────────────────────────────────────────
+      # ── Mouse Support ────────────────────────────────────────
       set -g mouse on
 
-      # ── 状态栏刷新间隔 ──────────────────────────────────
+      # ── Status Bar Refresh Interval ──────────────────────────────────
       set -g status-interval 5
 
-      # ── 窗口活动提示 ────────────────────────────────────
+      # ── Window Activity Alert ────────────────────────────────────
       set -g monitor-activity on
       set -g visual-activity off
 
-      # ── 重新加载配置的快捷键 ────────────────────────────
+      # ── Reload Config Shortcut ────────────────────────────
       bind r source-file /etc/tmux.conf \; display-message "Config reloaded!"
 
-      # ── 更直觉的分屏快捷键 ─────────────────────────────
+      # ── More Intuitive Pane Splitting ─────────────────────────────
       bind | split-window -h -c "#{pane_current_path}"
       bind - split-window -v -c "#{pane_current_path}"
 
-      # ── 关闭无需确认 ────────────────────────────────────
+      # ── Close Without Confirmation ────────────────────────────────────
       bind x kill-pane
       bind & kill-window
 
-      # ── 新窗口保持当前路径 ─────────────────────────────
+      # ── New Window Keeps Current Path ─────────────────────────────
       bind c new-window -c "#{pane_current_path}"
 
-      # ── 快速切换面板（Vim 风格，无需前缀）───────────────
+      # ── Quick Pane Switching (Vim style, no prefix)───────────────
       bind -n M-h select-pane -L
       bind -n M-j select-pane -D
       bind -n M-k select-pane -U
       bind -n M-l select-pane -R
 
-      # ── Vi 复制模式增强 ─────────────────────────────────
+      # ── Vi Copy Mode Enhancement ─────────────────────────────────
       bind -T copy-mode-vi v send-keys -X begin-selection
       bind -T copy-mode-vi y send-keys -X copy-selection-and-cancel
 
-      # ── 窗口编号自动重排 ────────────────────────────────
+      # ── Automatic Window Renumbering ────────────────────────────────
       set -g renumber-windows on
 
-      # ── 减少不必要的延迟 ────────────────────────────────
+      # ── Reduce Unnecessary Delay ────────────────────────────────
       set -s focus-events on
 
-      # ── 鼠标选取优化 ────────────────────────────────────
-      # 松开鼠标左键时，自动复制选中内容并退出复制模式
+      # ── Mouse Selection Optimization ────────────────────────────────────
+      # Auto-copy selected content and exit copy mode on mouse left button release
       bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-selection-and-cancel
     '';
   };
