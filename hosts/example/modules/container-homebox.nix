@@ -12,6 +12,7 @@
       HBOX_OPTIONS_ALLOW_REGISTRATION = "false";
       HBOX_OPTIONS_CHECK_GITHUB_RELEASE = "false";
       HBOX_OPTIONS_TRUST_PROXY = "true";
+      HBOX_AUTH_API_KEY_PEPPER = ""; # generate with `openssl rand -base64 48`
 
       # OIDC / SSO (recommended: disable local registration when using SSO)
       HBOX_OIDC_ENABLED = "true";
