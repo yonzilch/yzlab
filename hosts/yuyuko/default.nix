@@ -18,6 +18,7 @@ in {
       ../../modules/options/komari-agent.nix
       ../../modules/options/openlist.nix
       ../../modules/options/st.nix
+      ../../modules/options/xl.nix
     ]
     ++ ls ../../modules/private/${hostname}
     ++ ls ../../modules/shared;
