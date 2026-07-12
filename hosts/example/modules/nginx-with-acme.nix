@@ -2,12 +2,12 @@
   lib,
   pkgs,
   ...
-}: {
-  environment.etc."acme/credentialsFile" = {
+}:
+{
+  environment.etc."acme/cloudflare.env" = {
     mode = "0644";
     text = ''
       CLOUDFLARE_DNS_API_TOKEN=
-      CLOUDFLARE_ZONE_API_TOKEN=
     '';
   };
 
@@ -50,7 +50,7 @@
   security.acme = {
     acceptTerms = true;
     defaults = {
-      credentialsFile = "/etc/acme/credentialsFile";
+      environmentFile = "/etc/acme/cloudflare.env";
       dnsProvider = "cloudflare";
       email = "no-reply@example.com";
     };
@@ -63,7 +63,7 @@
     user = "www";
     group = "www";
     package = pkgs.nginx.override {
-      modules = with pkgs.nginxModules; [moreheaders];
+      modules = with pkgs.nginxModules; [ moreheaders ];
     };
     appendConfig = ''
       worker_processes auto;
@@ -91,7 +91,7 @@
         quic = true;
         locations."/" = {
           extraConfig = ''
-            return 403;
+            return 444;
           '';
         };
         sslCertificate = "/etc/nginx/self-sign.crt";
@@ -103,7 +103,7 @@
         kTLS = true;
         quic = true;
         useACMEHost = "wildcard-example-com";
-        root = "/home/www/sync/static-yon-im";
+        root = "/home/www/example-static-directory";
         extraConfig = ''
           sendfile on;
           tcp_nopush on;
