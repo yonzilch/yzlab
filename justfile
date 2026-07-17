@@ -27,6 +27,10 @@ hostname := `hostname`
   sed -i "/^\s*hostname[[:space:]]*=[[:space:]]*\"/s/\"\(.*\)\"/\"{{input}}\"/" ./flake.nix ; git add . ; sudo nixos-rebuild build-vm --flake .#{{input}} --show-trace -L -v
 
 
+@check:
+  # Run nix flake check
+  nix flake check -L
+
 @deploy input:
   # Perform remote deploy action
   sed -i "/^\s*hostname[[:space:]]*=[[:space:]]*\"/s/\"\(.*\)\"/\"{{input}}\"/" ./flake.nix ; git add . ; nixos-rebuild switch --flake .#{{input}} --target-host root@{{input}} -v
@@ -58,8 +62,8 @@ hostname := `hostname`
 
 
 @format:
-  # Use alejandra and deadnix to format code
-  deadnix -e ; alejandra .
+  # Format the repository using the format*er declared by the flake
+  nix fmt
 
 
 @keygen:
