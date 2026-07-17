@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   virtualisation.oci-containers.containers."paperless-ngx" = {
     image = "ghcr.io/paperless-ngx/paperless-ngx:latest";
     pull = "newer";
@@ -56,12 +57,12 @@
   };
 
   systemd.services.create-pg-db-for-paperless-ngx = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-pgroonga.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-pgroonga.service" ];
     description = "Initialize PostgreSQL user and database for Paperless-ngx";
 
     # Without zfs in path → would fail with: "the 'zfs' command is not available"
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
 
     serviceConfig = {
       Type = "oneshot";

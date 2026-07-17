@@ -1,10 +1,13 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   virtualisation.oci-containers.containers."mcsmanager-daemon" = {
     image = "ngc7331/mcsmanager-daemon:latest-nojdk";
     environment = {
-      "MCSM_DOCKER_WORKSPACE_PATH" = "/var/lib/containers/storage/volumes/mcsmanager-daemon_data/_data/InstanceData";
+      "MCSM_DOCKER_WORKSPACE_PATH" =
+        "/var/lib/containers/storage/volumes/mcsmanager-daemon_data/_data/InstanceData";
       "JAVA_HOME" = "/opt/java/java-8";
-      "PATH" = "/opt/java/java-8/bin:/opt/java/java-21/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin";
+      "PATH" =
+        "/opt/java/java-8/bin:/opt/java/java-21/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin";
     };
     volumes = [
       "mcsmanager-daemon_data:/opt/mcsm/daemon/data:rw"
@@ -30,10 +33,10 @@
   };
 
   systemd.services.install-jdk-for-mcsmanager-daemon = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-mcsmanager-daemon.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-mcsmanager-daemon.service" ];
     description = "Install JDK for mcsmanager-daemon";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

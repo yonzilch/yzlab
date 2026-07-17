@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # environment.etc."hermes-agent/environmentFiles" = {
   #   mode = "0644";
   #   text = ''

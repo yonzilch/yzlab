@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_18;
@@ -10,7 +11,7 @@
       pgroonga
     ];
     enableTCPIP = true;
-    ensureDatabases = ["xxxxxx"];
+    ensureDatabases = [ "xxxxxx" ];
     ensureUsers = [
       {
         name = "xxxxxx";
@@ -63,9 +64,9 @@
 
   systemd.services.postgresql-pgroonga-init = {
     description = "Initialize PGroonga extension for openlist database";
-    after = ["postgresql.service"];
-    requires = ["postgresql.service"];
-    wantedBy = ["multi-user.target"];
+    after = [ "postgresql.service" ];
+    requires = [ "postgresql.service" ];
+    wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
       Type = "oneshot";

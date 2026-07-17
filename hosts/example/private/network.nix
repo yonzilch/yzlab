@@ -1,4 +1,5 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   networking = {
     useDHCP = lib.mkForce false;
     interfaces.eth0 = {

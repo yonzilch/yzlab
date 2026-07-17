@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   services.river = {
     enable = true;
     # see https://github.com/memorysafety/river

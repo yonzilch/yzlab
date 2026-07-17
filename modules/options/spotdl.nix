@@ -3,16 +3,17 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.spotdl;
-  inherit
-    (lib)
+  inherit (lib)
     types
     mkIf
     mkOption
     mkEnableOption
     ;
-in {
+in
+{
   options.services.spotdl = {
     enable = mkEnableOption "Spotdl";
 
@@ -40,7 +41,7 @@ in {
 
   config = mkIf cfg.enable {
     systemd.services.spotdl = {
-      wantedBy = ["multi-user.target"];
+      wantedBy = [ "multi-user.target" ];
       after = [
         "network.target"
         "nss-lookup.target"
@@ -53,7 +54,7 @@ in {
         Type = "simple";
         User = cfg.user;
         Group = cfg.group;
-        ExecStart = ''${pkgs.spotdl}/bin/spotdl web'';
+        ExecStart = "${pkgs.spotdl}/bin/spotdl web";
         Restart = "on-failure";
         StartLimitBurst = 3;
         RestartSec = "5s";
@@ -63,9 +64,9 @@ in {
       };
     };
 
-    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [8800];
+    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ 8800 ];
 
-    users.groups = mkIf (cfg.group == "spotdl") {spotdl = {};};
+    users.groups = mkIf (cfg.group == "spotdl") { spotdl = { }; };
     users.users = mkIf (cfg.user == "spotdl") {
       spotdl = {
         name = "spotdl";
@@ -74,6 +75,6 @@ in {
       };
     };
 
-    environment.systemPackages = [pkgs.spotdl];
+    environment.systemPackages = [ pkgs.spotdl ];
   };
 }

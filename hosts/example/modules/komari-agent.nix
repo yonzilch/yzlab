@@ -25,4 +25,3 @@ _: {
 #       --month-rotate int                 Month reset for network statistics (0 to disable)
 #   -c, --reconnect-interval int           Reconnect interval in seconds (default 5)
 #   -t, --token string                     API token
-

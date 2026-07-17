@@ -39,4 +39,3 @@ _: {
 #       --tls-key <path>       Path to the SSL/TLS certificate's private key
 #   -h, --help                 Print help
 #   -V, --version              Print version
-

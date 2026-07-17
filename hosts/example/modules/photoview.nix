@@ -1,4 +1,5 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   services.photoview = {
     enable = true;
     user = "www";

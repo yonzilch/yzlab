@@ -3,13 +3,14 @@
   lib,
   ...
 }:
-with lib; {
+with lib;
+{
   networking = {
     dhcpcd.extraConfig = "nohook resolv.conf";
     firewall = {
       enable = mkDefault true;
-      allowedTCPPorts = [443];
-      allowedUDPPorts = [443];
+      allowedTCPPorts = [ 443 ];
+      allowedUDPPorts = [ 443 ];
       logRefusedConnections = false;
     };
     hostName = hostname;

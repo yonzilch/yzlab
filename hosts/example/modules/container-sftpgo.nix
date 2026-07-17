@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   environment.etc."sftpgo/hooks/pre-login.sh" = {
     mode = "0755";
     text = ''
@@ -98,14 +99,14 @@
       "127.0.0.1:47163:8080"
       "2022:2022"
     ];
-    dependsOn = ["postgres"];
+    dependsOn = [ "postgres" ];
   };
 
   systemd.services.create-pg-db-for-sftpgo = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     description = "Initialize PostgreSQL user and database for sftpgo";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

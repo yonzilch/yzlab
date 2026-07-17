@@ -4,7 +4,7 @@ _: {
     settings = {
       Resolve = {
         DNSOverTLS = "opportunistic";
-        Domains = ["~."];
+        Domains = [ "~." ];
         FallbackDNS = [
           # CloudFlare servers
           "1.1.1.1#cloudflare-dns.com"

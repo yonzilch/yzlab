@@ -3,16 +3,17 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.komari-server;
-  inherit
-    (lib)
+  inherit (lib)
     types
     mkIf
     mkOption
     mkEnableOption
     ;
-in {
+in
+{
   options.services.komari-server = {
     enable = mkEnableOption "komari-server";
 
@@ -41,13 +42,13 @@ in {
   config = mkIf cfg.enable {
     nixpkgs.overlays = [
       (_final: prev: {
-        komari-server = prev.callPackage ../../pkgs/komari-server/default.nix {};
+        komari-server = prev.callPackage ../../pkgs/komari-server/default.nix { };
       })
     ];
 
     systemd.services.komari-server = {
-      wantedBy = ["multi-user.target"];
-      after = ["network.target"];
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
       description = "komari-server";
       serviceConfig = {
         Type = "simple";
@@ -62,7 +63,7 @@ in {
       };
     };
 
-    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall ["${cfg.port}"];
+    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ "${cfg.port}" ];
 
     users.users = mkIf (cfg.user == "komari-server") {
       komari-server = {
@@ -71,8 +72,8 @@ in {
         isSystemUser = true;
       };
     };
-    users.groups = mkIf (cfg.group == "komari-server") {komari-server = {};};
+    users.groups = mkIf (cfg.group == "komari-server") { komari-server = { }; };
 
-    environment.systemPackages = [pkgs.komari-server];
+    environment.systemPackages = [ pkgs.komari-server ];
   };
 }

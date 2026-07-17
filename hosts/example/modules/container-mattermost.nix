@@ -1,12 +1,14 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   virtualisation.oci-containers.containers."mattermost" = {
     image = "mattermost/mattermost-team-edition:latest";
     pull = "newer";
-    dependsOn = ["postgres"];
+    dependsOn = [ "postgres" ];
     environment = {
       # Database
       "MM_SQLSETTINGS_DRIVERNAME" = "postgres";
-      "MM_SQLSETTINGS_DATASOURCE" = "postgres://mattermost:CHANGE_ME_MATTERMOST_DB_PASS@postgres/mattermost?sslmode=disable&connect_timeout=10";
+      "MM_SQLSETTINGS_DATASOURCE" =
+        "postgres://mattermost:CHANGE_ME_MATTERMOST_DB_PASS@postgres/mattermost?sslmode=disable&connect_timeout=10";
 
       "MM_SERVICESETTINGS_SITEURL" = "https://chat.example.com";
 
@@ -29,10 +31,10 @@
   };
 
   systemd.services.create-pg-db-for-mattermost = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     description = "Initialize PostgreSQL users and databases for Mattermost";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

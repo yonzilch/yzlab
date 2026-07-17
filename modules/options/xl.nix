@@ -3,16 +3,17 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.xl;
-  inherit
-    (lib)
+  inherit (lib)
     types
     mkIf
     mkOption
     mkEnableOption
     ;
-in {
+in
+{
   options.services.xl = {
     enable = mkEnableOption "xl";
 
@@ -54,12 +55,12 @@ in {
   config = mkIf cfg.enable {
     nixpkgs.overlays = [
       (_final: prev: {
-        xl = prev.callPackage ../../pkgs/xl/default.nix {};
+        xl = prev.callPackage ../../pkgs/xl/default.nix { };
       })
     ];
 
     systemd.services.xl = {
-      wantedBy = ["multi-user.target"];
+      wantedBy = [ "multi-user.target" ];
       after = [
         "network.target"
         "nss-lookup.target"
@@ -92,9 +93,9 @@ in {
       };
     };
 
-    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [cfg.port];
+    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ cfg.port ];
 
-    users.groups = mkIf (cfg.group == "xl") {xl = {};};
+    users.groups = mkIf (cfg.group == "xl") { xl = { }; };
     users.users = mkIf (cfg.user == "xl") {
       xl = {
         name = "xl";
@@ -103,6 +104,6 @@ in {
       };
     };
 
-    environment.systemPackages = [pkgs.xl];
+    environment.systemPackages = [ pkgs.xl ];
   };
 }

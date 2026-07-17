@@ -1,6 +1,8 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   postgresUrl = "postgres://kan:xxxxxx@postgres/kan?sslmode=disable";
-in {
+in
+{
   virtualisation.oci-containers.containers."kan-web" = {
     image = "ghcr.io/kanbn/kan:latest";
     pull = "newer";
@@ -40,14 +42,14 @@ in {
   };
 
   systemd.services.podman-kan-web = {
-    after = ["podman-kan-migrate.service"];
-    requires = ["podman-kan-migrate.service"];
+    after = [ "podman-kan-migrate.service" ];
+    requires = [ "podman-kan-migrate.service" ];
   };
 
   systemd.services.podman-kan-migrate = {
     description = "kan-migrate";
-    wantedBy = ["multi-user.target"];
-    path = with pkgs; [zfs];
+    wantedBy = [ "multi-user.target" ];
+    path = with pkgs; [ zfs ];
     after = [
       "podman-postgres.service"
       "create-pg-db-for-kan.service"
@@ -68,16 +70,17 @@ in {
   };
 
   systemd.services.create-pg-db-for-kan = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     description = "Initialize PostgreSQL users and databases for kan";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = let
-        psql = "${pkgs.podman}/bin/podman exec -i postgres psql -U postgres";
-      in
+      ExecStart =
+        let
+          psql = "${pkgs.podman}/bin/podman exec -i postgres psql -U postgres";
+        in
         pkgs.writeShellScript "create-pg-db-for-kan" ''
           if ${psql} -tAc "SELECT 1 FROM pg_database WHERE datname='kan'" | grep -q 1; then
             echo "Database 'kan' already exists, skipping initialization."

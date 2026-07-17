@@ -4,12 +4,14 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.hermes-agent-dashboard;
 
   # Derived: hermes always reads $HOME/.hermes
   hermesDir = "${cfg.dataDir}/.hermes";
-in {
+in
+{
   ##############################################################################
   # Option declarations
   ##############################################################################
@@ -105,7 +107,7 @@ in {
 
     extraEnvironment = lib.mkOption {
       type = lib.types.attrsOf lib.types.str;
-      default = {};
+      default = { };
       example = {
         HERMES_LOG_LEVEL = "debug";
       };
@@ -159,13 +161,13 @@ in {
     # users.groups.${cfg.group} = lib.mkIf (cfg.group == "hermes") { };
 
     # ── Firewall ───────────────────────────────────────────────────────────────
-    networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [cfg.port];
+    networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [ cfg.port ];
 
     # ── systemd service ────────────────────────────────────────────────────────
     systemd.services.hermes-agent-dashboard = {
       description = "Hermes Agent Web Dashboard";
-      after = ["network.target"];
-      wantedBy = ["multi-user.target"];
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
 
       environment = lib.filterAttrs (_: v: v != "") (
         {
@@ -173,10 +175,7 @@ in {
           HOME = cfg.dataDir;
 
           # keep --tui flag and env-var in sync
-          HERMES_DASHBOARD_TUI =
-            if cfg.tui
-            then "1"
-            else "";
+          HERMES_DASHBOARD_TUI = if cfg.tui then "1" else "";
 
           # force Python not buffer
           PYTHONUNBUFFERED = "1";
@@ -207,46 +206,48 @@ in {
         # ── Pre-start: ensure ~/.hermes exists with setgid ─────────────────────
         # hermes creates .hermes/ on first run, but the setgid bit (drwxrws---)
         # must be set so that new files inside inherit the group automatically.
-        ExecStartPre = let
-          setupScript = pkgs.writeShellScript "hermes-dashboard-prestart" ''
-            set -euo pipefail
-            HERMES_DIR="${hermesDir}"
+        ExecStartPre =
+          let
+            setupScript = pkgs.writeShellScript "hermes-dashboard-prestart" ''
+              set -euo pipefail
+              HERMES_DIR="${hermesDir}"
 
-            # Create .hermes and key subdirs if they don't exist yet
-            for d in \
-              "$HERMES_DIR" \
-              "$HERMES_DIR/cache" \
-              "$HERMES_DIR/cron" \
-              "$HERMES_DIR/logs" \
-              "$HERMES_DIR/memories" \
-              "$HERMES_DIR/platforms" \
-              "$HERMES_DIR/plugins" \
-              "$HERMES_DIR/sandboxes" \
-              "$HERMES_DIR/sessions" \
-              "$HERMES_DIR/skills"
-            do
-              if [ ! -d "$d" ]; then
-                mkdir -p "$d"
-              fi
-              # Ensure setgid bit is present (new files inherit group hermes)
-              chmod g+s "$d"
-            done
+              # Create .hermes and key subdirs if they don't exist yet
+              for d in \
+                "$HERMES_DIR" \
+                "$HERMES_DIR/cache" \
+                "$HERMES_DIR/cron" \
+                "$HERMES_DIR/logs" \
+                "$HERMES_DIR/memories" \
+                "$HERMES_DIR/platforms" \
+                "$HERMES_DIR/plugins" \
+                "$HERMES_DIR/sandboxes" \
+                "$HERMES_DIR/sessions" \
+                "$HERMES_DIR/skills"
+              do
+                if [ ! -d "$d" ]; then
+                  mkdir -p "$d"
+                fi
+                # Ensure setgid bit is present (new files inherit group hermes)
+                chmod g+s "$d"
+              done
 
-            # Ensure auth.json and .env are never world-readable if they exist
-            for f in \
-              "$HERMES_DIR/auth.json" \
-              "$HERMES_DIR/gateway_state.json"
-            do
-              [ -f "$f" ] && chmod 0600 "$f" || true
-            done
-            for f in \
-              "$HERMES_DIR/.env" \
-              "$HERMES_DIR/config.yaml"
-            do
-              [ -f "$f" ] && chmod 0640 "$f" || true
-            done
-          '';
-        in "+${setupScript}"; # '+' = run as root for chmod on protected files
+              # Ensure auth.json and .env are never world-readable if they exist
+              for f in \
+                "$HERMES_DIR/auth.json" \
+                "$HERMES_DIR/gateway_state.json"
+              do
+                [ -f "$f" ] && chmod 0600 "$f" || true
+              done
+              for f in \
+                "$HERMES_DIR/.env" \
+                "$HERMES_DIR/config.yaml"
+              do
+                [ -f "$f" ] && chmod 0640 "$f" || true
+              done
+            '';
+          in
+          "+${setupScript}"; # '+' = run as root for chmod on protected files
 
         ExecStart = lib.concatStringsSep " " (
           [

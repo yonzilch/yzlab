@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.services.qb;
-in {
+in
+{
   options.services.qb = {
     enable = mkEnableOption (lib.mdDoc "qbittorrent-nox headless");
 
@@ -79,12 +81,12 @@ in {
   config = mkIf cfg.enable {
     networking.firewall = mkMerge [
       (mkIf cfg.openFirewall_webui {
-        allowedTCPPorts = [cfg.webui_port];
-        allowedUDPPorts = [cfg.webui_port];
+        allowedTCPPorts = [ cfg.webui_port ];
+        allowedUDPPorts = [ cfg.webui_port ];
       })
       (mkIf cfg.openFirewall_torrenting_port {
-        allowedTCPPorts = [cfg.torrenting_port];
-        allowedUDPPorts = [cfg.torrenting_port];
+        allowedTCPPorts = [ cfg.torrenting_port ];
+        allowedUDPPorts = [ cfg.torrenting_port ];
       })
     ];
 
@@ -92,13 +94,13 @@ in {
       # based on the plex.nix service module and
       # https://github.com/qbittorrent/qBittorrent/blob/master/dist/unix/systemd/qbittorrent-nox%40.service.in
       description = "qbittorrent-nox service";
-      documentation = ["man:qbittorrent-nox(1)"];
+      documentation = [ "man:qbittorrent-nox(1)" ];
       after = [
         "local-fs.target"
         "network.target"
         "nss-lookup.target"
       ];
-      wantedBy = ["multi-user.target"];
+      wantedBy = [ "multi-user.target" ];
 
       serviceConfig = {
         Type = "simple";
@@ -121,7 +123,7 @@ in {
       };
     };
 
-    users.groups = mkIf (cfg.group == "qb") {qb = {};};
+    users.groups = mkIf (cfg.group == "qb") { qb = { }; };
     users.users = mkIf (cfg.user == "qb") {
       qb = {
         name = "qb";

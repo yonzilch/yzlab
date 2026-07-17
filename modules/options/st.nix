@@ -4,16 +4,17 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.services.st;
-  inherit
-    (lib)
+  inherit (lib)
     types
     mkIf
     mkOption
     mkEnableOption
     ;
-in {
+in
+{
   options.services.st = {
     enable = mkEnableOption "Syncthing";
     dataDir = mkOption {
@@ -49,7 +50,7 @@ in {
 
   config = mkIf cfg.enable {
     systemd.services.st = {
-      wantedBy = ["multi-user.target"];
+      wantedBy = [ "multi-user.target" ];
       after = [
         "network.target"
         "nss-lookup.target"
@@ -69,8 +70,8 @@ in {
 
     networking.firewall = mkMerge [
       (mkIf cfg.openFirewall_webui {
-        allowedTCPPorts = [8384];
-        allowedUDPPorts = [8384];
+        allowedTCPPorts = [ 8384 ];
+        allowedUDPPorts = [ 8384 ];
       })
       (mkIf cfg.openFirewall_transfer {
         allowedTCPPorts = [
@@ -84,7 +85,7 @@ in {
       })
     ];
 
-    users.groups = mkIf (cfg.group == "syncthing") {syncthing = {};};
+    users.groups = mkIf (cfg.group == "syncthing") { syncthing = { }; };
     users.users = mkIf (cfg.user == "syncthing") {
       syncthing = {
         name = "syncthing";
@@ -95,6 +96,6 @@ in {
       };
     };
 
-    environment.systemPackages = [pkgs.syncthing];
+    environment.systemPackages = [ pkgs.syncthing ];
   };
 }

@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   # ── AFFiNE Migration (oneshot) ───────────────────────────────
   virtualisation.oci-containers.containers."affine-migration" = {
     image = "ghcr.io/toeverything/affine:stable";
@@ -27,7 +28,7 @@
       "affine_storage:/root/.affine/storage"
       "affine_config:/root/.affine/config"
     ];
-    extraOptions = ["--restart=no"]; # migration runs only once
+    extraOptions = [ "--restart=no" ]; # migration runs only once
   };
 
   # ── AFFiNE Server ─────────────────────────────────────────────
@@ -73,11 +74,11 @@
 
   # ── Database Initialization ───────────────────────────────────
   systemd.services.create-pg-db-for-affine = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-pgvector.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-pgvector.service" ];
     description = "Initialize PostgreSQL user and database for affine";
     # Required when using ZFS-backed storage
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

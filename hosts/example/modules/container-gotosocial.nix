@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   virtualisation.oci-containers.containers."gotosocial" = {
     image = "docker.io/superseriousbusiness/gotosocial:latest";
     user = "1000:1000";
@@ -63,10 +64,10 @@
   };
 
   systemd.services.create-pg-db-for-gotosocial = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     description = "Initialize PostgreSQL user and database for gotosocial";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

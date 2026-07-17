@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   environment.etc."caddy/self-sign.crt" = {
     mode = "0755";
     text = ''

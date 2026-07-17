@@ -1,5 +1,6 @@
-{lib, ...}: {
-  system.activationScripts."hermes-skills-whitelist" = lib.stringAfter ["users"] ''
+{ lib, ... }:
+{
+  system.activationScripts."hermes-skills-whitelist" = lib.stringAfter [ "users" ] ''
     S="/var/lib/hermes/.hermes/skills"
     [ -d "$S" ] || exit 0
 

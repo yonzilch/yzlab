@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   # Using the same key as the main system SSH host key ensures
   # SSH clients won't see a fingerprint change between initrd
   # unlock and normal boot.
@@ -30,7 +31,8 @@
       ssh-ed25519 xxxxxx root@<hostname>
     ''
   ];
-in {
+in
+{
   # =============================================
   # Remote LUKS Unlock via SSH in initrd (Early Boot)
   # =============================================
@@ -64,7 +66,7 @@ in {
           authorizedKeys = authorizedKeys;
 
           # Use the same host key as the main system to avoid fingerprint warnings
-          hostKeys = ["/etc/secrets/initrd/ssh_hostKey"];
+          hostKeys = [ "/etc/secrets/initrd/ssh_hostKey" ];
         };
       };
 
@@ -88,7 +90,7 @@ in {
             "192.168.1.100/24"
             "2606:4700:4700::1001/64"
           ];
-          gateway = ["192.168.1.1"];
+          gateway = [ "192.168.1.1" ];
           routes = [
             {
               Destination = "::/0";

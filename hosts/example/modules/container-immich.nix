@@ -1,13 +1,14 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   systemd.services.create-pg-db-for-synapse = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     # requires = ["podman-postgres.service"];
     description = "Initialize PostgreSQL users and databases";
     # Without this line, it would Error: configure storage:
     # the 'zfs' command is not available:
     # prerequisites for driver not satisfied (wrong filesystem?)
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
@@ -51,7 +52,7 @@
   virtualisation.oci-containers.containers = {
     "immich" = {
       image = "ghcr.io/imagegenius/immich:latest";
-      environmentFiles = [/etc/immich/.env];
+      environmentFiles = [ /etc/immich/.env ];
       ports = [
         "127.0.0.1:2283:2283"
       ];
@@ -63,7 +64,7 @@
 
     "immich-machine-learning" = {
       image = "ghcr.io/imagegenius/immich:latest";
-      environmentFiles = [/etc/immich/.env];
+      environmentFiles = [ /etc/immich/.env ];
       ports = [
         "127.0.0.1:3003:3003"
       ];

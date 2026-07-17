@@ -7,8 +7,8 @@ _: {
       "/data"
       "--api-key=xxxxxx"
     ];
-    volumes = ["typesense:/data"];
+    volumes = [ "typesense:/data" ];
     environment.GLOG_minloglevel = "2";
-    ports = ["127.0.0.1:8108:8108"];
+    ports = [ "127.0.0.1:8108:8108" ];
   };
 }

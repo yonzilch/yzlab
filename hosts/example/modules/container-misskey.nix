@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   environment.etc."misskey/default.yml" = {
     text = ''
       url: https://misskey.example.com
@@ -101,10 +102,10 @@
   };
 
   systemd.services.create-pg-db-for-misskey = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-pgroonga.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-pgroonga.service" ];
     description = "Initialize PostgreSQL user and database for misskey";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

@@ -1,5 +1,8 @@
 _: {
-  networking.firewall.allowedTCPPorts = [7000 25565];
+  networking.firewall.allowedTCPPorts = [
+    7000
+    25565
+  ];
 
   services.frp = {
     enable = true;

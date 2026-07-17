@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   virtualisation.oci-containers.containers."mobilizon" = {
     image = "kaihuri/mobilizon:5.2.2";
 
@@ -42,10 +43,10 @@
   };
 
   systemd.services.create-pg-db-for-mobilizon = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgis.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgis.service" ];
     description = "Initialize PostgreSQL users and databases for Mobilizon";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

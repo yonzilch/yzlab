@@ -1,8 +1,10 @@
-{...}: let
+{ ... }:
+let
   apiKey = "livekit";
   apiSecret = "xxxxxx"; # use command `openssl-rand-hex-32` to generate
   domain = "livekit.example.com";
-in {
+in
+{
   environment.etc."livekit/config.yaml".text = ''
     port: 7880
     bind_addresses:
@@ -61,7 +63,7 @@ in {
       volumes = [
         "/etc/livekit/config.yaml:/etc/livekit/config.yaml:ro"
       ];
-      extraOptions = ["--network=host"];
+      extraOptions = [ "--network=host" ];
     };
 
     "lk-jwt" = {
@@ -79,7 +81,7 @@ in {
       ports = [
         "127.0.0.1:8080:8080"
       ];
-      extraOptions = ["--network=host"];
+      extraOptions = [ "--network=host" ];
     };
   };
 }

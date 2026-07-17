@@ -3,16 +3,17 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.openlist;
-  inherit
-    (lib)
+  inherit (lib)
     types
     mkIf
     mkOption
     mkEnableOption
     ;
-in {
+in
+{
   options.services.openlist = {
     enable = mkEnableOption "Openlist";
 
@@ -40,7 +41,7 @@ in {
 
   config = mkIf cfg.enable {
     systemd.services.openlist = {
-      wantedBy = ["multi-user.target"];
+      wantedBy = [ "multi-user.target" ];
       after = [
         "network.target"
         "nss-lookup.target"
@@ -58,9 +59,9 @@ in {
       };
     };
 
-    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [5244];
+    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ 5244 ];
 
-    users.groups = mkIf (cfg.group == "openlist") {openlist = {};};
+    users.groups = mkIf (cfg.group == "openlist") { openlist = { }; };
     users.users = mkIf (cfg.user == "openlist") {
       openlist = {
         name = "openlist";
@@ -69,6 +70,6 @@ in {
       };
     };
 
-    environment.systemPackages = [pkgs.openlist];
+    environment.systemPackages = [ pkgs.openlist ];
   };
 }

@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   environment.etc."qbee/qBittorrent/config/qBittorrent.conf" = {
     mode = "0755";
     text = ''

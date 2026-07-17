@@ -1,5 +1,6 @@
-{lib, ...}:
-with lib; {
+{ lib, ... }:
+with lib;
+{
   # Minimize boot
   boot = {
     bcache.enable = mkForce false;
@@ -18,7 +19,7 @@ with lib; {
 
   # Minimize environment
   environment = {
-    defaultPackages = mkForce [];
+    defaultPackages = mkForce [ ];
   };
 
   # Disable unnecessary fonts
@@ -78,7 +79,7 @@ with lib; {
   };
 
   # Disable NSS modules
-  system.nssModules = mkForce []; # This will make cockpit can not run
+  system.nssModules = mkForce [ ]; # This will make cockpit can not run
 
   # Disable desktop environment related services
   xdg = {

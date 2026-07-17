@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   virtualisation.oci-containers.containers."manticore" = {
     image = "manticoresearch/manticore:10.1.0-hf";
     pull = "newer";

@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   services.gitea-actions-runner = {
     package = pkgs.forgejo-runner;
     instances.my-forgejo-instance = {
@@ -34,19 +35,19 @@
       settings = {
         container = {
           network = "forgejo-actions";
-          valid_volumes = []; # 禁止挂载路径
+          valid_volumes = [ ]; # 禁止挂载路径
         };
       };
     };
   };
 
   networking.firewall.interfaces."forgejo-actions" = {
-    allowedUDPPorts = [53];
+    allowedUDPPorts = [ 53 ];
   };
 
   systemd.services.podman-create-forgejo-network = {
-    wantedBy = ["multi-user.target"];
-    path = with pkgs; [zfs];
+    wantedBy = [ "multi-user.target" ];
+    path = with pkgs; [ zfs ];
     script = ''
       ${pkgs.podman}/bin/podman network exists forgejo-actions || \
       ${pkgs.podman}/bin/podman network create \

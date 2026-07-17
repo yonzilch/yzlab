@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   virtualisation.oci-containers.containers."wikijs" = {
     image = "requarks/wiki:latest";
     environment = {
@@ -16,14 +17,14 @@
       "wiki-js_data:/data:rw"
       "wiki-js_content:/wiki/data/content:rw"
     ];
-    dependsOn = ["postgres"];
+    dependsOn = [ "postgres" ];
   };
 
   systemd.services.create-pg-db-for-wikijs = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     description = "Initialize PostgreSQL database and extensions for wikijs";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

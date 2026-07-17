@@ -3,16 +3,17 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.river;
-  inherit
-    (lib)
+  inherit (lib)
     types
     mkIf
     mkOption
     mkEnableOption
     ;
-in {
+in
+{
   options.services.river = {
     enable = mkEnableOption "river";
 
@@ -47,20 +48,20 @@ in {
   config = mkIf cfg.enable {
     nixpkgs.overlays = [
       (_final: prev: {
-        river = prev.callPackage ../../pkgs/river/default.nix {};
+        river = prev.callPackage ../../pkgs/river/default.nix { };
       })
     ];
 
     systemd.services.river-server = {
-      wantedBy = ["multi-user.target"];
-      after = ["network.target"];
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
       description = "river";
       serviceConfig = {
         Type = "simple";
         User = cfg.user;
         Group = cfg.group;
-        ExecStart = ''${pkgs.river}/bin/river --config-kdl ${cfg.configFile}'';
-        ExecStop = ''on-failure'';
+        ExecStart = "${pkgs.river}/bin/river --config-kdl ${cfg.configFile}";
+        ExecStop = "on-failure";
         StateDirectory = "river";
         SyslogIdentifier = "river";
         RuntimeDirectory = "river";
@@ -72,7 +73,7 @@ in {
       443
     ];
 
-    users.groups = mkIf (cfg.group == "river") {river = {};};
+    users.groups = mkIf (cfg.group == "river") { river = { }; };
     users.users = mkIf (cfg.user == "river") {
       river = {
         name = "river";
@@ -81,6 +82,6 @@ in {
       };
     };
 
-    environment.systemPackages = [pkgs.river];
+    environment.systemPackages = [ pkgs.river ];
   };
 }

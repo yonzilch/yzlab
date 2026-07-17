@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   virtualisation.oci-containers.containers."vikunja" = {
     image = "vikunja/vikunja:latest";
     dependsOn = [
@@ -48,14 +49,14 @@
   };
 
   systemd.services.create-pg-db-for-vikunja = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     # requires = ["podman-postgres.service"];
     description = "Initialize PostgreSQL users and databases";
     # Without this line, it would Error: configure storage:
     # the 'zfs' command is not available:
     # prerequisites for driver not satisfied (wrong filesystem?)
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       SuccessExitStatus = "0 1";

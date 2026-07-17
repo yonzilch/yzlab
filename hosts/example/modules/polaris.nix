@@ -1,6 +1,6 @@
 _: {
   users = {
-    groups.www = {};
+    groups.www = { };
     users = {
       www = {
         name = "www";

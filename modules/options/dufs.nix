@@ -3,16 +3,17 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.dufs;
-  inherit
-    (lib)
+  inherit (lib)
     types
     mkIf
     mkOption
     mkEnableOption
     ;
-in {
+in
+{
   options.services.dufs = {
     enable = mkEnableOption "dufs";
 
@@ -45,7 +46,7 @@ in {
 
   config = mkIf cfg.enable {
     systemd.services.dufs = {
-      wantedBy = ["multi-user.target"];
+      wantedBy = [ "multi-user.target" ];
       after = [
         "network.target"
         "nss-lookup.target"
@@ -56,16 +57,16 @@ in {
         User = cfg.user;
         Group = cfg.group;
         ExecStart = "${pkgs.dufs}/bin/dufs -p ${cfg.port} ${cfg.flags}";
-        ExecStop = ''on-failure'';
+        ExecStop = "on-failure";
         StateDirectory = "dufs";
         SyslogIdentifier = "dufs";
         RuntimeDirectory = "dufs";
       };
     };
 
-    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall ["${cfg.port}"];
+    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ "${cfg.port}" ];
 
-    users.groups = mkIf (cfg.group == "dufs") {dufs = {};};
+    users.groups = mkIf (cfg.group == "dufs") { dufs = { }; };
     users.users = mkIf (cfg.user == "dufs") {
       dufs = {
         name = "dufs";
@@ -74,6 +75,6 @@ in {
       };
     };
 
-    environment.systemPackages = [pkgs.dufs];
+    environment.systemPackages = [ pkgs.dufs ];
   };
 }

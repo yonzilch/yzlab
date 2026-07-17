@@ -3,7 +3,8 @@
   pkgs,
   ...
 }:
-with lib; {
+with lib;
+{
   boot = {
     consoleLogLevel = mkForce 0; # Disable console log
     extraModprobeConfig = "blacklist mei mei_hdcp mei_me mei_pxp iTCO_wdt pstore sp5100_tco";
@@ -55,7 +56,7 @@ with lib; {
       "net.ipv6.conf.eth0.accept_ra" = 0;
       "net.ipv6.conf.eth0.autoconf" = 0;
     };
-    kernelModules = ["tcp_bbr"];
+    kernelModules = [ "tcp_bbr" ];
     kernelPackages = pkgs.linuxPackages_xanmod;
     kernelParams = [
       "audit=0"

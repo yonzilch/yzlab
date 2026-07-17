@@ -1,8 +1,9 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   virtualisation.oci-containers.containers."hedgedoc" = {
     image = "quay.io/hedgedoc/hedgedoc:latest";
     pull = "newer";
-    dependsOn = ["postgres"];
+    dependsOn = [ "postgres" ];
     environment = {
       # Database
       "CMD_DB_URL" = "postgres://hedgedoc:xxxxxx@postgres/hedgedoc?sslmode=disable";
@@ -51,10 +52,10 @@
   };
 
   systemd.services.create-pg-db-for-hedgedoc = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     description = "Initialize PostgreSQL users and databases for HedgeDoc";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

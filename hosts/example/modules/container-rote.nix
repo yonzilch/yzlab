@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # rote-backend
   virtualisation.oci-containers.containers."rote-backend" = {
     image = "rabithua/rote-backend:latest";
@@ -13,7 +14,7 @@
     ports = [
       "127.0.0.1:58011:3000"
     ];
-    dependsOn = ["postgres"];
+    dependsOn = [ "postgres" ];
   };
 
   # rote-frontend
@@ -25,18 +26,18 @@
     ports = [
       "127.0.0.1:58012:80"
     ];
-    dependsOn = ["rote-backend"];
+    dependsOn = [ "rote-backend" ];
   };
 
   systemd.services.create-pg-db-for-rote = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     # requires = ["podman-postgres.service"];
     description = "Initialize PostgreSQL users and databases";
     # Without this line, it would Error: configure storage:
     # the 'zfs' command is not available:
     # prerequisites for driver not satisfied (wrong filesystem?)
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

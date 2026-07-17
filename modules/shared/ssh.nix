@@ -2,7 +2,7 @@ _: {
   services.openssh = {
     enable = true;
     openFirewall = true;
-    ports = [222];
+    ports = [ 222 ];
     settings = {
       AllowUsers = null;
       PasswordAuthentication = false;

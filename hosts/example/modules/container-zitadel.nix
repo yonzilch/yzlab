@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # zitadel-api
   virtualisation.oci-containers.containers."zitadel-api" = {
     image = "ghcr.io/zitadel/zitadel:latest";
@@ -33,7 +34,8 @@
       "ZITADEL_DEFAULTINSTANCE_FEATURES_LOGINV2_REQUIRED" = "true";
       "ZITADEL_DEFAULTINSTANCE_FEATURES_LOGINV2_BASEURI" = "https://sso.example.com/ui/v2/login/";
       "ZITADEL_OIDC_DEFAULTLOGINURLV2" = "https://sso.example.com/ui/v2/login/login?authRequest=";
-      "ZITADEL_OIDC_DEFAULTLOGOUTURLV2" = "https://sso.example.com/ui/v2/login/logout?post_logout_redirect=";
+      "ZITADEL_OIDC_DEFAULTLOGOUTURLV2" =
+        "https://sso.example.com/ui/v2/login/logout?post_logout_redirect=";
       "ZITADEL_SAML_DEFAULTLOGINURLV2" = "https://sso.example.com/ui/v2/login/login?samlRequest=";
     };
     volumes = [
@@ -65,14 +67,14 @@
     extraOptions = [
       "--user=0"
     ];
-    dependsOn = ["zitadel-api"];
+    dependsOn = [ "zitadel-api" ];
   };
 
   systemd.services.create-pg-db-for-zitadel = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     description = "Initialize PostgreSQL users and databases for zitadel";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

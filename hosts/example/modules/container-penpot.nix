@@ -1,9 +1,11 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   penpotFlags = "disable-email-verification disable-secure-session-cookies disable-registration disable-login-with-password enable-login-with-oidc enable-oidc-registration enable-prepl-server";
   penpotPublicUri = "https://penpot.example.com";
   penpotSecretKey = "xxxxxx"; # python3 -c "import secrets; print(secrets.token_urlsafe(64))"
   assetsVolume = "penpot_assets:/opt/data/assets";
-in {
+in
+{
   # ── Mailcatch（临时 SMTP，可选）──────────────────────────────────────────────
   # 访问 http://localhost:1080 Web UI 查看捕获的邮件
   # virtualisation.oci-containers.containers."penpot-mailcatch" = {
@@ -21,7 +23,7 @@ in {
     ports = [
       "127.0.0.1:59001:8080/tcp"
     ];
-    volumes = [assetsVolume];
+    volumes = [ assetsVolume ];
     environment = {
       "PENPOT_FLAGS" = penpotFlags;
       "PENPOT_HTTP_SERVER_MAX_BODY_SIZE" = "367001600";
@@ -36,7 +38,7 @@ in {
   virtualisation.oci-containers.containers."penpot-backend" = {
     image = "penpotapp/backend:latest";
     pull = "newer";
-    volumes = [assetsVolume];
+    volumes = [ assetsVolume ];
     environment = {
       "PENPOT_FLAGS" = penpotFlags;
       "PENPOT_PUBLIC_URI" = penpotPublicUri;
@@ -127,16 +129,17 @@ in {
   };
 
   systemd.services.create-pg-db-for-penpot = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     description = "Initialize PostgreSQL role and database for Penpot";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = let
-        psql = "${pkgs.podman}/bin/podman exec -i postgres psql -U postgres";
-      in
+      ExecStart =
+        let
+          psql = "${pkgs.podman}/bin/podman exec -i postgres psql -U postgres";
+        in
         pkgs.writeShellScript "create-pg-db-for-penpot" ''
           if ${psql} -tAc "SELECT 1 FROM pg_database WHERE datname='penpot'" | grep -q 1; then
             echo "Database 'penpot' already exists, skipping initialization."

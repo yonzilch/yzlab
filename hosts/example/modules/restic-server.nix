@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   services.restic.server = {
     enable = true;
     # use command `nix-shell -p apacheHttpd`

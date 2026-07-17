@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   environment.etc."writefreely/config.ini" = {
     mode = "0755";
     text = ''
@@ -77,10 +78,10 @@
   };
 
   systemd.services.create-mariadb-db-for-writefreely = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-mariadb.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-mariadb.service" ];
     description = "Initialize MariaDB database for WriteFreely";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

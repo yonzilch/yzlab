@@ -78,6 +78,6 @@ _: {
     # It also needs to bind outgoing connections to the correct public IP so
     # that PTR / rDNS and SPF records match.
     # Bridge or NAT networking breaks all of the above.
-    extraOptions = ["--network=host"];
+    extraOptions = [ "--network=host" ];
   };
 }

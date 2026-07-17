@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   virtualisation.oci-containers.containers."weblate" = {
     image = "weblate/weblate:latest";
     pull = "newer";
@@ -88,16 +89,17 @@
   };
 
   systemd.services.create-pg-db-for-weblate = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     description = "Initialize PostgreSQL users and databases for Weblate";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = let
-        psql = "${pkgs.podman}/bin/podman exec -i postgres psql -U postgres";
-      in
+      ExecStart =
+        let
+          psql = "${pkgs.podman}/bin/podman exec -i postgres psql -U postgres";
+        in
         pkgs.writeShellScript "create-pg-db-for-weblate" ''
           if ${psql} -tAc "SELECT 1 FROM pg_database WHERE datname='weblate'" | grep -q 1; then
             echo "Database 'weblate' already exists, skipping initialization."

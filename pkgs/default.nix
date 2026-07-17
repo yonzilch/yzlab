@@ -1,8 +1,10 @@
 _: {
-  perSystem = {pkgs, ...}: {
-    packages = {
-      river = pkgs.callPackage ./river {};
-      xl = pkgs.callPackage ./xl {};
+  perSystem =
+    { pkgs, ... }:
+    {
+      packages = {
+        river = pkgs.callPackage ./river { };
+        xl = pkgs.callPackage ./xl { };
+      };
     };
-  };
 }

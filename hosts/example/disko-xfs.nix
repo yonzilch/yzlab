@@ -6,7 +6,7 @@ _: {
         content = {
           partitions = {
             boot = {
-              attributes = [0];
+              attributes = [ 0 ];
               priority = 1;
               size = "1M";
               type = "EF02";
@@ -15,7 +15,7 @@ _: {
               content = {
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = ["umask=0077"];
+                mountOptions = [ "umask=0077" ];
                 type = "filesystem";
               };
               priority = 2;

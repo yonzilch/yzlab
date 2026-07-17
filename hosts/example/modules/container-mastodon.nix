@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   virtualisation.oci-containers.containers."mastodon" = {
     image = "lscr.io/linuxserver/mastodon:glitch";
     environment = {
@@ -72,10 +73,10 @@
   };
 
   systemd.services.create-pg-db-for-mastodon = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-pgroonga.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-pgroonga.service" ];
     description = "Initialize PostgreSQL users and databases for Mastodon";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

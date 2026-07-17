@@ -8,7 +8,7 @@ _: {
     ];
   };
   networking.firewall = {
-    allowedUDPPorts = [69];
+    allowedUDPPorts = [ 69 ];
     extraInputRules = ''
       udp dport 69 ct helper set "tftp"
     '';

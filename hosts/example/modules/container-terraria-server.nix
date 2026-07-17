@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   # use command
   # podman run --rm -it -p 7777:7777 -v terraria-server_config:/config --name=terraria ghcr.io/beardedio/terraria:vanilla-1.4.5.4
   # to mannually generate a world

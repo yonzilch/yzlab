@@ -2,16 +2,17 @@
   hostname,
   pkgs,
   ...
-}: {
+}:
+{
   /*
-  HugeTLB configuration
+    HugeTLB configuration
 
-  128 x 2 MiB = 256 MiB reserved for HugeTLB.
+    128 x 2 MiB = 256 MiB reserved for HugeTLB.
 
-  This is a safe starting point for a 4 GiB VPS.
-  Avoid allocating 1 GiB hugepages on small systems,
-  because they permanently reserve memory and can
-  easily starve the normal memory allocator.
+    This is a safe starting point for a 4 GiB VPS.
+    Avoid allocating 1 GiB hugepages on small systems,
+    because they permanently reserve memory and can
+    easily starve the normal memory allocator.
   */
   boot.kernel.sysctl = {
     "vm.nr_hugepages" = 128;
@@ -42,17 +43,17 @@
         mode = "auto";
 
         /*
-        Disabled on 4 GiB systems.
+          Disabled on 4 GiB systems.
 
-        1 GiB hugepages are useful for performance,
-        but reserving them on a small VPS usually
-        causes more problems than benefits.
+          1 GiB hugepages are useful for performance,
+          but reserving them on a small VPS usually
+          causes more problems than benefits.
         */
         "1gb-pages" = false;
 
         /*
-        These optimizations may be ignored by many VPS
-        providers because MSR access is often restricted.
+          These optimizations may be ignored by many VPS
+          providers because MSR access is often restricted.
         */
         rdmsr = true;
         wrmsr = true;
@@ -65,18 +66,18 @@
         enabled = true;
 
         /*
-        Enable HugeTLB support.
+          Enable HugeTLB support.
 
-        XMRig will try to use the reserved 2 MiB pages
-        configured through vm.nr_hugepages.
+          XMRig will try to use the reserved 2 MiB pages
+          configured through vm.nr_hugepages.
         */
         huge-pages = true;
 
         hw-aes = null;
 
         /*
-        Lower priority reduces the chance of impacting
-        system responsiveness.
+          Lower priority reduces the chance of impacting
+          system responsiveness.
         */
         priority = 2;
 
@@ -84,9 +85,9 @@
         yield = true;
 
         /*
-        Leave some CPU time for the OS.
+          Leave some CPU time for the OS.
 
-        Uncomment if desired.
+          Uncomment if desired.
         */
         # max-threads-hint = 75;
       };

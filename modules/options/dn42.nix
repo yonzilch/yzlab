@@ -3,10 +3,10 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.dn42;
-  inherit
-    (lib)
+  inherit (lib)
     mkEnableOption
     mkOption
     mkIf
@@ -90,7 +90,8 @@
       };
     };
   };
-in {
+in
+{
   # ── option declarations ───────────────────────────────────────────────────
   options.services.dn42 = {
     enable = mkEnableOption "DN42 (WireGuard + BIRD2 BGP) node";
@@ -187,7 +188,7 @@ in {
 
     peers = mkOption {
       type = types.attrsOf peerSubmodule;
-      default = {};
+      default = { };
       description = "Attribute set of DN42 peers; each key becomes an interface / BGP session name.";
       example = literalExpression ''
         {
@@ -222,53 +223,51 @@ in {
           assertion = !(peer.bgp.enableMpBGP && peer.bgp.enableV4);
           message = "enableMpBGP is incompatible with bgp.enableV4 (no separate IPv4 session)";
         }
-      ])
-      cfg.peers
+      ]) cfg.peers
     );
 
     # ── WireGuard interfaces (one per peer) ───────────────────────────────
     networking.wireguard.interfaces = lib.listToAttrs (
       lib.mapAttrsToList (
-        peerName: peer: let
+        peerName: peer:
+        let
           ifName = "dn42-${peerName}";
         in
-          lib.nameValuePair ifName {
-            listenPort = peer.wg.listenPort;
-            privateKeyFile = cfg.privateKeyFile;
-            allowedIPsAsRoutes = false;
-            peers = [
-              {
-                inherit (peer.wg) publicKey;
-                allowedIPs = [
-                  "10.0.0.0/8"
-                  "172.20.0.0/14"
-                  "172.31.0.0/16"
-                  "fd00::/8"
-                  "fe80::/64"
-                ];
-                endpoint = lib.mkIf (peer.wg.endpoint != null) peer.wg.endpoint;
-                dynamicEndpointRefreshSeconds = peer.wg.dynamicEndpointRefreshSeconds;
-              }
-            ];
-            postSetup = ''
-              ${lib.optionalString (
-                peer.bgp.enableV6 && peer.wg.linkLocal != null
-              ) "${pkgs.iproute2}/bin/ip -6 addr add ${peer.wg.linkLocal} dev ${ifName}"}
-              ${lib.optionalString (
-                peer.bgp.enableV4 && !peer.bgp.enableMpBGP && peer.wg.remoteV4 != null
-              ) "${pkgs.iproute2}/bin/ip addr add ${cfg.ownIP}/32 peer ${peer.wg.remoteV4}/32 dev ${ifName}"}
-              ${
-                lib.optionalString (peer.bgp.enableV6 && peer.wg.remoteV6 != null)
-                "${pkgs.iproute2}/bin/ip -6 addr add ${cfg.ownIPv6}/128 peer ${peer.wg.remoteV6}/128 dev ${ifName}"
-              }
-            '';
-          }
-      )
-      cfg.peers
+        lib.nameValuePair ifName {
+          listenPort = peer.wg.listenPort;
+          privateKeyFile = cfg.privateKeyFile;
+          allowedIPsAsRoutes = false;
+          peers = [
+            {
+              inherit (peer.wg) publicKey;
+              allowedIPs = [
+                "10.0.0.0/8"
+                "172.20.0.0/14"
+                "172.31.0.0/16"
+                "fd00::/8"
+                "fe80::/64"
+              ];
+              endpoint = lib.mkIf (peer.wg.endpoint != null) peer.wg.endpoint;
+              dynamicEndpointRefreshSeconds = peer.wg.dynamicEndpointRefreshSeconds;
+            }
+          ];
+          postSetup = ''
+            ${lib.optionalString (
+              peer.bgp.enableV6 && peer.wg.linkLocal != null
+            ) "${pkgs.iproute2}/bin/ip -6 addr add ${peer.wg.linkLocal} dev ${ifName}"}
+            ${lib.optionalString (
+              peer.bgp.enableV4 && !peer.bgp.enableMpBGP && peer.wg.remoteV4 != null
+            ) "${pkgs.iproute2}/bin/ip addr add ${cfg.ownIP}/32 peer ${peer.wg.remoteV4}/32 dev ${ifName}"}
+            ${lib.optionalString (peer.bgp.enableV6 && peer.wg.remoteV6 != null)
+              "${pkgs.iproute2}/bin/ip -6 addr add ${cfg.ownIPv6}/128 peer ${peer.wg.remoteV6}/128 dev ${ifName}"
+            }
+          '';
+        }
+      ) cfg.peers
     );
     # ── firewall ──────────────────────────────────────────────────────────
     networking.firewall = {
-      allowedTCPPorts = [179]; # BGP
+      allowedTCPPorts = [ 179 ]; # BGP
       allowedUDPPorts = lib.mapAttrsToList (_: peer: peer.wg.listenPort) cfg.peers;
     };
 
@@ -384,57 +383,55 @@ in {
     };
 
     # ── BIRD peer config files (/etc/bird/peers/<name>.conf) ─────────────
-    environment.etc =
-      lib.mapAttrs' (
-        peerName: peer:
-          lib.nameValuePair "bird/peers/${peerName}.conf" {
-            user = "bird";
-            group = "bird";
-            mode = "0400";
-            text = let
-              neighborV6 =
-                if peer.bgp.neighborLinkLocal != null
-                then peer.bgp.neighborLinkLocal
-                else peer.wg.remoteV6;
-            in
-              lib.concatStringsSep "\n" (
-                lib.optional (peer.bgp.enableV4 && !peer.bgp.enableMpBGP) ''
-                  protocol bgp dn42_${peerName}_v4 from dnpeers {
-                    neighbor ${peer.wg.remoteV4} as ${toString peer.bgp.remoteAs};
+    environment.etc = lib.mapAttrs' (
+      peerName: peer:
+      lib.nameValuePair "bird/peers/${peerName}.conf" {
+        user = "bird";
+        group = "bird";
+        mode = "0400";
+        text =
+          let
+            neighborV6 =
+              if peer.bgp.neighborLinkLocal != null then peer.bgp.neighborLinkLocal else peer.wg.remoteV6;
+          in
+          lib.concatStringsSep "\n" (
+            lib.optional (peer.bgp.enableV4 && !peer.bgp.enableMpBGP) ''
+              protocol bgp dn42_${peerName}_v4 from dnpeers {
+                neighbor ${peer.wg.remoteV4} as ${toString peer.bgp.remoteAs};
+                direct;
+                ipv6 { import none; export none; };
+              };
+            ''
+            ++ lib.optional peer.bgp.enableV6 (
+              if peer.bgp.enableMpBGP then
+                ''
+                  protocol bgp dn42_${peerName}_mpbgp from dnpeers {
+                    enable extended messages on;
+                    neighbor ${neighborV6} % 'dn42-${peerName}' as ${toString peer.bgp.remoteAs};
                     direct;
-                    ipv6 { import none; export none; };
+
+                    ipv4 {
+                      extended next hop on;
+                    };
+
+                    ipv6 {
+                      import none;
+                      export none;
+                    };
                   };
                 ''
-                ++ lib.optional peer.bgp.enableV6 (
-                  if peer.bgp.enableMpBGP
-                  then ''
-                    protocol bgp dn42_${peerName}_mpbgp from dnpeers {
-                      enable extended messages on;
-                      neighbor ${neighborV6} % 'dn42-${peerName}' as ${toString peer.bgp.remoteAs};
-                      direct;
-
-                      ipv4 {
-                        extended next hop on;
-                      };
-
-                      ipv6 {
-                        import none;
-                        export none;
-                      };
-                    };
-                  ''
-                  else ''
-                    protocol bgp dn42_${peerName}_v6 from dnpeers {
-                      neighbor ${neighborV6} % 'dn42-${peerName}' as ${toString peer.bgp.remoteAs};
-                      direct;
-                      ipv4 { import none; export none; };
-                    };
-                  ''
-                )
-              );
-          }
-      )
-      cfg.peers;
+              else
+                ''
+                  protocol bgp dn42_${peerName}_v6 from dnpeers {
+                    neighbor ${neighborV6} % 'dn42-${peerName}' as ${toString peer.bgp.remoteAs};
+                    direct;
+                    ipv4 { import none; export none; };
+                  };
+                ''
+            )
+          );
+      }
+    ) cfg.peers;
 
     # ── systemd: ROA init + watcher + timer ───────────────────────────────
     systemd = {
@@ -445,7 +442,7 @@ in {
           PathModified = "/etc/bird/peers";
           Unit = "bird-reload.service";
         };
-        wantedBy = ["multi-user.target"];
+        wantedBy = [ "multi-user.target" ];
       };
 
       timers.dn42-roa = {
@@ -454,25 +451,27 @@ in {
           OnCalendar = "hourly";
           Unit = "dn42-roa.service";
         };
-        wantedBy = ["timers.target"];
+        wantedBy = [ "timers.target" ];
       };
 
       services = {
         init-roa = {
           description = "Initialize DN42 ROA tables before BIRD starts";
-          before = ["bird.service"];
-          wantedBy = ["bird.service"];
+          before = [ "bird.service" ];
+          wantedBy = [ "bird.service" ];
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = let
-              script = pkgs.writeShellScriptBin "init-roa" ''
-                mkdir -p /etc/bird/
-                ${pkgs.curl}/bin/curl -sfSLR {-o,-z}/etc/bird/roa_dn42_v6.conf \
-                  https://dn42.burble.com/roa/dn42_roa_bird2_6.conf
-                ${pkgs.curl}/bin/curl -sfSLR {-o,-z}/etc/bird/roa_dn42.conf \
-                  https://dn42.burble.com/roa/dn42_roa_bird2_4.conf
-              '';
-            in "${script}/bin/init-roa";
+            ExecStart =
+              let
+                script = pkgs.writeShellScriptBin "init-roa" ''
+                  mkdir -p /etc/bird/
+                  ${pkgs.curl}/bin/curl -sfSLR {-o,-z}/etc/bird/roa_dn42_v6.conf \
+                    https://dn42.burble.com/roa/dn42_roa_bird2_6.conf
+                  ${pkgs.curl}/bin/curl -sfSLR {-o,-z}/etc/bird/roa_dn42.conf \
+                    https://dn42.burble.com/roa/dn42_roa_bird2_4.conf
+                '';
+              in
+              "${script}/bin/init-roa";
           };
         };
 
@@ -494,20 +493,22 @@ in {
             "network.target"
             "bird.service"
           ];
-          serviceConfig = let
-            script = pkgs.writeShellScriptBin "update-roa" ''
-              mkdir -p /etc/bird/
-              ${pkgs.curl}/bin/curl -sfSLR {-o,-z}/etc/bird/roa_dn42_v6.conf \
-                https://dn42.burble.com/roa/dn42_roa_bird2_6.conf
-              ${pkgs.curl}/bin/curl -sfSLR {-o,-z}/etc/bird/roa_dn42.conf \
-                https://dn42.burble.com/roa/dn42_roa_bird2_4.conf
-              ${pkgs.bird2}/bin/birdc configure
-              ${pkgs.bird2}/bin/birdc reload in all
-            '';
-          in {
-            Type = "oneshot";
-            ExecStart = "${script}/bin/update-roa";
-          };
+          serviceConfig =
+            let
+              script = pkgs.writeShellScriptBin "update-roa" ''
+                mkdir -p /etc/bird/
+                ${pkgs.curl}/bin/curl -sfSLR {-o,-z}/etc/bird/roa_dn42_v6.conf \
+                  https://dn42.burble.com/roa/dn42_roa_bird2_6.conf
+                ${pkgs.curl}/bin/curl -sfSLR {-o,-z}/etc/bird/roa_dn42.conf \
+                  https://dn42.burble.com/roa/dn42_roa_bird2_4.conf
+                ${pkgs.bird2}/bin/birdc configure
+                ${pkgs.bird2}/bin/birdc reload in all
+              '';
+            in
+            {
+              Type = "oneshot";
+              ExecStart = "${script}/bin/update-roa";
+            };
         };
       };
     };

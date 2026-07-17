@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # run command
   # podman exec -it bonfire bin/bonfire eval "Bonfire.Common.Repo.migrate()"
   # to perform db migrate
@@ -78,14 +79,14 @@
   };
 
   systemd.services.create-pg-db-for-bonfire = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-pgroonga.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-pgroonga.service" ];
     # requires = ["podman-postgres.service"];
     description = "Initialize PostgreSQL users and databases";
     # Without this line, it would Error: configure storage:
     # the 'zfs' command is not available:
     # prerequisites for driver not satisfied (wrong filesystem?)
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

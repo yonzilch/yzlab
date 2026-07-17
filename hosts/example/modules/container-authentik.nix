@@ -1,10 +1,11 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # Authentik Server (主服务)
   virtualisation.oci-containers.containers."authentik-server" = {
     pull = "newer";
     image = "ghcr.io/goauthentik/server:2025.10";
 
-    cmd = ["server"];
+    cmd = [ "server" ];
 
     dependsOn = [
       "postgres"
@@ -56,7 +57,7 @@
     pull = "newer";
     image = "ghcr.io/goauthentik/server:2025.10";
 
-    cmd = ["worker"];
+    cmd = [ "worker" ];
 
     dependsOn = [
       "postgres"
@@ -121,14 +122,14 @@
   '';
 
   systemd.services.create-pg-db-for-authentik = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     # requires = ["podman-postgres.service"];
     description = "Initialize PostgreSQL users and databases";
     # Without this line, it would Error: configure storage:
     # the 'zfs' command is not available:
     # prerequisites for driver not satisfied (wrong filesystem?)
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

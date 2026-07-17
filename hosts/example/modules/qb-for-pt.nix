@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   environment.etc."qb/qBittorrent/config/qBittorrent.conf" = {
     mode = "0755";
     text = ''
@@ -96,8 +97,8 @@
   };
 
   networking.firewall = {
-    allowedTCPPorts = [46882];
-    allowedUDPPorts = [46882];
+    allowedTCPPorts = [ 46882 ];
+    allowedUDPPorts = [ 46882 ];
   };
 
   services.qb = {

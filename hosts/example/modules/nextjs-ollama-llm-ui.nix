@@ -6,6 +6,6 @@ _: {
     port = 3000;
   };
   networking.firewall = {
-    allowedTCPPorts = [3000];
+    allowedTCPPorts = [ 3000 ];
   };
 }

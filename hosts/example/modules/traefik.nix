@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   environment.etc."traefik-environment" = {
     mode = "0755";
     text = ''
@@ -10,7 +11,7 @@
 
   services.traefik = {
     enable = true;
-    environmentFiles = [/etc/traefik-environment];
+    environmentFiles = [ /etc/traefik-environment ];
     staticConfigOptions = {
       # Disable the Traefik dashboard
       api.dashboard = false;
@@ -30,7 +31,7 @@
             certResolver = "myresolver";
             domains = {
               main = "example.com";
-              sans = ["*.example.com"];
+              sans = [ "*.example.com" ];
             };
           };
         };
@@ -52,7 +53,7 @@
         middlewares.auth.basicauth.users = "foobar:xxxxxx";
         routers = {
           jellyfin = {
-            entryPoints = ["websecure"];
+            entryPoints = [ "websecure" ];
             rule = "Host(`jellyfin.example.com`)";
             service = "jellyfin";
             tls.certresolver = "myresolver";

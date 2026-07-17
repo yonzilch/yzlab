@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   virtualisation.oci-containers.containers."photoview" = {
     image = "photoview/photoview:latest";
     pull = "newer";
@@ -40,11 +41,11 @@
   };
 
   systemd.services.create-pg-db-for-photoview = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     description = "Initialize PostgreSQL user and database for photoview";
     # Required when using ZFS-backed storage (otherwise podman complains about missing zfs command)
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

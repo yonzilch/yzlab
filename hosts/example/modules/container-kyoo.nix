@@ -1,8 +1,10 @@
-_: let
+_:
+let
   LIBRARY-ROOT = "/mnt/kyoo";
   CACHE-ROOT = "kyoo_cache";
   METADATA-ROOT = "kyoo_metadata";
-in {
+in
+{
   environment.etc."kyoo-environmentFile" = {
     mode = "0600";
     text = ''
@@ -136,7 +138,7 @@ in {
         "traefik.enable" = "true";
         "traefik.http.routers.api.rule" = "PathPrefix(`/api/`)";
       };
-      environmentFiles = [/etc/kyoo-environmentFile];
+      environmentFiles = [ /etc/kyoo-environmentFile ];
       environment = {
         TRANSCODER_URL = "http://kyoo-transcoder:7666/video";
         KYOO_PREFIX = "/api";
@@ -158,21 +160,21 @@ in {
         "traefik.http.routers.front.rule" = "PathPrefix(`/`)";
       };
       image = "ghcr.io/zoriya/kyoo_front:latest";
-      environmentFiles = [/etc/kyoo-environmentFile];
+      environmentFiles = [ /etc/kyoo-environmentFile ];
     };
 
     "kyoo-migrations" = {
       pull = "newer";
       image = "ghcr.io/zoriya/kyoo_migrations:latest";
-      dependsOn = ["postgres"];
-      environmentFiles = [/etc/kyoo-environmentFile];
+      dependsOn = [ "postgres" ];
+      environmentFiles = [ /etc/kyoo-environmentFile ];
     };
 
     "kyoo-scanner" = {
       pull = "newer";
       image = "ghcr.io/zoriya/kyoo_scanner:latest";
-      dependsOn = ["kyoo-back"];
-      environmentFiles = [/etc/kyoo-environmentFile];
+      dependsOn = [ "kyoo-back" ];
+      environmentFiles = [ /etc/kyoo-environmentFile ];
       volumes = [
         "${LIBRARY-ROOT}:/video:ro"
       ];
@@ -181,14 +183,14 @@ in {
     "kyoo-matcher" = {
       pull = "newer";
       image = "ghcr.io/zoriya/kyoo_scanner:latest";
-      cmd = ["matcher"];
-      dependsOn = ["kyoo-back"];
-      environmentFiles = [/etc/kyoo-environmentFile];
+      cmd = [ "matcher" ];
+      dependsOn = [ "kyoo-back" ];
+      environmentFiles = [ /etc/kyoo-environmentFile ];
     };
 
     "kyoo-autosync" = {
       pull = "newer";
-      environmentFiles = [/etc/kyoo-environmentFile];
+      environmentFiles = [ /etc/kyoo-environmentFile ];
       image = "ghcr.io/zoriya/kyoo_autosync:latest";
     };
 
@@ -200,7 +202,7 @@ in {
         GOCODER_HWACCEL = "cpu";
         # GOCODER_VAAPI_RENDERER = "/dev/dri/renderD128";
       };
-      environmentFiles = [/etc/kyoo-environmentFile];
+      environmentFiles = [ /etc/kyoo-environmentFile ];
       volumes = [
         "${LIBRARY-ROOT}:/video:ro"
         "${CACHE-ROOT}:/cache"
@@ -214,7 +216,7 @@ in {
       volumes = [
         "postgres:/var/lib/postgresql"
       ];
-      environmentFiles = [/etc/kyoo-environmentFile];
+      environmentFiles = [ /etc/kyoo-environmentFile ];
     };
 
     "meilisearch" = {
@@ -226,7 +228,7 @@ in {
       environment = {
         MEILI_ENV = "production";
       };
-      environmentFiles = [/etc/kyoo-environmentFile];
+      environmentFiles = [ /etc/kyoo-environmentFile ];
       ports = [
         "127.0.0.1:7700:7700"
       ];
@@ -235,7 +237,7 @@ in {
     "rabbitmq" = {
       pull = "newer";
       image = "rabbitmq:4-alpine";
-      environmentFiles = [/etc/kyoo-environmentFile];
+      environmentFiles = [ /etc/kyoo-environmentFile ];
     };
   };
 }

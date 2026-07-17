@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   MEET_HOST = "meet.example.com";
   LIVEKIT_HOST = "livekit.example.com";
   BACKEND_INTERNAL_HOST = "meet-backend";
@@ -111,7 +112,8 @@
       }
     '';
   };
-in {
+in
+{
   virtualisation.oci-containers.containers = {
     "meet-backend" = {
       environment = sharedEnv;
@@ -132,16 +134,16 @@ in {
       entrypoint = "/docker-entrypoint.sh";
       environment = sharedEnv;
       image = "lasuite/meet-frontend:latest";
-      ports = ["127.0.0.1:8083:8083"];
+      ports = [ "127.0.0.1:8083:8083" ];
       user = "root:root";
-      volumes = ["${defaultConfTemplate}:/etc/nginx/conf.d/docs.conf:ro"];
+      volumes = [ "${defaultConfTemplate}:/etc/nginx/conf.d/docs.conf:ro" ];
     };
   };
 
   systemd.services.meet-backend-migrate = {
     description = "meet-backend-migrate";
-    wantedBy = ["multi-user.target"];
-    path = with pkgs; [zfs];
+    wantedBy = [ "multi-user.target" ];
+    path = with pkgs; [ zfs ];
     after = [
       "podman-postgres.service"
       "create-pg-db-for-meet.service"
@@ -165,16 +167,17 @@ in {
   };
 
   systemd.services.create-pg-db-for-meet = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-postgres.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-postgres.service" ];
     description = "Initialize PostgreSQL users and databases for meet";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = let
-        psql = "${pkgs.podman}/bin/podman exec -i postgres psql -U postgres";
-      in
+      ExecStart =
+        let
+          psql = "${pkgs.podman}/bin/podman exec -i postgres psql -U postgres";
+        in
         pkgs.writeShellScript "create-pg-db-for-meet" ''
           if ${psql} -tAc "SELECT 1 FROM pg_database WHERE datname='meet'" | grep -q 1; then
             echo "Database 'meet' already exists, skipping initialization."

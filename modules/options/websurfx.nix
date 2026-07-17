@@ -3,16 +3,17 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.websurfx;
-  inherit
-    (lib)
+  inherit (lib)
     types
     mkIf
     mkOption
     mkEnableOption
     ;
-in {
+in
+{
   options.services.websurfx = {
     enable = mkEnableOption "Websurfx";
 
@@ -40,24 +41,24 @@ in {
 
   config = mkIf cfg.enable {
     systemd.services.websurfx-server = {
-      wantedBy = ["multi-user.target"];
-      after = ["network.target"];
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
       description = "websurfx";
       serviceConfig = {
         Type = "simple";
         User = cfg.user;
         Group = cfg.group;
-        ExecStart = ''${pkgs.websurfx}/bin/websurfx'';
-        ExecStop = ''on-failure'';
+        ExecStart = "${pkgs.websurfx}/bin/websurfx";
+        ExecStop = "on-failure";
         StateDirectory = "websurfx";
         SyslogIdentifier = "websurfx";
         RuntimeDirectory = "websurfx";
       };
     };
 
-    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [8080];
+    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ 8080 ];
 
-    users.groups = mkIf (cfg.group == "websurfx") {websurfx = {};};
+    users.groups = mkIf (cfg.group == "websurfx") { websurfx = { }; };
     users.users = mkIf (cfg.user == "websurfx") {
       websurfx = {
         name = "websurfx";
@@ -66,6 +67,6 @@ in {
       };
     };
 
-    environment.systemPackages = [pkgs.websurfx];
+    environment.systemPackages = [ pkgs.websurfx ];
   };
 }

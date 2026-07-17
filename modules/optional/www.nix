@@ -1,7 +1,7 @@
 _: {
   users = {
     groups = {
-      www = {};
+      www = { };
     };
     users.www = {
       createHome = true;

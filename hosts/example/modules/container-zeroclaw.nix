@@ -2,7 +2,7 @@ _: {
   virtualisation.oci-containers.containers."zeroclaw" = {
     image = "ghcr.io/zeroclaw-labs/zeroclaw:debian";
     pull = "newer";
-    cmd = ["gateway"];
+    cmd = [ "gateway" ];
     environment = {
     };
     volumes = [

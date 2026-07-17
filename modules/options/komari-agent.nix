@@ -3,16 +3,17 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.komari-agent;
-  inherit
-    (lib)
+  inherit (lib)
     types
     mkIf
     mkOption
     mkEnableOption
     ;
-in {
+in
+{
   options.services.komari-agent = {
     enable = mkEnableOption "komari-agent";
     flags = mkOption {
@@ -34,8 +35,8 @@ in {
 
   config = mkIf cfg.enable {
     systemd.services.komari-agent = {
-      wantedBy = ["multi-user.target"];
-      after = ["network.target"];
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
       description = "komari-agent";
       serviceConfig = {
         Type = "simple";
@@ -56,8 +57,8 @@ in {
         isSystemUser = true;
       };
     };
-    users.groups = mkIf (cfg.group == "komari-agent") {komari-agent = {};};
+    users.groups = mkIf (cfg.group == "komari-agent") { komari-agent = { }; };
 
-    environment.systemPackages = [pkgs.komari-agent];
+    environment.systemPackages = [ pkgs.komari-agent ];
   };
 }

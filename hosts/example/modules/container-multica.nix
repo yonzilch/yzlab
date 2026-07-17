@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   sharedEnv = {
     # see https://github.com/multica-ai/multica/blob/main/.env.example
     # Database
@@ -36,7 +37,8 @@
     LOCAL_UPLOAD_DIR = "/app/data/uploads";
     LOCAL_UPLOAD_BASE_URL = "https://multica.example.com";
   };
-in {
+in
+{
   virtualisation.oci-containers.containers."multica-backend" = {
     pull = "newer";
     image = "ghcr.io/yonzilch/multica-fork-backend:main";
@@ -51,7 +53,7 @@ in {
       "127.0.0.1:4380:8080"
     ];
 
-    dependsOn = ["pgvector"];
+    dependsOn = [ "pgvector" ];
   };
 
   virtualisation.oci-containers.containers."multica-frontend" = {
@@ -68,14 +70,14 @@ in {
       "127.0.0.1:43000:8080"
     ];
 
-    dependsOn = ["pgvector"];
+    dependsOn = [ "pgvector" ];
   };
 
   systemd.services.create-pg-db-for-multica = {
-    wantedBy = ["multi-user.target"];
-    after = ["podman-pgvector.service"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-pgvector.service" ];
     description = "Initialize PostgreSQL users and databases for multica";
-    path = with pkgs; [zfs];
+    path = with pkgs; [ zfs ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
