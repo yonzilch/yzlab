@@ -19,6 +19,6 @@ in
 
   boot.loader.limine.biosDevice = "/dev/disk/by-path/pci-0000:00:1f.2-ata-3";
   disko.devices.disk.main.device = primary-disk;
-  system.stateVersion = "26.05";
+  system.stateVersion = "26.11";
   zramSwap.enable = true;
 }

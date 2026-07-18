@@ -25,6 +25,6 @@ in
   boot.loader.limine.biosDevice = primary-disk;
   disko.devices.disk.main.device = primary-disk;
   networking.hostId = "d9563534";
-  system.stateVersion = "26.05";
+  system.stateVersion = "26.11";
   zramSwap.enable = true;
 }

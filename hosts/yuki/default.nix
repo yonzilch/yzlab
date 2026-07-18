@@ -22,6 +22,6 @@ in
     limine.enable = lib.mkForce false;
     systemd-boot.enable = true;
   };
-  system.stateVersion = "26.05";
+  system.stateVersion = "26.11";
   zramSwap.enable = true;
 }
