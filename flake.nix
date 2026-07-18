@@ -2,30 +2,32 @@
   description = "OpenYZLab Infra";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
-    treefmt-nix = {
-      url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    hermes-agent.url = "github:NousResearch/hermes-agent";
 
     nixfmt-rs = {
       url = "github:Mic92/nixfmt-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    disko = {
-      url = "github:nix-community/disko";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    nixvim.url = "github:nix-community/nixvim/nixos-26.05";
+
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hermes-agent.url = "github:NousResearch/hermes-agent";
-    nixvim.url = "github:nix-community/nixvim/nixos-26.05";
     yonos.url = "github:yonzilch/yonos";
   };
 
@@ -38,6 +40,16 @@
       imports = [
         inputs.treefmt-nix.flakeModule
       ];
+
+      flake = {
+        nixosConfigurations = {
+          "${hostname}" = inputs.nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [ ./hosts ];
+            specialArgs = { inherit hostname inputs; };
+          };
+        };
+      };
 
       systems = [ "x86_64-linux" ];
 
@@ -80,15 +92,5 @@
             ];
           };
         };
-
-      flake = {
-        nixosConfigurations = {
-          "${hostname}" = inputs.nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [ ./hosts ];
-            specialArgs = { inherit hostname inputs; };
-          };
-        };
-      };
     };
 }
