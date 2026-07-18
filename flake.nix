@@ -34,7 +34,36 @@
   outputs =
     inputs:
     let
-      hostname = "example";
+      inherit (inputs.nixpkgs) lib;
+
+      hostsDirectory = ./hosts;
+
+      excludedHosts = [
+        "example"
+      ];
+
+      hostEntries = builtins.readDir hostsDirectory;
+
+      hostnames = builtins.filter (
+        hostname:
+        hostEntries.${hostname} == "directory"
+        && !(builtins.elem hostname excludedHosts)
+        && builtins.pathExists (hostsDirectory + "/${hostname}/default.nix")
+      ) (builtins.attrNames hostEntries);
+
+      mkHost =
+        hostname:
+        inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+
+          modules = [
+            ./hosts
+          ];
+
+          specialArgs = {
+            inherit hostname inputs;
+          };
+        };
     in
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
@@ -42,16 +71,12 @@
       ];
 
       flake = {
-        nixosConfigurations = {
-          "${hostname}" = inputs.nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [ ./hosts ];
-            specialArgs = { inherit hostname inputs; };
-          };
-        };
+        nixosConfigurations = lib.genAttrs hostnames mkHost;
       };
 
-      systems = [ "x86_64-linux" ];
+      systems = [
+        "x86_64-linux"
+      ];
 
       perSystem =
         {
