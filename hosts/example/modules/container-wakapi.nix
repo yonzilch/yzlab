@@ -1,93 +1,203 @@
-_: {
+{ pkgs, ... }:
+{
+  environment.etc."wakapi/config.yml" = {
+    # see https://github.com/muety/wakapi/blob/master/config.default.yml
+    text = ''
+      env: production
+      quick_start: false                  # whether to skip initial tasks on application startup, like summary generation
+      skip_migrations: false              # whether to intentionally not run database migrations, only use for dev purposes
+      enable_pprof: false                 # whether to expose pprof (https://pkg.go.dev/runtime/pprof) profiling data as an endpoint for debugging
+
+      server:
+        listen_ipv4: 127.0.0.1              # set to '-' to disable ipv4
+        listen_ipv6: '-'                    # set to '-' to disable ipv6
+        listen_socket: '-'                  # set to '-' to disable unix sockets
+        listen_socket_mode: 0666            # permission mode to create unix socket with
+        log_format: text                    # format for structured logging (text or json)
+        timeout_sec: 30                     # request timeout
+        tls_cert_path:                      # leave blank to not use https
+        tls_key_path:                       # leave blank to not use https
+        port: 3000
+        base_path: /
+        public_url: http://localhost:3000   # required for links (e.g. password reset) in e-mail
+
+      app:
+        leaderboard_enabled: true                                 # whether to enable public leaderboards
+        leaderboard_scope: 7_days                                 # leaderboard time interval (e.g. 14_days, 6_months, ...)
+        leaderboard_generation_time: '0 0 6 * * *,0 0 18 * * *'   # times at which to re-calculate the leaderboard
+        leaderboard_require_auth: false                           # restrict leaderboard access only to logged in user
+        aggregation_time: '0 15 2 * * *'                          # time at which to run daily aggregation batch jobs
+        report_time_weekly: '0 0 18 * * 5'                        # time at which to fan out weekly reports (extended cron)
+        data_cleanup_time: '0 0 6 * * 0'                          # time at which to run old data cleanup (if enabled through data_retention_months)
+        optimize_database_time: '0 0 8 1 * *'                     # time at which to run database vacuuming (sqlite, postgres) or table optimization (mysql)
+        inactive_days: 7                                          # time of previous days within a user must have logged in to be considered active
+        import_enabled: true                                      # whether data import from wakatime or other wakapi instances is allowed
+        import_backoff_min: 5                                     # time (in minutes) for "cooldown" before allowing another data import attempt by a user
+        import_max_rate: 24                                       # minimum hours to pass after a successful data import by a user before attempting a new one
+        import_batch_size: 50                                     # maximum number of heartbeats to insert into the database within one transaction
+        import_hosts_whitelist: []                                # list of whitelisted hostnames for data import (wildcards allowed, empty list means allow all)
+        heartbeat_max_age: '4320h'                                # maximum acceptable age of a heartbeat (see https://pkg.go.dev/time#ParseDuration)
+        data_retention_months: -1                                 # maximum retention period on months for user data (heartbeats) (-1 for infinity)
+        max_inactive_months: 12                                   # maximum months of inactivity before deleting user accounts
+        warm_caches: true                                         # whether to run some initial cache warming upon startup
+        custom_languages:
+          vue: Vue
+          jsx: JSX
+          tsx: TSX
+          cjs: JavaScript
+          ipynb: Python
+          svelte: Svelte
+          astro: Astro
+        canonical_language_names:
+          'java': 'Java'
+          'ini': 'INI'
+          'xml': 'XML'
+          'jsx': 'JSX'
+          'tsx': 'TSX'
+          'php': 'PHP'
+          'yaml': 'YAML'
+          'toml': 'TOML'
+          'sql': 'SQL'
+          'css': 'CSS'
+          'scss': 'SCSS'
+          'jsp': 'JSP'
+          'svg': 'SVG'
+          'csv': 'CSV'
+
+        # url template for user avatar images (to be used with services like gravatar or dicebear)
+        # available variable placeholders are: username, username_hash, email, email_hash
+        # defaults to wakapi's internal avatar rendering powered by https://codeberg.org/Codeberg/avatars
+        avatar_url_template: api/avatar/{username_hash}.svg
+
+        # go time format strings to format human-readable dates
+        # for details, check https://pkg.go.dev/time#Time.Format
+        date_format: Mon, 02 Jan 2006
+        datetime_format: Mon, 02 Jan 2006 15:04
+
+      db:
+        host:                               # leave blank when using sqlite3
+        port:                               # leave blank when using sqlite3
+        socket:                             # alternative to db.host (leave blank when using sqlite3)
+        user:                               # leave blank when using sqlite3
+        password:                           # leave blank when using sqlite3
+        name: wakapi_db.db                  # database name for mysql / postgres or file path for sqlite (e.g. /tmp/wakapi.db)
+        dialect: sqlite3                    # mysql, postgres, sqlite3
+        charset: utf8mb4                    # only used for mysql connections
+        max_conn: 10                        # maximum number of concurrent connections to maintain
+        ssl: false                          # whether to use tls for db connection (must be true for cockroachdb) (ignored for mysql and sqlite)
+        compress: false                     # whether to use compression during transport (mysql only)
+        automigrate_fail_silently: false    # whether to ignore schema auto-migration failures when starting up
+
+      security:
+        password_salt:                        # change this
+        cookie_key:                           # optional, base64-encoded custom key used derive session and authentication keys
+        insecure_cookies: true                # should be set to 'false', except when not running with HTTPS (e.g. on localhost)
+        cookie_max_age: 172800
+        allow_signup: true                    # whether to allow new user creation at all
+        oidc_allow_signup: true               # allow registration of new users from oidc
+        oidc_insecure: false                   # skip tls certificate validation for oidc provider
+        disable_local_auth: false             # disable login via local credentials (username and password) to enforce OIDC provider login
+        disable_webauthn: true                # disable login via webauthn (security keys, biometrics, etc.)
+        signup_captcha: false
+        invite_codes: true                    # whether to enable invite codes for overriding disabled signups
+        disable_frontpage: false
+        expose_metrics: false
+        enable_proxy: false                       # only intended for production instance at wakapi.dev
+        trusted_header_auth: false                # whether to enable trusted header auth for reverse proxies, use with caution!! (https://github.com/muety/wakapi/issues/534)
+        trusted_header_auth_key: Remote-User      # header field for trusted header auth (warning: your proxy must correctly strip this header from client requests!!)
+        trusted_header_auth_allow_signup: false   # whether to allow creation of new users based on upstream trusted header authentication (https://github.com/muety/wakapi/issues/808)
+        trust_reverse_proxy_ips:                  # single ip address of the reverse proxy which you trust to pass headers for authentication
+        signup_max_rate: 5/1h                     # signup endpoint rate limit pattern
+        login_max_rate: 10/1m                     # login endpoint rate limit pattern
+        password_reset_max_rate: 5/1h             # password reset endpoint rate limit pattern
+        oidc:                                     # list of openid connect providers available for user signup and login, see https://github.com/muety/wakapi/wiki/OpenID-Connect-login-(SSO)
+
+      sentry:
+        dsn:                                # leave blank to disable sentry integration
+        enable_tracing: true                # whether to use performance monitoring
+        sample_rate: 0.75                   # probability of tracing a request
+        sample_rate_heartbeats: 0.1         # probability of tracing a heartbeat request
+
+      # only relevant for running wakapi as a hosted service with paid subscriptions and stripe payments
+      subscriptions:
+        enabled: false
+        expiry_notifications: true
+        stripe_api_key:
+        stripe_secret_key:
+        stripe_endpoint_secret:
+        standard_price_id:
+
+      mail:
+        enabled: false                         # whether to enable mails (used for password resets, reports, etc.)
+        provider: smtp                        # method for sending mails, currently one of ['smtp']
+        sender: Wakapi <wakapi@example.org>   # email sender -> replace with valid email address!
+        skip_verify_mx_record: false          # whether to skip validating mx dns record for user email addresses
+
+        # smtp settings when sending mails via smtp
+        smtp:
+          host:
+          port:
+          username:
+          password:
+          tls:
+    '';
+    mode = "0755";
+  };
+
   virtualisation.oci-containers.containers."wakapi" = {
+    pull = "newer";
     image = "ghcr.io/muety/wakapi:latest";
-
-    environment = {
-      # App Settings
-      WAKAPI_LEADERBOARD_ENABLED = "true";
-      WAKAPI_LEADERBOARD_SCOPE = "7_days";
-      WAKAPI_LEADERBOARD_GENERATION_TIME = "0 0 6 * * *,0 0 18 * * *";
-      WAKAPI_LEADERBOARD_REQUIRE_AUTH = "false";
-      WAKAPI_AGGREGATION_TIME = "0 15 2 * * *";
-      WAKAPI_REPORT_TIME_WEEKLY = "0 0 18 * * 5";
-      WAKAPI_DATA_CLEANUP_TIME = "0 0 6 * * 0";
-      WAKAPI_OPTIMIZE_DATABASE_TIME = "0 0 8 1 * *";
-
-      # Import Settings
-      WAKAPI_IMPORT_ENABLED = "true";
-      WAKAPI_IMPORT_BATCH_SIZE = "50";
-      WAKAPI_IMPORT_BACKOFF_MIN = "5";
-      WAKAPI_IMPORT_MAX_RATE = "24";
-
-      # Data Settings
-      WAKAPI_INACTIVE_DAYS = "7";
-      WAKAPI_HEARTBEAT_MAX_AGE = "4320h";
-      WAKAPI_WARM_CACHES = "true";
-      WAKAPI_DATA_RETENTION_MONTHS = "-1";
-      WAKAPI_MAX_INACTIVE_MONTHS = "12";
-
-      # UI Settings
-      WAKAPI_AVATAR_URL_TEMPLATE = "https://api.dicebear.com/7.x/initials/svg?seed={username}";
-      WAKAPI_DATE_FORMAT = "Mon, 02 Jan 2006";
-      WAKAPI_DATETIME_FORMAT = "Mon, 02 Jan 2006 15:04";
-      WAKAPI_SUPPORT_CONTACT = "admin@example.com";
-
-      # Server Settings
-      WAKAPI_PORT = "3000";
-      WAKAPI_LISTEN_IPV4 = "0.0.0.0";
-      WAKAPI_LISTEN_IPV6 = "-";
-      WAKAPI_LISTEN_SOCKET = "-";
-      WAKAPI_TIMEOUT_SEC = "30";
-      WAKAPI_BASE_PATH = "/";
-      WAKAPI_PUBLIC_URL = "http://localhost:46316";
-
-      # Security Settings
-      WAKAPI_PASSWORD_SALT = "your-secure-random-salt-here";
-      WAKAPI_INSECURE_COOKIES = "false";
-      WAKAPI_COOKIE_MAX_AGE = "172800";
-      WAKAPI_ALLOW_SIGNUP = "true";
-      WAKAPI_SIGNUP_CAPTCHA = "false";
-      WAKAPI_INVITE_CODES = "false";
-      WAKAPI_DISABLE_FRONTPAGE = "false";
-      WAKAPI_EXPOSE_METRICS = "false";
-
-      # Authentication
-      WAKAPI_TRUSTED_HEADER_AUTH = "false";
-      WAKAPI_TRUSTED_HEADER_AUTH_KEY = "Remote-User";
-      WAKAPI_TRUSTED_HEADER_AUTH_ALLOW_SIGNUP = "false";
-
-      # Rate Limiting
-      WAKAPI_SIGNUP_MAX_RATE = "5/1h";
-      WAKAPI_LOGIN_MAX_RATE = "10/1m";
-      WAKAPI_PASSWORD_RESET_MAX_RATE = "5/1h";
-
-      # Database Settings (SQLite default)
-      WAKAPI_DB_TYPE = "sqlite3";
-      WAKAPI_DB_NAME = "/data/wakapi.db";
-      WAKAPI_DB_MAX_CONNECTIONS = "2";
-      WAKAPI_DB_AUTOMIGRATE_FAIL_SILENTLY = "false";
-
-      # Mail Settings (disabled by default)
-      WAKAPI_MAIL_ENABLED = "false";
-      WAKAPI_MAIL_SENDER = "noreply@example.com";
-      WAKAPI_MAIL_SKIP_VERIFY_MX_RECORD = "false";
-      WAKAPI_MAIL_PROVIDER = "smtp";
-
-      # Sentry (disabled by default)
-      WAKAPI_SENTRY_DSN = "";
-      WAKAPI_SENTRY_TRACING = "false";
-
-      # Development
-      WAKAPI_QUICK_START = "false";
-      WAKAPI_ENABLE_PPROF = "false";
-    };
-
     volumes = [
+      "/etc/wakapi/config.yml:/app/config.yml:ro"
       "wakapi:/data:rw"
     ];
-
     ports = [
       "127.0.0.1:46316:3000"
     ];
+    # environment = {
+    #   ENVIRONMENT = "production";
+    #   WAKAPI_DB_TYPE = "postgres";
+    #   WAKAPI_DB_HOST = "postgres";
+    #   WAKAPI_DB_PORT = "5432";
+    #   WAKAPI_DB_NAME = "wakapi";
+    #   WAKAPI_DB_USER = "wakapi";
+    #   WAKAPI_DB_PASSWORD = "xxxxxx";
+    #   WAKAPI_PASSWORD_SALT = "xxxxxx";
+    #   WAKAPI_LISTEN_IPV4 = "0.0.0.0";
+    #   WAKAPI_INSECURE_COOKIES = "false";
+    # };
+    extraOptions = [
+      "--health-cmd=wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1"
+      "--health-interval=30s"
+      "--health-timeout=10s"
+      "--health-retries=5"
+      "--health-start-period=30s"
+    ];
+  };
+
+  systemd.services.create-pg-db-for-wakapi = {
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman-pgroonga.service" ];
+    description = "Initialize PostgreSQL user and database for wakapi";
+    path = with pkgs; [ zfs ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart =
+        let
+          psql = "${pkgs.podman}/bin/podman exec -i postgres psql -U postgres";
+        in
+        pkgs.writeShellScript "create-pg-db-for-wakapi" ''
+          if ${psql} -tAc "SELECT 1 FROM pg_database WHERE datname='wakapi'" | grep -q 1; then
+            echo "Database 'wakapi' already exists, skipping initialization."
+            exit 0
+          fi
+
+          echo "Creating role and database for wakapi..."
+          ${psql} \
+            -c "CREATE ROLE wakapi WITH LOGIN PASSWORD 'xxxxxx';" \
+            -c "CREATE DATABASE wakapi WITH ENCODING='UTF8' LC_COLLATE='C' LC_CTYPE='C' TEMPLATE=template0 OWNER=wakapi;"
+        '';
+    };
   };
 }
