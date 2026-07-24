@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   virtualisation.oci-containers.containers."omniroute" = {
     pull = "newer";
     image = "diegosouzapw/omniroute:latest";
