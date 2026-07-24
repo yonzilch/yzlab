@@ -41,7 +41,7 @@ Most homelab setups drift over time — packages installed manually, config file
 - **Atomic upgrades and rollbacks** — switch generations with a single command; roll back just as easily
 - **Reproducible builds** — `flake.lock` pins every dependency; the same flake always produces the same system
 - **No imperative state** — the system is a pure function of the configuration; no hidden state to worry about
-- **Dev shell included** — `nix develop` drops you into a shell with all tooling (`sops`, `nixos-rebuild`, `alejandra`, etc.) without installing anything globally
+- **Dev shell included** — `nix develop` drops you into a shell with all tooling (`sops`, `nixos-rebuild`, etc.) without installing anything globally
 
 ---
 
@@ -55,7 +55,7 @@ Most homelab setups drift over time — packages installed manually, config file
 | Remote install | [nixos-anywhere](https://github.com/nix-community/nixos-anywhere) | Zero-touch provisioning over SSH |
 | Secrets | [sops-nix](https://github.com/Mic92/sops-nix) + [age](https://github.com/FiloSottile/age) | Encrypted secrets in Git |
 | Task runner | [just](https://github.com/casey/just) | Ergonomic command automation |
-| Formatter | [alejandra](https://github.com/kamadorueda/alejandra) + [deadnix](https://github.com/astro/deadnix) | Nix code quality |
+| Formatter | [nixfmt-rs](https://github.com/Mic92/nixfmt-rs) + [deadnix](https://github.com/astro/deadnix) | Nix code quality |
 | Compose bridge | [compose2nix](https://github.com/aksiksi/compose2nix) | Docker Compose → Nix translation |
 
 ---
