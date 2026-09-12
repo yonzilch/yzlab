@@ -42,17 +42,15 @@ with lib;
   };
 
   # Minimize journal
-  services.journald = {
-    extraConfig = ''
-      Storage=volatile
-      Compress=yes
-      SystemMaxUse=50M
-      RuntimeMaxUse=10M
-      MaxFileSec=1day
-      MaxRetentionSec=1month
-      RateLimitInterval=30s
-      RateLimitBurst=1000
-    '';
+  services.journald.settings.Journal = {
+    Storage = "volatile";
+    Compress = "yes";
+    SystemMaxUse = "50M";
+    RuntimeMaxUse = "10M";
+    MaxFileSec = "1day";
+    MaxRetentionSec = "1month";
+    RateLimitIntervalSec = "30s";
+    RateLimitBurst = 1000;
   };
 
   # Minimize services
