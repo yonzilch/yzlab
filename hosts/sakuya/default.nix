@@ -5,7 +5,7 @@
 }:
 let
   ls = lib.filesystem.listFilesRecursive;
-  primary-disk = "/dev/disk/by-path/pci-0000:00:17.0-ata-2";
+  primary-disk = "/dev/disk/by-path/pci-0000:00:1f.2-ata-1";
 in
 {
   imports = [
@@ -17,7 +17,7 @@ in
   ++ ls ../../modules/private/${hostname}
   ++ ls ../../modules/shared;
 
-  boot.loader.limine.biosDevice = "/dev/disk/by-path/pci-0000:00:1f.2-ata-3";
+  boot.loader.limine.biosDevice = "/dev/disk/by-path/pci-0000:00:1f.2-ata-1";
   disko.devices.disk.main.device = primary-disk;
   system.stateVersion = "26.11";
   zramSwap.enable = true;
