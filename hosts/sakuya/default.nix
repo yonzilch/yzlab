@@ -17,7 +17,7 @@ in
   ++ ls ../../modules/private/${hostname}
   ++ ls ../../modules/shared;
 
-  boot.loader.limine.biosDevice = "/dev/disk/by-path/pci-0000:00:1f.2-ata-1";
+  boot.loader.limine.biosDevice = primary-disk;
   disko.devices.disk.main.device = primary-disk;
   system.stateVersion = "26.11";
   zramSwap.enable = true;
