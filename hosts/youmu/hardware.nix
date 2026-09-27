@@ -1,7 +1,5 @@
 { lib, ... }:
 {
-  imports = [ ];
-
   boot.initrd.availableKernelModules = [
     "sd_mod"
     "ahci"
@@ -16,12 +14,12 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/ccfca046-d25b-4b17-a195-c4749b147480";
+    device = "/dev/disk/by-uuid/5fca9cc7-515f-4e8c-bf15-883af8b53bb2";
     fsType = "ext4";
   };
 
   fileSystems."/efi" = {
-    device = "/dev/disk/by-uuid/567E-E98D";
+    device = "/dev/disk/by-uuid/AB4F-3359";
     fsType = "vfat";
     options = [
       "fmask=0077"
@@ -32,7 +30,7 @@
   swapDevices = [
     {
       device = "/swapfile";
-      size = 1024;
+      size = 2048;
     }
   ];
 
