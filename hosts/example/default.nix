@@ -21,6 +21,6 @@ in
   boot.loader.limine.biosDevice = primary-disk;
   disko.devices.disk.main.device = primary-disk;
   networking.hostId = "xxxxxx"; # use command `head -c4 /dev/urandom | od -A none -t x4` to generate
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.11";
   zramSwap.enable = true;
 }
