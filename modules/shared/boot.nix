@@ -15,8 +15,6 @@ with lib;
         "-19"
         "--long"
       ];
-      systemd.enable = true;
-      verbose = false;
     };
     kernel.sysctl = {
       # Disable automatic core dumps
